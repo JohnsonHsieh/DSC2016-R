@@ -1,0 +1,142 @@
+- Class: meta
+  Course: DataScienceAndR
+  Lesson: X2-Challenge-01-ChineseEncoding
+  Author: Wush Wu
+  Type: Standard
+  Organization: Taiwan R User Group
+  Version: 1.0
+- Class: text
+  Output: 在Loading_n_Parsing課程中，同學已經學會了如何檢查含中文資料檔案的編碼， 並且利用適當的參數，將這些檔案載入R環境之中。
+- Class: text
+  Output: 然而有時候，由於不明原因，R 還是會發生無法讀取特定編碼的狀況。 這時候，我們可以先把資料以位元的方式讀取到R 中，再做轉碼。
+- Class: text
+  Output: 在程式的世界中，資料在電腦中最終都是儲存為0 和1 的位元。 在處理資料時，程式需要先對資料有一些認識才能做處理，例如把資料當成 字串、整數或浮點數。文字的資料才會被編碼影響，所以如果我們只是用位元
+    來處理檔案的內容，就可以避開編碼的問題。
+- Class: text
+  Output: 我們拿一個自<http://data.gov.tw/node/6213>下載的csv 檔 做範例。這個檔案的目錄已經存入了`lvr_land.path`
+    變數之中。
+- Class: cmd_question
+  Output: R 是型態為raw 的向量來處理位元的物件。只要能知道檔案的大小， readBin 就可以把所有的檔案資料以raw 的形式輸入到R 中。我們可以使用
+    `file.info`來查詢檔案的大小。請同學利用`file.info(lvr_land.path)` 來查詢檔案的資訊，並且把結果存到變數`lvr_land.info`。
+  CorrectAnswer: lvr_land.info <- file.info(lvr_land.path)
+  AnswerTests: any_of_exprs("lvr_land.info <- file.info(lvr_land.path)", "lvr_land.info
+    = file.info(lvr_land.path)")
+  Hint: lvr_land.info <- file.info(lvr_land.path)
+- Class: cmd_question
+  Output: 請同學先輸入`class(lvr_land.info)`
+  CorrectAnswer: class(lvr_land.info)
+  AnswerTests: any_of_exprs("class(lvr_land.info)")
+  Hint: class(lvr_land.info)
+- Class: mult_question
+  Output: 請問同學，`file.info`的回傳值是什麼型態？
+  AnswerChoices: data.frame;character;numeric
+  CorrectAnswer: data.frame
+  AnswerTests: omnitest(correctVal = "data.frame")
+- Class: cmd_question
+  Output: 接下來請同學列出`lvr_land.info`的欄位名稱
+  CorrectAnswer: colnames(lvr_land.info)
+  AnswerTests: omnitest("colnames(lvr_land.info)")
+  Hint: colnames(lvr_land.info)
+- Class: cmd_question
+  Output: 請問同學，`lvr_land.path`背後的檔案大小，應該是多少呢？ 請輸入一個指令，讓R 輸出一個數值，代表這個檔案的大小。
+  CorrectAnswer: lvr_land.info$size
+  AnswerTests: omnitest(correctVal = lvr_land.info$size)
+  Hint: lvr_land.info$size
+- Class: cmd_question
+  Output: 接著請同學利用`readBin`來把`lvr_land.path`的檔案完全以 位元的方式讀到R 中，並且存到名稱為`lvr_land.bin`的變數。
+  CorrectAnswer: lvr_land.bin <- readBin(lvr_land.path, what = "raw", n = lvr_land.info$size)
+  AnswerTests: any_of_exprs('lvr_land.bin <- readBin(lvr_land.path, what = "raw",
+    n = lvr_land.info$size)', 'lvr_land.bin = readBin(lvr_land.path, what = "raw",
+    n = lvr_land.info$size)')
+  Hint: lvr_land.bin <- readBin(lvr_land.path, what = "raw", n = lvr_land.info$size)
+- Class: cmd_question
+  Output: 接著，我們需要使用stringi套件。由於swirl本身已經相依於stringi，所以請同學 直接載入stringi。
+  CorrectAnswer: library(stringi)
+  AnswerTests: test_search_path("stringi")
+  Hint: library(stringi)
+- Class: text
+  Output: 透過stringi套件的`stri_encode`，我們可以把一個位元組的向量（在 R 中，這類向量的型態是raw ）從一個編碼轉換為另一個編碼。
+- Class: cmd_question
+  Output: 請同學把`stri_encode(lvr_land.bin, "BIG-5", "UTF-8")` 的結果存到`lvr_land.txt`之中。
+  CorrectAnswer: lvr_land.txt <- stri_encode(lvr_land.bin, "BIG-5", "UTF-8")
+  AnswerTests: any_of_exprs('lvr_land.txt <- stri_encode(lvr_land.bin, "BIG-5", "UTF-8")',
+    'lvr_land.txt = stri_encode(lvr_land.bin, "BIG-5", "UTF-8")')
+  Hint: lvr_land.txt <- stri_encode(lvr_land.bin, "BIG-5", "UTF-8")
+- Class: text
+  Output: 透過以上的方法，我們可以取得轉換編碼後的character 向量`lvr_land.txt`。
+- Class: text
+  Output: 接著我們開始來講解`read.table`這個讀取CSV 格式檔案最泛用的指令。
+- Class: mult_question
+  Output: 在R 中，`read.table`的第一個參數和readLines 的第一個參數一樣，代表要開啟的檔案。 如果我們不在乎檔案的編碼，可以直接輸入檔案的路徑。以下哪一個是正確的路徑？
+  AnswerChoices: lvr_land.path;"lvr_land.path"
+  CorrectAnswer: lvr_land.path
+  AnswerTests: omnitest(correctVal = 'lvr_land.path')
+  Hint: 在R 中，`lvr_land.path`代表一個變數，但是`"lvr_land.path"`代表一個字串。
+- Class: cmd_question
+  Output: 請同學特別注意`read.table`的參數fileEncoding的用法，這個參數雖然可以解碼，但只能 用在file參數為字串的case。請同學試試看`read.table(lvr_land.path,
+    fileEncoding = "BIG-5")`。
+  CorrectAnswer: read.table(lvr_land.path, fileEncoding = "BIG-5")
+  AnswerTests: any_of_exprs('read.table(lvr_land.path, fileEncoding = "BIG-5")')
+  Hint: read.table(lvr_land.path, fileEncoding = "BIG-5")
+- Class: mult_question
+  Output: 可惜我們需要設定編碼。（註：在中文版windows 上預設會使用BIG5編碼，所以可以 直接如上題輸入`lvr_land.path`。第二個重要的參數，是`header`。`header
+    = TRUE`代表 檔案的第一行是欄位名稱，而不是資料。`header=FALSE`代表檔案的第一行就是資料。剛剛 我們看到檔案的前五行的內容是：`[1]
+    "鄉鎮市區,交易標的,..." [2] "文山區,房地(土地+ 建物)..."`。請問同學，`header`的參數應該要給哪一個呢？
+  AnswerChoices: TRUE;FALSE
+  CorrectAnswer: 'TRUE'
+  AnswerTests: omnitest(correctVal = "TRUE")
+  Hint: 仔細想想，第一行是資料，還是欄位名稱呢？
+- Class: mult_question
+  Output: 第三個重要的參數是`sep` ，這代表各行欄位間的分隔符號。 根據之前我們看到的前五行的資料：`[1] "鄉鎮市區,交易標的,土地區段位置...,土地移轉總面積..."
+    [2] "文山區,房地(土地+建物),臺北市文山區...,43.44..." [3] "中正區,房地(土地+建物),臺北市中 正區...,40.19..."。請問同學，這份檔案個欄位的分隔符號是什麼呢？
+  AnswerChoices: -;\t;,
+  CorrectAnswer: ','
+  AnswerTests: omnitest(correctVal = ",")
+  Hint: 從第2 行，我們可以判斷，`"文山區"`應該代表`"鄉鎮市區"`，而`"房地(土地+建物)"` 應該代表`"交易標的"`，以此類推。`"鄉鎮市區"`和`"房地(土地+建物)"`
+    兩筆資料中間差一 個`","`。而如果我們把`","`當分隔符號去解釋剩下的資料，也解釋得通。
+- Class: cmd_question
+  Output: 依照以上問答題的答案，請同學利用`read.table`，用BIG5編碼讀取 `lvr_land.path` ，並且把輸出存到變數`lvr_land`
+  CorrectAnswer: lvr_land <- read.table(file(lvr_land.path, encoding = "BIG5"), header
+    = TRUE, sep = ",")
+  AnswerTests: check_val("lvr_land", read.table(file(lvr_land.path, encoding = "BIG5"),
+    header = TRUE, sep = ","))
+  Hint: lvr_land <- read.table(file(lvr_land.path, encoding = "BIG5"), header = TRUE,
+    sep = ",")
+- Class: text
+  Output: 如果我們要直接從`lvr_land.txt`的內容取出表格，一種方法是直接把 `lvr_land.txt`寫成一個檔案，再用`read.table`讀取。另外一種方法，是把
+    `lvr_land.txt`視為一個類似檔案的物件，也就是connection。
+- Class: text
+  Output: 在windows上，有一個很不方便的地方，是接下來的作法和Windows的語系有關。 如果同學的Windows的語系有支援多位元組字串（例如中文、日文等語系），那語法需要調整。
+- Class: cmd_question
+  Output: 我們可以用`l10n_info()`來查詢作業系統對於各種Encoding的支援狀況。 `l10n_info()`會回報系統對是否有支援UTF-8
+    （UTF-8 欄位），或是多位元組字串 （MBCS欄位）。請同學試試看輸入：`l10n_info()`
+  CorrectAnswer: l10n_info()
+  AnswerTests: omnitest("l10n_info()")
+  Hint: l10n_info()
+- Class: cmd_question
+  Output: 根據經驗，如果`l10n_info()`的輸出中，MBCS為TRUE且UTF-8 為FALSE， 則要使用：`textConnection(lvr_land.txt)`來從`lvr_land.txt`建立一個
+    connection。除此之外，則使用`textConnection(lvr_land.txt, encoding = "UTF-8")` 即可。請同學依據上一題的結果，在MBCS為TRUE且UTF-8
+    為FALSE時執行： `read.table(textConnection(lvr_land.txt), header = TRUE, sep = ",")`
+    否則，執行： `read.table(textConnection(lvr_land.txt, encoding = "UTF-8"), header =
+    TRUE, sep = ",")`
+  CorrectAnswer: read.table(get_text_connection_by_l10n_info(lvr_land.txt), header
+    = TRUE, sep = ",")
+  AnswerTests: test_lvr_land_txt()
+  Hint: read.table(get_text_connection_by_l10n_info(lvr_land.txt), header = TRUE,
+    sep = ",")
+- Class: text
+  Output: 以上提供數種在R 中處理中文資料的方法給同學參考。
+- Class: text
+  Output: 事實上，如果同學自行下載原本的檔案來處理，上述的流程還是會出錯的。 那是因為在第21行，資料的最後一欄的內容包含：`,`這個符號，導致欄位判斷出錯。
+- Class: text
+  Output: 遇到這種狀況，最好的方式是自己用如notepad++或是其他的編輯器，自行編輯 原始的檔案資料（依照錯誤訊息，移除多餘的,），再用R 讀取。由於這樣的動作超過
+    這個課程系統的內容，所以我們就不帶著同學做操作了。
+- Class: text
+  Output: 另外一種方式，是透過`readLines` 來讀取資料，再用R 的其他函數自行把讀入 的字串轉換為data.frame。這部分很難歸納，會隨著資料的乾淨程度而有所不同。同學
+    可以再閱讀本課程中的，一些實際分析Open Data 的範例，就可以學到一些技巧。或是 繼續學習R 的字串處理函數與套件。
+- Class: script
+  Output: 最後，還是要請同學利用這次所學的內容，做一個小練習。 請同學在完成之後存檔，並輸入`submit()`來檢查結果是否符合預期。 如果同學在檔案中看到亂碼，請使用Rstudio
+    左上角的File -> Reopen With Encoding... -> 選取：UTF-8
+  Script: RBasic-07-HW.R
+  AnswerTests: rbasic_07_hw_test()
+
