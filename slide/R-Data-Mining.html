@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>R 語言資料探勘實務</title>
+  <meta charset="utf-8">
+  <meta name="description" content="R 語言資料探勘實務">
+  <meta name="author" content="DSP智庫驅動">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012-dsp/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012-dsp/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012-dsp/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/zenburn.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="libraries/frameworks/io2012-dsp/js/jquery-1.7.min.js"></script>
+  <!-- <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> -->
+  <script data-main="libraries/frameworks/io2012-dsp/js/slides" 
+    src="libraries/frameworks/io2012-dsp/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>R 語言資料探勘實務</h1>
+    <h2>Johnson Hsieh (johnson@dsp.im)</h2>
+    <p>DSP智庫驅動<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="largecontent" id="slide-1" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>課程大綱</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><h3 style="line-height:2em">資料探勘心法篇 (Data Mining)</h3></li>
+<li><h3 style="line-height:2em">從一張發票談關聯性分析 (Association Analysis)</h3></li>
+<li><h3 style="line-height:2em">電子採購資料談叢聚分析 (Clustering Analysis)</h3></li>
+<li><h3 style="line-height:2em">電子投票記錄談分類法則 (Classification Analysis)</h3></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-2" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>About Me</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><center><img src='assets/img/about_johnson.png' style='max-width: 100%;max-height: 100%'></img></center></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-3" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>資料探勘心法篇</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-4" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>定義</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center></p>
+
+<h3> 分析<code>歷史資料</code>，萃取<code>有價值的資訊</code>，提供決策參考依據。</h3>
+
+<p></center></p>
+
+<ul>
+<li><code>歷史資料</code>
+
+<ul>
+<li>資料庫</li>
+<li>observational vs. experimental data</li>
+</ul></li>
+<li><code>有價值的資訊</code>
+
+<ul>
+<li>趨勢 (trend)：描述應變數 (y)</li>
+<li>特徵 (patten)：描述自變數 (x)</li>
+<li>相關 (relationship)：描述變數與變數 (y~x)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-5" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>破除迷思</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>資料探勘不只是一種技術或一套軟體</li>
+<li>資料探勘不是無所不能，它是<code>有極限</code>的</li>
+<li>資料探勘是從資料中挖掘有價值的<code>假設</code>，沒辦法驗證假設</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-6" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>CRISP-DM</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center><h3>資料採礦交叉行業標準過程
+<br> (Cross-Industry Standard Process for Data Mining)
+</h3></center></p>
+
+<ul>
+<li>定義商業問題</li>
+<li>資料理解</li>
+<li>資料預處理</li>
+<li>建立模型</li>
+<li>評價與解釋</li>
+<li>實施</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-7" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>核心概念</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center><h3>透過以下概念建立 <code>Learning</code> (IFTTT) 的準則 </h3></center></p>
+
+<ul>
+<li>機率, 概似函數 (probability, lilelihood)</li>
+<li>距離, 相似度 (distance, similarity)</li>
+<li>成本, 風險 (cost, risk)</li>
+<li>準確, 精密度 (accuracy, precision)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-8" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>淺談<code>機率</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>機率：事件A發生的機率，記為 \(P(A)\)</li>
+<li>條件機率：事件A在已知事件B的條件下之發生機率，記為 \(P(A|B)\)</li>
+</ul>
+
+<h3>用機率大小的排序得知熱門商品</h3>
+
+<ul>
+<li>\(P(奶綠) > P(檸檬汁) > P(冰淇淋紅茶)\)</li>
+</ul>
+
+<h3>用條件機率篩選重要因子</h3>
+
+<ul>
+<li>\(P(會買霜淇淋) < P(會買霜淇淋 | 天氣熱)\)</li>
+<li>\(P(會讀哈利波特) < P(會讀哈利波特 | 會讀奇幻文學)\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-9" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>淺談<code>距離</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>距離：物件A與B之間的距離，記為 \(D(A, B)\)</li>
+<li>相似度：物件A與B之間的相似程度，記為 $C(A, B)$，一般來說相似度介於 [0, 1]，1 表示完全相似，0 表示完全相異</li>
+</ul>
+
+<h3>用距離做商品推薦</h3>
+
+<ul>
+<li>依據<code>商品規格</code>或是<code>訪客瀏覽行為</code>計算兩台相機的距離
+<center><img src='assets/img/camera.png' style='max-width: 60%;max-height: 60%'></img></center></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-10" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>淺談<code>風險</code></h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>風險：事件發生與否的不確定性，風險 = 機率 x 成本</li>
+</ul>
+
+<h3>建構企業信用風險模型</h3>
+
+<ul>
+<li>違約機率模型 (PD)，譬如：決策樹模型</li>
+<li>違約損失率模型 (LGD)</li>
+<li>預期違約風險 (EL) = PD x LGD</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-11" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>淺談<code>準確</code>與<code>精密</code>度</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>準確度 (accuracy)：平均值與真實值之差距，又稱偏誤 (bias)</li>
+<li>精密度 (precision)：獨立實驗數據分佈的「集中程度」，又稱偏差 (deviation)</li>
+</ul>
+
+<h3>資料探勘模型的評量標準</h3>
+
+<ul>
+<li>均方差： \(MSE(T) = Var(T) + Bias(T)^2\) 
+<center><img src='assets/img/error.png' style='max-width: 70%;max-height: 70%'></img></center></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-12" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>經驗行銷</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>大部分的情況下，資料探勘能做到的事，人都能做到</li>
+<li>優秀店長的經驗甚至會比資料探勘結果更準確</li>
+<li>但是，優秀店長很少見，至多熟識幾十、幾百位客戶</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-13" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>傳統行銷</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>傳統行銷是用背景資訊去篩選定義，<br>譬如：35-40歲、女性、已婚、有工作、育有兩子</li>
+<li>群體夠大才能篩選出足夠多的受眾</li>
+<li>相同背景的人，需要的東西不一定是一樣的。<br>傳統行銷的觀點是，透過廣告針對受眾加強商品形象，讓人想要購買。</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-14" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>資料探勘行銷</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>計算人與人之間的距離 (user-based)</li>
+<li>計算商品與商品之間的距離 (item-based)</li>
+<li>計算每一個人購買每一種商品的機率</li>
+<li>計算每一個人要購買每種商品的最佳順序</li>
+<li>沒有傳統行銷需要篩選特定受眾而忽略其他潛在客戶的問題 (譬如：50歲大叔買LV名牌包)</li>
+<li>資料探勘系統的成功須考量：<code>資料量</code>、<code>使用者廣度</code>、<code>反應時間</code>。</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-15" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>總之，何時需要資料探勘</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>小型商店靠店長的經驗</li>
+<li>中型賣場靠傳統的行銷分析</li>
+<li>大型商務中心需要引進資料探勘系統拉開同業差距</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-16" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>課程聲明</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li><h3>本課程專注在理解資料探勘方法的思路</h3></li>
+<li><h3>不會講述演算法細節</h3></li>
+<li><h3>強調R語言資料探勘的個人實作</h3></li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-17" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>從一張發票談關聯性分析</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-18" style="background:url(assets/img/receipt_cover.png); background-size: 100% 100%;">
+  <article data-timings="" style="display: table;">
+    <div style="display: table-cell;vertical-align: bottom;">
+      
+    </div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-19" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>基本概念</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>關聯規則 (Association rule)</h3>
+
+<ul>
+<li>分析不同品項之間的關係程度</li>
+</ul>
+
+<h3>常見問題如</h3>
+
+<ul>
+<li>如果一個消費者購買了產品A，那麼他有多大機會購買產品B？</li>
+<li>如果他購買了產品C和D，那麼他還將購買什麼產品？</li>
+<li>在店門口擺設X廣告，以增進Y產品的促銷活動成效。</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-20" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>肉眼觀察法</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>四筆交易紀錄
+
+<ul>
+<li>\(\{\text{milk, bread}\}\)</li>
+<li>\(\{\text{beer, diapers}\}\)</li>
+<li>\(\{\text{milk, bread, butter}\}\)</li>
+<li>\(\{\text{bread}\}\)</li>
+</ul></li>
+<li>關聯規則
+
+<ul>
+<li>\(\text{milk} \Rightarrow \text{bread}\)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-21" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>名詞定義</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>交易紀錄 (Transaction)
+
+<ul>
+<li>一名顧客所購買的物品清單： \(\{\text{milk, bread}\}\)</li>
+</ul></li>
+<li>品項 (Item)
+
+<ul>
+<li>可購買的物品：\(\text{milk, break, beer, ...}\)</li>
+</ul></li>
+<li>關聯規則 (Association rule)
+
+<ul>
+<li>物品之間的關聯：\(X \Rightarrow Y\)</li>
+<li>\(X\), $Y$又被稱為品項集 (itemset)</li>
+<li>\(X\) (LHS itemset) 和 \(Y\) (RHS itemset) 不能包含相同的物品</li>
+<li>\(X \Rightarrow Y\) 代表當 \(X\) 出現在一個交易紀錄時，$Y$也會出現</li>
+<li>例： \(\text{milk} \Rightarrow \text{bread}\)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-22" style="background:url(assets/img/diaper_beer.jpg); background-size: 100% 100%;">
+  <article data-timings="" style="display: table;">
+    <div style="display: table-cell;vertical-align: bottom;">
+      <p><font size="2"><a href="http://goo.gl/06tJ01">http://goo.gl/06tJ01</a></font></p>
+
+    </div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-23" style="background:url(assets/img/Visitor-Profile.png); background-size: 100% 100%;">
+  <article data-timings="" style="display: table;">
+    <div style="display: table-cell;vertical-align: bottom;">
+      <p><font size="2"><a href="http://piwik.org/docs/real-time/">http://piwik.org/docs/real-time/</a></font></p>
+
+    </div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-24" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>支持度 (support)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>給定<code>品項集</code> \(X\), 有多少個比率<code>交易紀錄</code>包含 \(X\) 稱為 \(Supp(X)\)</li>
+<li>也就是X的出現機率，記為\(P(X) = \frac{X出現筆數}{交易紀錄筆數}\) </li>
+<li>交易紀錄
+
+<ul>
+<li>\(\{\text{milk, bread}\}\)</li>
+<li>\(\{\text{beer, diapers}\}\)</li>
+<li>\(\{\text{milk, bread, butter}\}\)</li>
+<li>\(\{\text{bread}\}\)</li>
+</ul></li>
+<li>\(Supp(\{\text{milk}\}) = \text{2/4}\) </li>
+<li>\(Supp(\{\text{milk, bread}\}) = \text{2/4}\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-25" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>置信度 (confidence)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>給定<code>關聯規則</code> $X \Rightarrow Y$，\(Conf(X \Rightarrow Y) = \frac{Supp(X \cup Y)}{Supp(X)}\)</li>
+<li>也就是在X<code>交易紀錄</code>發生的狀況下，同時包含X與Y<code>交易紀錄</code>的條件機率，記為\(P(Y|X)\)</li>
+<li>交易紀錄
+
+<ul>
+<li>\(\{\text{milk, bread}\}\)</li>
+<li>\(\{\text{beer, diapers}\}\)</li>
+<li>\(\{\text{milk, bread, butter}\}\)</li>
+<li>\(\{\text{bread}\}\)</li>
+</ul></li>
+<li>\(Conf(\{\text{bread} \Rightarrow \text{milk}\}) = \text{2/2} = 1\) </li>
+<li>\(Conf(\{\text{milk} \Rightarrow \text{bread}\}) = \text{2/3}\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-26" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>教機器做學習</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>交易紀錄
+
+<ul>
+<li>\(\{\text{milk, bread}\}\)</li>
+<li>\(\{\text{beer, diapers}\}\)</li>
+<li>\(\{\text{milk, bread, butter}\}\)</li>
+<li>\(\{\text{bread}\}\)</li>
+</ul></li>
+<li>規則及衡量指標
+
+<ul>
+<li>\(X \Rightarrow Y\), \((Conf, Supp)\)</li>
+<li>\(\{\text{milk} \Rightarrow \text{bread}\} \text{, (2/2, 2/4)}\)</li>
+<li>\(\{\text{beer} \Rightarrow \text{diapers}\} \text{, (1/1, 1/4)}\)</li>
+<li>\(\{\text{milk, bread} \Rightarrow \text{butter}\} \text{, (1/2, 2/4)}\)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-27" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>選擇強關聯規則</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>一個規則是否夠好，可用<code>支持度</code>與<code>置信度</code>衡量</h3>
+
+<ul>
+<li>規則的<code>支持度</code> (support) 越高 =&gt; 越有影響</li>
+<li>規則的<code>置信度</code> (confidence) 越高 =&gt; 越準確</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-28" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2><code>支持度</code>和<code>置信度</code>的不足</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>一個<code>強關聯規則</code>，通常<code>支持度</code>和<code>置信度</code>值都高。</h3>
+
+<p><p></p>
+
+<h3>但反過來<code>支持度</code>和<code>置信度</code>值都高，卻不一定代表這條規則所指的<code>交易紀律</code>彼此間就一定存在著<code>高相關性</code>。</h3>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-29" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2><code>支持度</code>和<code>置信度</code>的不足</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>假設100筆交易紀錄，60筆包含 milk、75筆包含 bread，共有40筆同時包含 milk, bread，可得<code>關聯規則</code>：<br> <center>\(\{\text{milk} \Rightarrow \text{bread}\}\): \((Supp = 40\%, Conf = 67\%)\)<br></center></li>
+<li>但是上述關聯規則<code>置信度</code> 67% 卻低於bread的<code>支持度</code> 75% ，即 $P(\text{bread | milk}) &lt; P(\text{bread})$，也就是說購買 milk 反而會降低購買 bread 的機會。</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-30" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2><code>增益值</code> (Lift)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>為補足<code>支持度</code>和<code>置信度</code>的不足，我們還需要檢查<code>增益值</code> (Lift)，亦即
+\[Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}\]</li>
+<li><p>也就是$(X, Y)$的相關性指標：\(Lift(X \Rightarrow Y) = \frac{ P(X,Y)}{P(X)P(Y)}\)</p></li>
+<li><p><code>增益值</code>＞1，表示X與Y呈現正相關，規則才具有實用性。</p></li>
+<li><p><code>增益值</code>＝1，表示X與Y呈現正相關，結果與亂數取得方式相似。</p></li>
+<li><p><code>增益值</code>＜1，表示X與Y呈現負相關，比亂數取得之結果更差。</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-31" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>關聯規則建立流程</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>從資料庫中找出<code>高頻項目集合</code> (large itemsets)，且大於所設定之<code>最低支持度</code> (minimum support)。</li>
+<li>接著，用前述步驟所產生的<code>高頻項目集合</code>產生<code>關聯法則</code>，並計算其<code>置信度</code>，若高於所設定的<code>最低置信度</code> (minimum confidence)，則此規則確定成立。</li>
+<li>最後，再計算<code>增益值</code>以檢查規則的相關性。</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-32" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>練習</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>請完成<code>RDataMining-01-Association-Rule</code></li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-33" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>電子採購資料談叢聚分析</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-34" style="background:url(assets/img/data_pool.jpg); background-size: 100% 100%;">
+  <article data-timings="" style="display: table;">
+    <div style="display: table-cell;vertical-align: bottom;">
+      
+    </div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-35" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>基本概念</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>叢集分析 (cluster analysis)</h3>
+
+<p>「物以類聚」，將比較相似的物件聚集在一起，形成各個集群。</p>
+
+<h3>常見問題如</h3>
+
+<ul>
+<li>在電商網站中，用叢集分析歸納消費行為相似的會員，歸納其特徵做更適合的服務。</li>
+<li>針對空間特徵做分群，得到較具主題性的地圖。</li>
+<li>應用於資料精簡化時，以每個群集的中心點來代表該群集的所有資料特徵。</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-36" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>肉眼觀察法</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><center><img src='assets/img/clustering.png' style='max-width: 90%;max-height: 90%'></img><center></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-37" style="background:url(assets/img/evolutionary_tree.jpg); background-size: 100% 100%;">
+  <article data-timings="" style="display: table;">
+    <div style="display: table-cell;vertical-align: bottom;">
+      <p><font size="2"><a href="http://www.bio.miami.edu/dana/160/160S13_5.html">http://www.bio.miami.edu/dana/160/160S13_5.html</a></font></p>
+
+    </div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-38" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>如何定義距離？</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-39" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>歐式距離 (Euclidean distance)</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3><a href="https://zh.wikipedia.org/wiki/%E6%AC%A7%E5%87%A0%E9%87%8C%E5%BE%97%E7%A9%BA%E9%97%B4">歐幾里得空間</a>中兩點間的直線距離</h3>
+
+<p><center><img src='assets/img/euclid2.png' style='max-width: 100%;max-height: 100%'></img></center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-40" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>曼哈頓距離 (Manhattan distance)</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>投影到座標軸上的長度和（即紅線，亦等價於藍線與黃線）</h3>
+
+<ul>
+<li>曼哈頓距離適用於度量網格間距，譬如在市區A到B的距離。
+<center><img src='assets/img/manhattan2.png' style='max-width: 40%;max-height: 40%'></img></center></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-41" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>用飛行時間當作<code>距離</code></h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><center><img src='assets/img/airline_len.jpeg' style='max-width: 100%;max-height: 100%'></img></center>
+<font size="2"><a href="http://goo.gl/M5brz7">http://goo.gl/M5brz7</a></font></p>
+
+<h3>地圖上兩地的歐式距離，並非真實距離</h3>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-42" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>用交通費當作<code>距離</code></h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><center><img src='assets/img/mrt_map.png' style='max-width: 55%;max-height: 55%'></img></center>
+<font size="2"><a href="https://tw.piliapp.com/mrt-taiwan/taipei/">https://tw.piliapp.com/mrt-taiwan/taipei/</a></font></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-43" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>心的距離</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><center><img src='assets/img/1341639767-4160490196.jpg' style='max-width: 100%;max-height: 100%'></img></center>
+<font size="2"><a href="http://goo.gl/nvdKLZ">http://goo.gl/nvdKLZ</a></font></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-44" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>如何定義相似度？</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-45" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>相似度 (similarity) 與相異度 (dissimilarity)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><code>相似度</code>：越大越像 vs. <code>相異度</code>：越小越像</li>
+<li>兩者可以用數學運算做變換
+
+<ul>
+<li>常見的<code>相似度</code>常常介於0與1之間</li>
+<li>定義<code>相異度</code>： 1 - <code>相似度</code></li>
+</ul></li>
+<li><code>相似度</code>/<code>相異度</code>可以視為<code>距離指標</code>的特例
+
+<ul>
+<li><code>距離</code>沒有值域的限制 \(\[0, \infty\)\)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-46" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>二元類別型變數</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><img src='assets/img/incidence_table.png' style='max-width: 100%;max-height: 100%'></img></p>
+
+<ul>
+<li>Simple Matching Coefficient (SMC): \(\frac{M_{11} + M_{00}}{M_{01} + M_{10} + M_{11} + M_{00}}\)</li>
+<li>Jaccard Index: \(\frac{M_{11}}{M_{01} + M_{10} + M_{11}}\)</li>
+<li>Jaccard 省略了$M_{00}$的訊息，WHY?</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-47" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>類別型變數 ==&gt; Simple Matching Coefficient</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>使用者A：年齡：中年、職業：公務員、教育：大學、婚姻：未婚</li>
+<li>使用者B：年齡：高齡、職業：自由業、教育：大學、婚姻：已婚</li>
+<li>SMC： \(\frac{相同的屬性個數}{常數} \propto 相同的屬性個數\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-48" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>標籤 ==&gt; Jaccard Index</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>使用者A : {男性、單身、電玩、上班族}</li>
+<li>使用者B : {男性、旅遊、電玩、學生}</li>
+<li>Jaccard Index: \(\frac{\left| A \cap B \right|}{\left| A \cup B \right|}\)
+
+<ul>
+<li>J(使用者A, 使用者B) ： \(\frac{2}{6}\)</li>
+<li>\(v := \{i_{男性}, i_{單身}, i_{電玩}, i_{上班族}, i_{旅遊}, i_{學生}, i_{女性}, ...\}\)</li>
+<li>\(v_A = \{1, 1, 1, 1, 0, 0, 0, ...\}\)</li>
+<li>\(v_B = \{1, 0, 1, 0, 1, 1, 0, ...\}\)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-49" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>利用爬蟲技術收集決標資料</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><center><img src='assets/img/gov_tender.png' style='max-width: 100%;max-height: 100%'></img></center>
+<font size="2"><a href="http://web.pcc.gov.tw/tps/main/pms/tps/atm/atmAwardAction.do?newEdit=false&amp;searchMode=common&amp;method=inquiryForPublic&amp;tenderCaseNo=GF4-103122&amp;contentMode=0">http://web.pcc.gov.tw/tps/main/pms/tps/atm/atmAwardAction.do?newEdit=false&amp;searchMode=common&amp;method=inquiryForPublic&amp;tenderCaseNo=GF4-103122&amp;contentMode=0</a></font></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-50" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>利用爬蟲技術取得公司董監事名單</h2>
+  </hgroup>
+  <article data-timings="">
+    <table><thead>
+<tr>
+<th align="left">id</th>
+<th align="left">name</th>
+<th align="left">parent</th>
+<th align="left">birthday</th>
+<th align="left">magnate</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">00000000</td>
+<td align="left">復華廣告有限公司</td>
+<td align="left">NA</td>
+<td align="left">1976-05-24</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">00000016</td>
+<td align="left">富台機械開發建設有限公司</td>
+<td align="left">NA</td>
+<td align="left">1979-04-30</td>
+<td align="left">王振林</td>
+</tr>
+<tr>
+<td align="left">00000022</td>
+<td align="left">泰煜建材股份有限公司</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">00000037</td>
+<td align="left">茂盛工程有限公司（同名）</td>
+<td align="left">NA</td>
+<td align="left">1978-07-08</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">00000043</td>
+<td align="left">啟猛股份有限公司（無統編）</td>
+<td align="left">NA</td>
+<td align="left">1984-05-22</td>
+<td align="left">鄭添發</td>
+</tr>
+<tr>
+<td align="left">00000058</td>
+<td align="left">詠詳鐵工廠股份有限公司（無統蝙）</td>
+<td align="left">NA</td>
+<td align="left">1984-03-07</td>
+<td align="left">吳秋進,吳戴麗珍,謝素梅,吳秋龍</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-51" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>利用Jaccard Index 計算公司董監事相似度</h2>
+  </hgroup>
+  <article data-timings="">
+    <table><thead>
+<tr>
+<th align="left"></th>
+<th align="left">id</th>
+<th align="left">name</th>
+<th align="left">parent</th>
+<th align="left">birthday</th>
+<th align="left">magnate</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="left">555426</td>
+<td align="left">27229231</td>
+<td align="left">尚達塩業股份有限公司</td>
+<td align="left">NA</td>
+<td align="left">2005-05-30</td>
+<td align="left">吳秀里,周永紹,周博元,周碩良</td>
+</tr>
+<tr>
+<td align="left">1067348</td>
+<td align="left">70794974</td>
+<td align="left">上達糧業國際股份有限公司</td>
+<td align="left">NA</td>
+<td align="left">2002-01-08</td>
+<td align="left">吳秀里,周永紹,周博元,周碩良</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>Jaccard Index 為 1</li>
+<li><font size="2"><a href="http://web.pcc.gov.tw/tps/main/pms/tps/atm/atmAwardAction.do?newEdit=false&amp;searchMode=common&amp;method=inquiryForPublic&amp;pkAtmMain=51493408&amp;tenderCaseNo=GF4-103122">http://web.pcc.gov.tw/tps/main/pms/tps/atm/atmAwardAction.do?newEdit=false&amp;searchMode=common&amp;method=inquiryForPublic&amp;pkAtmMain=51493408&amp;tenderCaseNo=GF4-103122</a></font></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-52" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>數值型變數：Cosine Similarity</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>\(X_1, X_2 \in \mathbb{R}^d\)</li>
+<li>Cosine Similarity： \(\frac {X_1 \cdot X_2}{\left\lVert X_1 \right\rVert \left\lVert X_2 \right\rVert}\)</li>
+<li><img src='assets/img/unit_circle.gif' style='max-width: 100%;max-height: 100%'></img>
+
+<ul>
+<li><small style="font-size: 50%"><a href="https://www.math.hmc.edu/calculus/tutorials/reviewtriglogexp/">https://www.math.hmc.edu/calculus/tutorials/reviewtriglogexp/</a></small></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-53" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>數值型變數：Correlation</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>\(X_1, X_2 \in \mathbb{R}^d\)</li>
+<li>Let \(X_1' = \frac{X_1 - mean(X_1)}{sd(X_1)}\), \(X_2' = \frac{X_2 - mean(X_2)}{sd(X_2)}\), Correlation: \(X_1' \cdot X_2'\)</li>
+<li><img src='assets/img/correlation.jpeg' style='max-width: 100%;max-height: 100%'></img>
+
+<ul>
+<li><small style="font-size: 50%"><a href="https://www.biomedware.com/files/documentation/spacestat/interface/Views/Correlation_Coefficients.htm">https://www.biomedware.com/files/documentation/spacestat/interface/Views/Correlation_Coefficients.htm</a></small></li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-54" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>數值型變數： $L_p$距離</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>又稱 <a href="Minkowski%20distance">Minkowski distance</a></h3>
+
+<ul>
+<li>\(X_1 = (x_{1,1}, x_{1, 2}, ..., x_{1, d})  \in \mathbb{R}^d\)</li>
+<li>\(X_2 = (x_{2, 1}, x_{2, 2}, ..., x_{2, d}) \in \mathbb{R}^d\)</li>
+<li>\(L_p(X_1, X_2) = \left( \sum_{k = 1}^d {\left| x_{1, k} - x_{2, k} \right|^p} \right)^{1/p}\)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-55" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>數值型變數： $L_p$距離</h2>
+  </hgroup>
+  <article data-timings="">
+    
+<div style='float:left;width:48%;' class='centered'>
+  <p><img src='assets/img/Lp_norm.png' style='max-width: 100%;max-height: 100%'></img></p>
+
+</div>
+<div style='float:right;width:48%;' class='centered'>
+  <p><center></p>
+
+<p><img src="minkowski.gif"/>
+</center></p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-56" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>Gower&#39;s dissimilarity coefficient</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>同時考量類別型與數值型資料的相異度</h3>
+
+<p>\[
+d(i,j) = \frac{1}{M}\sum_{k=1}^M {d_{ijk}}
+\]</p>
+
+<div style='float:left;width:48%;' class='centered'>
+  <p>如果第一個變數是數值型：
+\[
+d_{ij1} = \frac{\left|x_{i1} - x_{j1}\right|}{\left|\max{x_1}-\min{x_1}\right|}
+\]</p>
+
+</div>
+<div style='float:right;width:48%;' class='centered'>
+  <p>如果第二個變數是類別型：
+\[
+d_{ij2} = 1-\frac{\left| x_{i2} \cap x_{j2} \right|}{\left| x_{i2} \cup x_{j2} \right|}
+\] </p>
+
+</div>
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-57" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>Gower&#39;s dissimilarity coefficient</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>R functions</h3>
+
+<ul>
+<li><code>cluster::daisy(x, metric=&quot;gower&quot;)</code></li>
+<li><code>vegan::vegdist(x, method=&quot;gower&quot;)</code></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-58" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>如何挑選 Similarity</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>視目標與應用而定
+
+<ul>
+<li>利用1NN 分類的結果來評估 similarity 的品質(後述)</li>
+</ul></li>
+<li>利用相似度解釋資料（主觀）</li>
+<li>數值變數的baseline：
+
+<ul>
+<li>先標準化</li>
+<li>$L_2$距離</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-59" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>階層式分群法</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-60" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>階層式分群法 (hierarchical clustering)</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<h3>樹狀圖 (dendrogram)</h3>
+
+<p><img src="./assets/fig/rdata-mining-dendrogram-1.png" alt="plot of chunk dendrogram"></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-61" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>階層式分群法 (hierarchical clustering)</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>概念簡單，可用樹狀結構來表現整個計算過程</li>
+<li>不需要事先決定要分幾個 clusters</li>
+<li>不需要資料點的實際座標，只需要資料點兩兩之間的距離，就可以建構分群結果</li>
+<li>缺點：很難處理大量資料</li>
+</ul>
+
+<h3>R packages</h3>
+
+<ul>
+<li><code>stats::hclust</code></li>
+<li><code>ggdendro</code>:<a href="https://cran.r-project.org/web/packages/ggdendro/index.html">Create Dendrograms and Tree Diagrams using &#39;ggplot2&#39;</a></li>
+<li>CRAN Task View: <a href="https://cran.r-project.org/web/views/Cluster.html">Cluster Analysis &amp; Finite Mixture Models</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-62" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>階層式分群法 (hierarchical clustering)</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>分群流程</h3>
+
+<ul>
+<li>決定資料點之間的距離</li>
+<li>將相鄰的資料點合併成一個 cluster</li>
+<li>決定資料點與 cluster 之間的距離</li>
+<li>決定 cluster 與 cluster 之間的距離</li>
+<li>由近到遠依序合併資料點與 clusters...</li>
+<li>將結果依序繪製成<code>樹狀圖</code> (dendrogram)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-63" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>階層式分群法 (hierarchical clustering)</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<h3>圖解<code>UPGMA</code>演算法</h3>
+
+<p><img src='assets/img/hclust.gif' style='max-width: 100%;max-height: 100%'></img></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-64" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>階層式分群法 (hierarchical clustering)</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>給定一個<code>樹狀圖</code>，如果要找出 k 個 clusters，就使用當全部資料被分成 k 個 clusters 的瞬間當成結果</p>
+
+<p><center>
+<img src="./assets/fig/rdata-mining-dendrogram2-1.png" alt="plot of chunk dendrogram2">
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-65" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>階層式分群法 (hierarchical clustering)</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>如何評斷分群結果的好壞？</h3>
+
+<ul>
+<li>群內的距離要短</li>
+<li>群間的距離要長</li>
+</ul>
+
+<h3>如何挑選分群的個數?</h3>
+
+<ul>
+<li>挑選分群結果好的群組個數</li>
+<li>透過樹狀圖的高度差距來比較</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-66" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>分割式分群法 (Partitional clustering)</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-67" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>K-Means 分群法 (K-Means clustering)</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><img src='assets/img/cluster_color.png' style='max-width: 100%;max-height: 100%'></img></p>
+
+<p><font size="2"><a href="http://blog.pluskid.org/?p=17">http://blog.pluskid.org/?p=17</a></font></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-68" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>K-Means 分群法 (K-Means clustering)</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>以中心點為計算基礎的分群方法 (center-based)</h3>
+
+<ul>
+<li>最基本的分群方法，快！</li>
+<li>需要事先決定要分幾群</li>
+<li>演算法的起始分群中心會影響分群結果</li>
+<li>離群值會影響分群結果，需要預處理</li>
+<li>不適用：非球狀、群集大小不均</li>
+<li>K-Means 一定會收斂，但只能局部最佳解 (local minimum)</li>
+</ul>
+
+<h3>R package</h3>
+
+<ul>
+<li><code>stats::kmenas</code></li>
+<li><code>cluster</code>: <a href="https://cran.r-project.org/web/packages/cluster/index.html">&quot;Finding Groups in Data&quot;: Cluster Analysis Extended Rousseeuw et al.</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-69" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>K-Means 分群法 (K-Means clustering)</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>分群流程</h3>
+
+<ul>
+<li>先指定群聚的數目 k 與起始分群中心</li>
+<li>利用<code>距離</code>指標，定義<code>誤差函數</code></li>
+<li>藉著反覆疊代運算，逐次降低誤差值</li>
+<li>直到目標函數不再變化，就達到分群的最後結果</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-70" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>K-Means 分群法 (K-Means clustering)</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<h3>圖解<code>kmeans</code>演算法</h3>
+
+<p><img src='assets/img/kmeans.gif' style='max-width: 100%;max-height: 100%'></img></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-71" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>如何評估 K-Means</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>如何評估分群結果好壞</li>
+<li>如何決定分群數 k
+<img src="./assets/fig/rdata-mining-withinss-1.png" alt="plot of chunk withinss"></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-72" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>Within-Cluster Sum of Squares</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><code>withinss</code>: 各群集內的資料與中心點的距離平方和
+<center>
+<img src="./assets/fig/rdata-mining-withinss-display-1.png" alt="plot of chunk withinss-display">
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-73" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>Gap Statistic for Estimating the Number of Clusters</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center>
+<img src="./assets/fig/rdata-mining-gap-cluster-1.png" alt="plot of chunk gap-cluster">
+</center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-74" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>DBSCAN 分群法</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><center><img src='assets/img/dbscan.png' style='max-width: 100%;max-height: 100%'></img></center>
+<font size="2"><a href="https://tech.knime.org/">https://tech.knime.org/</a></font></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-75" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>DBSCAN</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>以密度為基礎的分群法 (density-based)</h3>
+
+<ul>
+<li>不需要事先決定要分幾群</li>
+<li>可以分割出任意形狀的群集 (環形、文字)</li>
+<li>會過濾雜訊 (noise)</li>
+<li>需要給兩個參數：掃描半徑 (eps) 與半徑內最小包含點數 (MinPts)</li>
+<li>缺點：不適用高維度資料、密度分佈不均、大量數據</li>
+</ul>
+
+<h3>R package</h3>
+
+<ul>
+<li><code>fpc</code>: <a href="https://cran.r-project.org/web/packages/fpc/index.html">Flexible Procedures for Clustering</a></li>
+<li><code>dbscan</code>: <a href="https://cran.r-project.org/web/packages/dbscan/index.html">Density Based Clustering of Applications with Noise (DBSCAN) and Related Algorithms</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-76" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>DBSCAN 分群法</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>分群流程</h3>
+
+<ul>
+<li>給定初始參數 eps (有無連接), MinPts (是否雜訊)</li>
+<li>掃描所有的觀察值，找出核心點 (core)、邊界點 (border)、雜訊點 (noise)</li>
+<li>移除雜訊點，將同是核心點的觀察值歸類到同一群
+<center><img src='assets/img/DBSCAN-Illustration.png' style='max-width: 45%;max-height: 45%'></img></center></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-77" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>Density-based Clustering</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<h3>圖解<code>DBSCAN</code>演算法</h3>
+
+<p><img src='assets/img/fpc.gif' style='max-width: 100%;max-height: 100%'></img></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-78" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>分群總結</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>分群就是:</h3>
+
+<ul>
+<li>欲對資料表中的觀察值賦予群集的標籤</li>
+<li>定義資料間的距離 (distance / similarity）</li>
+<li>套用分群演算法</li>
+<li>驗證分群結果是否合理 (群組內差異小、組間差異大)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-79" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>分群比較</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<p><img src="./assets/fig/rdata-mining-compare-clustering-1.png" alt="plot of chunk compare-clustering"></p>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-80" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>練習</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>請完成RDataMining-02-Clustering</li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-81" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>電子投票記錄談分類法則</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-82" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>基本概念</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>分類法則 (Classification Analysis)</h3>
+
+<ul>
+<li>按照分析對象的屬性分門別類加以定義，建立類組(class)</li>
+</ul>
+
+<h3>常見問題如</h3>
+
+<ul>
+<li>已知一般信用申請者的風險程度(高、中、低)，辨識新用戶的風險程度</li>
+<li>透過基因表現量預測癌症類別</li>
+<li>透過既有分類法則找除離群值 (肥羊客戶、異常行為)</li>
+</ul>
+
+<h3>常用方法</h3>
+
+<p>最近鄰居法 (K-NN) / 羅吉斯回歸 (logistic regression) / 支持向量機 (SVM) / 決策樹 (decision tree) / gradient boosted decision tree ...</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-83" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>三種資料集</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>訓練集 (training dataset): 用來建立模型</li>
+<li>驗證集 (validation dataset): 用來做模型篩選 (控制模型複雜度)</li>
+<li>測試集 (testing dataset): 用來驗證最終模型 </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-84" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>資料預測競賽</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>一般會提供兩包資料</h3>
+
+<ul>
+<li>訓練集
+
+<ul>
+<li>每個資料點均有：屬性 \(X\), 標籤 (類別型變數) \(Y\)</li>
+</ul></li>
+<li>測試集
+
+<ul>
+<li>只有\(X\), 沒有\(Y\)</li>
+<li>要用觀察到 \(X\) 的狀態下去預測 \(Y\)</li>
+</ul></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-85" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>Nearest-Neighborhood</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-86" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>Nearest-Neighborhood</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>標的類別是由最近的一個鄰居賦予</h3>
+
+<ul>
+<li>給定<code>測試集</code> (testing data)，從<code>訓練集</code> (training data) 中找出與它最近的鄰居</li>
+<li>用鄰居的類別猜測<code>預測集</code> (testing data) 的類別</li>
+</ul>
+
+<h3>R package</h3>
+
+<ul>
+<li><code>class</code>: <a href="http://cran.r-project.org/web/packages/class/index.html">Functions for Classification</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-87" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>K Nearest-Neighborhood (k-NN)</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>標的類別是由其最近的K個鄰居「多數表決」來決定</h3>
+
+<ul>
+<li>給定<code>測試集</code> (testing data)，從<code>訓練集</code> (training data) 中找出與它最近的前K個鄰居</li>
+<li>從這K鄰居的類別進行表決，用出現次數最多的類別猜測 <code>預測集</code> (testing data) 的類別</li>
+</ul>
+
+<p><center><img src='assets/img/279px-KnnClassification.png' style='max-width: 100%;max-height: 100%'></img></center></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-88" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>k-NN 常用於評量<code>相似度</code>指標</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>k-NN 沒有太多的假設</h3>
+
+<ul>
+<li>核心概念：物以類聚</li>
+<li>需要用<code>距離</code>/<code>相似度</code>決定鄰居</li>
+<li>k-NN 的效果和 similarity 的挑選很關鍵</li>
+<li><a href="http://www.cs.ucr.edu/%7Eeamonn/time_series_data/">http://www.cs.ucr.edu/~eamonn/time_series_data/</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-89" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>Decision tree</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-90" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>決策樹</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>用樹狀結構建立規則輔助決策</h3>
+
+<p><center><img src='assets/img/tree.jpeg' style='max-width: 34%;max-height: 34%'></img></center></p>
+
+<h3>R packages</h3>
+
+<ul>
+<li><code>C50</code>: <a href="http://cran.r-project.org/web/packages/C50/index.html">C5.0 Decision Trees and Rule-Based Models</a></li>
+<li><code>rpart</code>: <a href="http://cran.r-project.org/web/packages/rpart/index.html">Recursive Partitioning and Regression Trees</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="" id="slide-91" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <article data-timings="">
+    <iframe src="http://www.nytimes.com/imagepages/2008/04/16/us/20080416_OBAMA_GRAPHIC.html" width="70%" height="601"></iframe>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-92" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>如何建構一棵樹?</h2>
+  </hgroup>
+  <article data-timings="">
+    <h3>將資料依照每一階段不同的條件作循環切割</h3>
+
+<ul>
+<li>定義亂度指標 (切割成兩塊時，亂度要大)</li>
+<li>一次做一種切割 (一次長一個分支)</li>
+<li>計算亂度分數，每次都挑讓分數變得最好的切割規則</li>
+<li>當無法再切割時，停止</li>
+<li>經典亂度指標：熵指標 (<a href="https://en.wikipedia.org/wiki/Entropy_(information_theory">entropy</a>, <a href="https://picasaweb.google.com/104430274632048494577/43014#6007917514467379730">Shannon</a> 1949)</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-93" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>決策樹圖解</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><center><img src='assets/img/DecisionTree101Explanation.png' style='max-width: 100%;max-height: 100%'></img></center>
+<font size="2">
+<a href="https://github.com/braz/DublinR-ML-treesandforests/">https://github.com/braz/DublinR-ML-treesandforests/</a>
+</font></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-94" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>練習</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>請完成RDataMining-03-Classification</li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="dark segue" id="slide-95" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;">
+  <hgroup>
+    <h2>Text Mining</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-96" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>文字資料範例：ptt 笨版文章</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<pre><code>作者frank9712520 (YFChen)看板StupidClown標題[健忘] 手機不見了...(代PO)時間Wed Dec 23 02:29:15 2015
+以下是朋友要求代PO的...
+
+剛剛手上拿著手機在回人FB訊息回到一半，突然被我媽叫離開原本的位置，我媽找完我沒
+事後就忘記手機放在哪裡了
+
+用我媽的手機打過去，打通了，沒鈴聲，我關了靜音...
+
+還很興奮地跑到電腦前要用Google Device 放鈴聲找，結果他要我輸入密碼
+
+這兩個多月來當兵每次休假就叫我換密碼，在加上與世隔絕了36天，根本不記得密碼了，
+按忘記密碼，可是經過一連串驗證他要寄認證信到我的備用信箱(yahoo的) 但是到我發完
+文已經過了快一個小時還時沒收到信...
+乾........................
+
+
+距離上次變更密碼...54天前（因為帳號久未活動，所以要求更改密碼）
+http://i.imgur.com/2u4GMKb.jpg
+
+啊就是手機不見才要登入啊...結果現在又要傳訊息到手機
+</code></pre>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-97" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>文字資料的特色</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>容易獲取、俯拾即是</li>
+<li>非結構化、長短不一、沒有明顯規律
+
+<ul>
+<li>挖掘規律是個挑戰</li>
+<li>由各種字彙組成</li>
+<li>常用的資料分析技術不容易套用在文字資料上</li>
+<li>整理資料的挑戰較高</li>
+</ul></li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-98" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>文字資料的結構化</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>找出方法將非結構化的文章轉變成結構化的資料</li>
+<li>後續可針對各種應用問題，與其他ML或DM方法結合</li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-99" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>文字資料的清理</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>移除不必要的字元，如空白、標點符號</li>
+<li>統一大小寫</li>
+<li>斷詞
+
+<ul>
+<li>英文資料使用空白做切割</li>
+<li>中文資料可以使用Open Source斷詞引擎搭配詞庫
+
+<ul>
+<li><a href="https://www.moedict.tw/about.html">g0v 萌典</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-100" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>Term Document Matrix (TDM)</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>將文字資料在斷詞後，轉換為結構化資料的方式</li>
+<li>以文章為單位
+
+<ul>
+<li>每篇文章是一筆資料</li>
+</ul></li>
+<li>將文章中包含的詞彙當成屬性
+
+<ul>
+<li>運用大量布林屬性來標註文章中有沒有包含特定的詞彙</li>
+</ul></li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-101" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>Feature Hashing</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>一種加速TDM處理效能的技巧
+
+<ul>
+<li>TDM 需要建立：  字彙 ==&gt; 屬性位置 的對應表</li>
+<li>Feature Hashing 運用Hashing Algorithm來做對應</li>
+</ul></li>
+<li>喪失對屬性的解釋力</li>
+<li><img src='assets/img/300px-Hash_table_4_1_1_0_0_1_0_LL.png' style='max-width: 100%;max-height: 100%'></img></li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-102" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>範例：Large Movie Review Dataset</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>50000 條關於電影的評論，來源： <a href="http://www.imdb.com">IMDB</a></li>
+<li>一個電影最多不超過 30 reviews</li>
+<li>將評論標記為「正面」與「負面」
+
+<ul>
+<li>正負面是依據使用者的評分決定：分數小於等於4時是負面，其餘的是正面（滿分十分）</li>
+<li>50% 正面的評論，50% 負面的評論</li>
+</ul></li>
+<li>這個資料可以自<a href="https://www.kaggle.com/c/word2vec-nlp-tutorial">Kaggle</a>上下載</li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-103" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>TDM</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li><img src='assets/img/TDM.png' style='max-width: 100%;max-height: 100%'></img></li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-104" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>Sentiment Analysis via R, FeatureHashing and XGBoost</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/FeatureHashing/vignettes/SentimentAnalysis.html">文章網址</a></li>
+<li>運用文章中介紹的技巧搭配Machine Learning套件，即可達到Benchmark的準確度</li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-105" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>n-gram</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>TDM 是標記字彙有無在文章之中</li>
+<li>n-gram 是將相鄰的n個字彙視為一個字彙</li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-106" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>n-gram 範例</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li><code>剛剛手上拿著手機在回人FB訊息回到一半，突然被我媽叫離開原本的位置，我媽找完我沒事後就忘記手機放在哪裡了</code></li>
+<li>斷詞：<code>剛剛  手上  拿  著  手機  在  回人  FB  訊息  回到  一半  突然  被  我媽  叫  離開  原本  的  位置  我媽  找  完  我  沒事  後  就  忘記  手機  放在  哪裡  了</code></li>
+<li>TDM: </li>
+</ul>
+
+<table><thead>
+<tr>
+<th align="right">剛剛</th>
+<th align="right">手上</th>
+<th align="right">拿</th>
+<th align="right">著</th>
+<th align="right">手機</th>
+<th align="right">在</th>
+<th align="right">回人</th>
+<th align="right">FB</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+</tbody></table>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-107" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>n-gram 範例</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>斷詞：<code>剛剛  手上  拿  著  手機  在  回人  FB  訊息  回到  一半  突然  被  我媽  叫  離開  原本  的  位置  我媽  找  完  我  沒事  後  就  忘記  手機  放在  哪裡  了</code></li>
+<li>2-gram： <code>剛剛+手上  手上+拿  拿+著  著+手機  手機+在  在+回人  回人+FB  FB+訊息  訊息+回到  回到+一半  一半+突然  突然+被  被+我媽  我媽+叫  叫+離開  離開+原本  原本+的  的+位置  位置+我媽  我媽+找  找+完  完+我  我+沒事  沒事+後  後+就  就+忘記  忘記+手機  手機+放在  放在+哪裡  哪裡+了</code></li>
+<li>TDM: </li>
+</ul>
+
+<table><thead>
+<tr>
+<th align="right">剛剛+手上</th>
+<th align="right">手上+拿</th>
+<th align="right">拿+著</th>
+<th align="right">著+手機</th>
+<th align="right">手機+在</th>
+<th align="right">在+回人</th>
+<th align="right">回人+FB</th>
+<th align="right">FB+訊息</th>
+</tr>
+</thead><tbody>
+<tr>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1</td>
+</tr>
+</tbody></table>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-108" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>練習</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+<ul>
+<li>請完成RDataMining-04-Text-Mining</li>
+</ul>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+<slide class="largecontent" id="slide-109" style="background-image: url('libraries/frameworks/io2012-dsp/images/dsp-page-white1100.jpg'); background-repeat:no-repeat; background-position:center; background-size: 100% 100%;" >
+<hgroup>
+  <h2>Q&amp;A</h2>
+</hgroup>
+<article class = 'flexbox vcenter'>
+
+</article>
+<!-- Presenter Notes -->
+</slide>
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='課程大綱'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='About Me'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='資料探勘心法篇'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='定義'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='破除迷思'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='CRISP-DM'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='核心概念'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='淺談<code>機率</code>'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='淺談<code>距離</code>'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='淺談<code>風險</code>'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='淺談<code>準確</code>與<code>精密</code>度'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='經驗行銷'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='傳統行銷'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='資料探勘行銷'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='總之，何時需要資料探勘'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='課程聲明'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='從一張發票談關聯性分析'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='NA'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='基本概念'>
+         19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='肉眼觀察法'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='名詞定義'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='NA'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='NA'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='支持度 (support)'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='置信度 (confidence)'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='教機器做學習'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='選擇強關聯規則'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='<code>支持度</code>和<code>置信度</code>的不足'>
+         28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='<code>支持度</code>和<code>置信度</code>的不足'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='<code>增益值</code> (Lift)'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='關聯規則建立流程'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='練習'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='電子採購資料談叢聚分析'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='NA'>
+         34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='基本概念'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='肉眼觀察法'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='NA'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='如何定義距離？'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='歐式距離 (Euclidean distance)'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='曼哈頓距離 (Manhattan distance)'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='用飛行時間當作<code>距離</code>'>
+         41
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=42 title='用交通費當作<code>距離</code>'>
+         42
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=43 title='心的距離'>
+         43
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=44 title='如何定義相似度？'>
+         44
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=45 title='相似度 (similarity) 與相異度 (dissimilarity)'>
+         45
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=46 title='二元類別型變數'>
+         46
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=47 title='類別型變數 ==&gt; Simple Matching Coefficient'>
+         47
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=48 title='標籤 ==&gt; Jaccard Index'>
+         48
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=49 title='利用爬蟲技術收集決標資料'>
+         49
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=50 title='利用爬蟲技術取得公司董監事名單'>
+         50
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=51 title='利用Jaccard Index 計算公司董監事相似度'>
+         51
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=52 title='數值型變數：Cosine Similarity'>
+         52
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=53 title='數值型變數：Correlation'>
+         53
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=54 title='數值型變數： $L_p$距離'>
+         54
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=55 title='數值型變數： $L_p$距離'>
+         55
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=56 title='Gower&#39;s dissimilarity coefficient'>
+         56
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=57 title='Gower&#39;s dissimilarity coefficient'>
+         57
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=58 title='如何挑選 Similarity'>
+         58
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=59 title='階層式分群法'>
+         59
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=60 title='階層式分群法 (hierarchical clustering)'>
+         60
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=61 title='階層式分群法 (hierarchical clustering)'>
+         61
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=62 title='階層式分群法 (hierarchical clustering)'>
+         62
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=63 title='階層式分群法 (hierarchical clustering)'>
+         63
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=64 title='階層式分群法 (hierarchical clustering)'>
+         64
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=65 title='階層式分群法 (hierarchical clustering)'>
+         65
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=66 title='分割式分群法 (Partitional clustering)'>
+         66
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=67 title='K-Means 分群法 (K-Means clustering)'>
+         67
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=68 title='K-Means 分群法 (K-Means clustering)'>
+         68
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=69 title='K-Means 分群法 (K-Means clustering)'>
+         69
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=70 title='K-Means 分群法 (K-Means clustering)'>
+         70
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=71 title='如何評估 K-Means'>
+         71
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=72 title='Within-Cluster Sum of Squares'>
+         72
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=73 title='Gap Statistic for Estimating the Number of Clusters'>
+         73
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=74 title='DBSCAN 分群法'>
+         74
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=75 title='DBSCAN'>
+         75
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=76 title='DBSCAN 分群法'>
+         76
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=77 title='Density-based Clustering'>
+         77
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=78 title='分群總結'>
+         78
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=79 title='分群比較'>
+         79
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=80 title='練習'>
+         80
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=81 title='電子投票記錄談分類法則'>
+         81
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=82 title='基本概念'>
+         82
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=83 title='三種資料集'>
+         83
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=84 title='資料預測競賽'>
+         84
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=85 title='Nearest-Neighborhood'>
+         85
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=86 title='Nearest-Neighborhood'>
+         86
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=87 title='K Nearest-Neighborhood (k-NN)'>
+         87
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=88 title='k-NN 常用於評量<code>相似度</code>指標'>
+         88
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=89 title='Decision tree'>
+         89
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=90 title='決策樹'>
+         90
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=91 title='NA'>
+         91
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=92 title='如何建構一棵樹?'>
+         92
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=93 title='決策樹圖解'>
+         93
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=94 title='練習'>
+         94
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=95 title='Text Mining'>
+         95
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=96 title='文字資料範例：ptt 笨版文章'>
+         96
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=97 title='文字資料的特色'>
+         97
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=98 title='文字資料的結構化'>
+         98
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=99 title='文字資料的清理'>
+         99
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=100 title='Term Document Matrix (TDM)'>
+         100
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=101 title='Feature Hashing'>
+         101
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=102 title='範例：Large Movie Review Dataset'>
+         102
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=103 title='TDM'>
+         103
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=104 title='Sentiment Analysis via R, FeatureHashing and XGBoost'>
+         104
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=105 title='n-gram'>
+         105
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=106 title='n-gram 範例'>
+         106
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=107 title='n-gram 範例'>
+         107
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=108 title='練習'>
+         108
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=109 title='Q&amp;A'>
+         109
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
