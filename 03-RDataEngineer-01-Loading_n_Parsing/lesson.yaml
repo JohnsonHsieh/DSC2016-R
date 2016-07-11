@@ -78,15 +78,14 @@
     以此類推。`"YEARYY"`和`"HOSPID"`與`"HOSPNAME"` 等資料欄位間插入了一個`","`。而如果我們把`","`當分隔符號去解釋剩下的資料，也解釋得通。
 - Class: cmd_question
   Output: 依照以上問答題的答案，請同學利用`read.table`，用`read.table`和`file`兩個函數的組合，藉由適當的設定`sep`以及`header`和`encoding`等參數將`hospital_path`的內容存到`hospital`
-  CorrectAnswer: hospital<-read.table(file(hospital_path,encoding = "BIG5"),sep =
-    ",",header = TRUE)
+  CorrectAnswer: hospital<-read.table(file(hospital_path,encoding = "BIG5"),header
+    = TRUE,sep = ",")
   AnswerTests: val_is(.read.table.big5(hospital_path,header = TRUE,sep = ","))
-  Hint: hospital<-read.table(file(hospital_path,encoding = "BIG5"),sep = ",",header
-    = TRUE)
+  Hint: hospital<-read.table(file(hospital_path,encoding = "BIG5"),header = TRUE,sep=",")
 - Class: mult_question
   Output: 此外，在R中，`read.table`的第一個參數也可以直接輸入檔案的路徑。以下哪一個是正確的路徑？
   AnswerChoices: hospital_path;"hospital_path"
-  CorrectAnswer: lvr_land.path
+  CorrectAnswer: hospital_path
   AnswerTests: omnitest(correctVal = 'hospital_path')
   Hint: 在R中，`hospital_path`代表一個變數，但是`"hospital_path"`代表一個字串。
 - Class: cmd_question

@@ -1,6 +1,6 @@
 - Class: meta
   Course: DataScienceAndR
-  Lesson: DE_04-RDataEngineer-02-Data-Manipulation
+  Lesson: DE_04-RDataEngineer-02-DataManipulation
   Author: Wush Wu and Cheng-Yu Lin
   Revised_By: Hwai-Jung Hsu
   Type: Standard
@@ -46,8 +46,17 @@
   CorrectAnswer: vignette("introduction", package = "dplyr")
   AnswerTests: omnitest('vignette("introduction", package = "dplyr")')
 
-- Class: text
-  Output: 簡單起見，我們直接跟著vignette，拿`nycflights13`裡面的`flights`資料集做練習。 為了方便，本課程已經將該資料集預載進系統中。
+- Class: cmd_question
+  Output: 簡單起見，我們直接跟著vignette，拿`nycflights13`裡面的`flights`資料集做練習。
+    請同學先安裝`nycflights13`套件。
+  CorrectAnswer: check_then_install("nycflights13", "0.1")
+  AnswerTests: test_package_version("nycflights13", "0.1")
+  Hint: install.packages("nycflights13")
+
+- Class: cmd_question
+  Output: 接著載入`nycflights13`套件。
+  CorrectAnswer: library(nycflights13)
+  AnswerTests: test_search_path("nycflights13")
 
 - Class: text
   Output: 套件`nycflights13`中的flights資料集合，是所有於2013年在紐約起降的飛機資料。

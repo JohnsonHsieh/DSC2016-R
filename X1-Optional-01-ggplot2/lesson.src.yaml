@@ -145,7 +145,7 @@
 
 - Class: cmd_question
   Output: |
-    同學應該會看到「呈現性別分佈」的長條圖。請同學這次輸入：
+    同學應該會看到「呈現性別分佈」的長條圖。請同學這次輸入
     `g + geom_bar(aes(x = sex, fill = race))`
   CorrectAnswer: g + geom_bar(aes(x = sex, fill = race))
   AnswerTests: omnitest('g + geom_bar(aes(x = sex, fill = race))')
@@ -167,7 +167,7 @@
 
 - Class: cmd_question
   Output: |
-    接著請同學輸入`skip()`檢查有無安裝dplyr
+    接著請同學輸入：`skip()`檢查有無安裝dplyr
   CorrectAnswer: check_then_install("dplyr", "0.4.3")
   AnswerTests: test_package_version("dplyr", "0.4.3")
 
@@ -192,7 +192,7 @@
 - Class: cmd_question
   Output: |
     我們會看到一張長條圖，指示兩種性別都是1。這是因為，在`answer01`中，兩種性別各佔一筆資料。
-    為了要讓長條圖理解值位於`count`的欄位，我們必須要改成輸入：
+    為了要讓長條圖理解值位於`count`的欄位，我們必須要改成輸入
     `ggplot(answer01, aes(x = sex, y = count)) + geom_bar(stat = "identity")`
   CorrectAnswer: ggplot(answer01, aes(x = sex, y = count)) + geom_bar(stat = "identity")
   AnswerTests: omnitest('ggplot(answer01, aes(x = sex, y = count)) + geom_bar(stat = "identity")')
@@ -227,7 +227,7 @@
   AnswerTests: omnitest('ggplot(hsb, aes(x = read, color = race)) + geom_density()')
 
 - Class: cmd_question
-  Output: 請同學先輸入`?geom_density`打開說明
+  Output: 請同學先輸入：`?geom_density`打開說明
   CorrectAnswer: ?geom_density
   AnswerTests: omnitest('?geom_density')
 
@@ -253,7 +253,7 @@
 
 - Class: mult_question
   Output: |
-    請同學先回憶我們對`geom_bar`的參數`stat`的解說。請問同學，如果我們輸入：
+    請同學先回憶我們對`geom_bar`的參數`stat`的解說。請問同學，如果我們輸入
     `g + geom_bar(stat = <??>)`，`stat`的參數要給多少？
   AnswerChoices: bin;identity
   CorrectAnswer: "identity"
@@ -265,7 +265,7 @@
 
 - Class: cmd_question
   Output: |
-    請同學輸入`g2`看一下繪圖結果。
+    請同學輸入：`g2`看一下繪圖結果。
 
 - Class: cmd_question
   Output: |
@@ -288,7 +288,7 @@
 
 - Class: cmd_question
   Output: |
-    請輸入`g3`，看看繪圖結果。
+    請輸入：`g3`，看看繪圖結果。
 
 - Class: cmd_question
   Output: |
@@ -332,7 +332,7 @@
 
 - Class: cmd_question
   Output: |
-    輸入`g + geom_point()`讓ggplot以散佈圖的方式繪製圖層。
+    輸入：`g + geom_point()`讓ggplot以散佈圖的方式繪製圖層。
 
 - Class: cmd_question
   Output: |
@@ -361,7 +361,7 @@
 
 - Class: cmd_question
   Output: |
-    我們讓R畫出沒修正的版本。請輸入`g`
+    我們讓R畫出沒修正的版本。請輸入：`g`
   CorrectAnswer: g
   AnswerTests: omnitest("g")
 
@@ -383,7 +383,7 @@
   AnswerTests: omnitest("g + theme_minimal()")
 
 - Class: text
-  Output: 同學可以輸入`?ggtheme`來查詢所有可用的theme
+  Output: 同學可以輸入：`?ggtheme`來查詢所有可用的theme
 
 - Class: cmd_question
   Output: |
@@ -406,7 +406,7 @@
 
 - Class: cmd_question
   Output: |
-    我們如果想要一個`race`的類別畫一張圖呢？請同學輸入：
+    我們如果想要一個`race`的類別畫一張圖呢？請同學輸入
     `g + facet_grid(. ~ race)`
   CorrectAnswer: g + facet_grid(. ~ race)
   AnswerTests: omnitest('g + facet_grid(. ~ race)')
@@ -442,15 +442,15 @@
 - Class: cmd_question
   Output: |
     我們自內政部資料開放平台下載了個村（里）戶籍人口統計月報表。有興趣的同學可以輸入：`population_src()`
-    來瀏覽資料來源。這裡請同學輸入：head(population)看一下這筆資料。
+    來瀏覽資料來源。這裡請同學輸入head(population)看一下這筆資料。
   CorrectAnswer: head(population)
   AnswerTests: omnitest('head(population)')
 
 - Class: cmd_question
   Output: |
     接下來我們會在每個步驟先畫一張圖給同學參考。請同學依照指示從`population`中畫出類似的圖。
-    受限於技術，目前我們只能請同學自行比對答案。完成之後請同學輸入`submit()`後就可以進行
-    下一個挑戰。請同學輸入`skip()`開始第一個挑戰。
+    受限於技術，目前我們只能請同學自行比對答案。完成之後請同學輸入：`submit()`後就可以進行
+    下一個挑戰。請同學輸入：`skip()`開始第一個挑戰。
   CorrectAnswer: begin_rvisualization_03()
   AnswerTests: rvisualization_03_hw_01()
   Hint: skip()

@@ -8,7 +8,7 @@ assign("cl_info",
          sep=",",stringsAsFactors=FALSE,header=TRUE),
        envir = globalenv())
 
-assign("flights",
-       read.table(file=file(.get_path("nyc13_01_flights.csv"), encoding = "UTF-8"),
-         sep=",",stringsAsFactors=FALSE,header=TRUE),
-       envir = globalenv())
+#assign("flights",
+#       read.table(file=file(.get_path("nyc13_01_flights.csv"), encoding = "UTF-8"),
+#        sep=",",stringsAsFactors=FALSE,header=TRUE),
+#       envir = globalenv())

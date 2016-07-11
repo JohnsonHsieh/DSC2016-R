@@ -123,7 +123,7 @@
   Hint: g + geom_bar(aes(x = sex))
 - Class: cmd_question
   Output: |
-    同學應該會看到「呈現性別分佈」的長條圖。請同學這次輸入：
+    同學應該會看到「呈現性別分佈」的長條圖。請同學這次輸入
     `g + geom_bar(aes(x = sex, fill = race))`
   CorrectAnswer: g + geom_bar(aes(x = sex, fill = race))
   AnswerTests: omnitest('g + geom_bar(aes(x = sex, fill = race))')
@@ -144,7 +144,7 @@
     比較相同sex中，不同race個數的差異。
 - Class: cmd_question
   Output: |
-    接著請同學輸入`skip()`檢查有無安裝dplyr
+    接著請同學輸入：`skip()`檢查有無安裝dplyr
   CorrectAnswer: check_then_install("dplyr", "0.4.3")
   AnswerTests: test_package_version("dplyr", "0.4.3")
   Hint: check_then_install("dplyr", "0.4.3")
@@ -168,7 +168,7 @@
 - Class: cmd_question
   Output: |
     我們會看到一張長條圖，指示兩種性別都是1。這是因為，在`answer01`中，兩種性別各佔一筆資料。
-    為了要讓長條圖理解值位於`count`的欄位，我們必須要改成輸入：
+    為了要讓長條圖理解值位於`count`的欄位，我們必須要改成輸入
     `ggplot(answer01, aes(x = sex, y = count)) + geom_bar(stat = "identity")`
   CorrectAnswer: ggplot(answer01, aes(x = sex, y = count)) + geom_bar(stat = "identity")
   AnswerTests: omnitest('ggplot(answer01, aes(x = sex, y = count)) + geom_bar(stat
@@ -202,7 +202,7 @@
   AnswerTests: omnitest('ggplot(hsb, aes(x = read, color = race)) + geom_density()')
   Hint: ggplot(hsb, aes(x = read, color = race)) + geom_density()
 - Class: cmd_question
-  Output: 請同學先輸入`?geom_density`打開說明
+  Output: 請同學先輸入：`?geom_density`打開說明
   CorrectAnswer: ?geom_density
   AnswerTests: omnitest('?geom_density')
   Hint: ?geom_density
@@ -225,12 +225,12 @@
   Output: |
     接著，我們輸入：`g <- ggplot(dat2, aes(x = sex, y = math.avg, fill = schtyp))`
     先建立一個基於dat2的ggplot物件。
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g <- ggplot(dat2, aes(x = sex, y = math.avg, fill = schtyp))
+  AnswerTests: omnitest('g <- ggplot(dat2, aes(x = sex, y = math.avg, fill = schtyp))')
+  Hint: g <- ggplot(dat2, aes(x = sex, y = math.avg, fill = schtyp))
 - Class: mult_question
   Output: |
-    請同學先回憶我們對`geom_bar`的參數`stat`的解說。請問同學，如果我們輸入：
+    請同學先回憶我們對`geom_bar`的參數`stat`的解說。請問同學，如果我們輸入
     `g + geom_bar(stat = <??>)`，`stat`的參數要給多少？
   AnswerChoices: bin;identity
   CorrectAnswer: identity
@@ -243,7 +243,7 @@
   Hint: g2 <- g + geom_bar(stat = "identity", position = "dodge")
 - Class: cmd_question
   Output: |
-    請同學輸入`g2`看一下繪圖結果。
+    請同學輸入：`g2`看一下繪圖結果。
   CorrectAnswer: g2
   AnswerTests: omnitest('g2')
   Hint: g2
@@ -253,9 +253,9 @@
     更貼心的是，圖例也已經自動產生了。
     如果我們要放大視覺化的差異，想要調整y軸的範圍呢？
     請同學輸入：`g2 + coord_cartesian(ylim=c(40,60))`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g2 + coord_cartesian(ylim=c(40,60))
+  AnswerTests: omnitest('g2 + coord_cartesian(ylim=c(40,60))')
+  Hint: g2 + coord_cartesian(ylim=c(40,60))
 - Class: text
   Output: |
     同學除了可以學習`coord_cartesian`這個語法之外，也可以注意到
@@ -266,21 +266,21 @@
   Output: |
     在上一堂課程中，我們有介紹過dotchart。ggplot2中也有提供類似的圖層: geom_point。
     請同學輸入：`g3 <- g + geom_point(aes(color = schtyp), size = 10)`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g3 <- g + geom_point(aes(color = schtyp), size = 10)
+  AnswerTests: omnitest('g3 <- g + geom_point(aes(color = schtyp), size = 10)')
+  Hint: g3 <- g + geom_point(aes(color = schtyp), size = 10)
 - Class: cmd_question
   Output: |
-    請輸入`g3`，看看繪圖結果。
+    請輸入：`g3`，看看繪圖結果。
   CorrectAnswer: g3
   AnswerTests: omnitest('g3')
   Hint: g3
 - Class: cmd_question
   Output: |
     如果要改成水平方向，可以使用：`g3 + coord_flip()`
-  CorrectAnswer: 3 + coord_flip()`
-  AnswerTests: omnitest('3 + coord_flip()`')
-  Hint: 3 + coord_flip()`
+  CorrectAnswer: g3 + coord_flip()
+  AnswerTests: omnitest('g3 + coord_flip()')
+  Hint: g3 + coord_flip()
 - Class: text
   Output: |
     ggplot2把這些跟座標軸的縮放、翻轉的功能都放到`coord`開頭的函數了。
@@ -292,23 +292,23 @@
     除了觀察單一統計量之外，統計學常用的boxplot，ggplot2也有支援。
     請同學輸入：`g <- ggplot(hsb, aes(x = sex, y = math, fill = schtyp))`
     我們先告訴ggplot2要如何對數據分組。
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g <- ggplot(hsb, aes(x = sex, y = math, fill = schtyp))
+  AnswerTests: omnitest('g <- ggplot(hsb, aes(x = sex, y = math, fill = schtyp))')
+  Hint: g <- ggplot(hsb, aes(x = sex, y = math, fill = schtyp))
 - Class: cmd_question
   Output: |
     接著，我們可以使用geom_boxplot產生圖層：
     `g + geom_boxplot()`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g + geom_boxplot()
+  AnswerTests: omnitest('g + geom_boxplot()')
+  Hint: g + geom_boxplot()
 - Class: cmd_question
   Output: |
     需要的話，我們可以增加更多欄位，讓boxplot有更多的變化。
     舉例來說，我們可以加上linetype: `g + geom_boxplot(aes(linetype = race))`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g + geom_boxplot(aes(linetype = race))
+  AnswerTests: omnitest('g + geom_boxplot(aes(linetype = race))')
+  Hint: g + geom_boxplot(aes(linetype = race))
 - Class: mult_question
   Output: |
     雖然這張圖有點複雜，但是因為ggplot2會自動生成圖例，所以仔細看也是很清楚地看到個群分組的差異。
@@ -320,12 +320,12 @@
 - Class: cmd_question
   Output: |
     接下來我們試試看畫散佈圖。請同學輸入：`g <- ggplot(hsb, aes(x = math, y = read))`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g <- ggplot(hsb, aes(x = math, y = read))
+  AnswerTests: omnitest('g <- ggplot(hsb, aes(x = math, y = read))')
+  Hint: g <- ggplot(hsb, aes(x = math, y = read))
 - Class: cmd_question
   Output: |
-    輸入`g + geom_point()`讓ggplot以散佈圖的方式繪製圖層。
+    輸入：`g + geom_point()`讓ggplot以散佈圖的方式繪製圖層。
   CorrectAnswer: g + geom_point()
   AnswerTests: omnitest('g + geom_point()')
   Hint: g + geom_point()
@@ -334,9 +334,10 @@
     還記得上一個課程最後所繪製的一張圖：，一口氣運用點的大小、形狀、顏色來表示science的表現、
     公立私立與學生的性別。我們也可以在ggplot2中做到：
     `g + geom_point(aes(size = science, pch = schtyp, color = sex))`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g + geom_point(aes(size = science, pch = schtyp, color = sex))
+  AnswerTests: omnitest('g + geom_point(aes(size = science, pch = schtyp, color =
+    sex))')
+  Hint: g + geom_point(aes(size = science, pch = schtyp, color = sex))
 - Class: text
   Output: |
     而且ggplot也自動加上圖標了！
@@ -360,7 +361,7 @@
   Hint: g <- ggplot(hsb, aes(x = sex, fill = race)) + geom_bar()
 - Class: cmd_question
   Output: |
-    我們讓R畫出沒修正的版本。請輸入`g`
+    我們讓R畫出沒修正的版本。請輸入：`g`
   CorrectAnswer: g
   AnswerTests: omnitest("g")
   Hint: g
@@ -381,7 +382,7 @@
   AnswerTests: omnitest("g + theme_minimal()")
   Hint: g + theme_minimal()
 - Class: text
-  Output: 同學可以輸入`?ggtheme`來查詢所有可用的theme
+  Output: 同學可以輸入：`?ggtheme`來查詢所有可用的theme
 - Class: cmd_question
   Output: |
     同學也可以使用`ggsave`來把圖片輸出到檔案中。請同學先輸入：`dst <- tempfile(fileext = ".png")`
@@ -403,7 +404,7 @@
   Hint: g <- ggplot(hsb, aes(x = read, y = math)) + geom_point()
 - Class: cmd_question
   Output: |
-    我們如果想要一個`race`的類別畫一張圖呢？請同學輸入：
+    我們如果想要一個`race`的類別畫一張圖呢？請同學輸入
     `g + facet_grid(. ~ race)`
   CorrectAnswer: g + facet_grid(. ~ race)
   AnswerTests: omnitest('g + facet_grid(. ~ race)')
@@ -430,24 +431,24 @@
     如果我們想要看read, write, math, science 兩兩組合的x-y散佈圖，
     我們只要輸入：`ggpairs(hsb, 7:10)`
     註: 這些欄位分別位於hsb的第7至第10欄。
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: ggpairs(hsb, 7:10)
+  AnswerTests: omnitest('ggpairs(hsb, 7:10)')
+  Hint: ggpairs(hsb, 7:10)
 - Class: text
   Output: |
     我們這堂課對ggplot2的介紹就到這裡了。接下來就是挑戰時間。
 - Class: cmd_question
   Output: |
     我們自內政部資料開放平台下載了個村（里）戶籍人口統計月報表。有興趣的同學可以輸入：`population_src()`
-    來瀏覽資料來源。這裡請同學輸入：head(population)看一下這筆資料。
+    來瀏覽資料來源。這裡請同學輸入head(population)看一下這筆資料。
   CorrectAnswer: head(population)
   AnswerTests: omnitest('head(population)')
   Hint: head(population)
 - Class: cmd_question
   Output: |
     接下來我們會在每個步驟先畫一張圖給同學參考。請同學依照指示從`population`中畫出類似的圖。
-    受限於技術，目前我們只能請同學自行比對答案。完成之後請同學輸入`submit()`後就可以進行
-    下一個挑戰。請同學輸入`skip()`開始第一個挑戰。
+    受限於技術，目前我們只能請同學自行比對答案。完成之後請同學輸入：`submit()`後就可以進行
+    下一個挑戰。請同學輸入：`skip()`開始第一個挑戰。
   CorrectAnswer: begin_rvisualization_03()
   AnswerTests: rvisualization_03_hw_01()
   Hint: skip()

@@ -42,6 +42,18 @@
     接下來的課程中，我們就依照這份文件的脈落，用肌肉記住它們。
 - Class: cmd_question
   Output: |
+    請同學安裝nycflights13的資料。已經載入的同學可以輸入`skip()`
+  CorrectAnswer: check_then_install("nycflights13", "0.1")
+  AnswerTests: test_package_version("nycflights13", "0.1")
+  Hint: check_then_install("nycflights13", "0.1")
+- Class: cmd_question
+  Output: |
+    請同學載入套件：`nycflights13`
+  CorrectAnswer: library(nycflights13)
+  AnswerTests: test_search_path("nycflights13")
+  Hint: library(nycflights13)
+- Class: cmd_question
+  Output: |
     nycflights13的`flights`，有航空公司的簡稱（在`carrier`欄位）。
     而`airlines`中則有航空公司的全名。做上一課時，我們已經看過`flights`
     的資料了。現在請同學輸入：`View(airlines)`看一下航空公司的資料。

@@ -1,6 +1,6 @@
 - Class: meta
   Course: DataScienceAndR
-  Lesson: X3-Challenge-02-PirateVisualization
+  Lesson: DE_X3-Challenge-02-PirateVisualization
   Author: Wush Wu
   Type: Standard
   Organization: Taiwan R User Group
@@ -53,15 +53,15 @@
   Output: |
     接著我們輸入：`g <- gvisBarChart(dat1)`建立一個gvis物件。如果同學
     去探索這個物件，會發現它是一個網頁的HTML。
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g <- gvisBarChart(dat1)
+  AnswerTests: omnitest('g <- gvisBarChart(dat1)')
+  Hint: g <- gvisBarChart(dat1)
 - Class: cmd_question
   Output: |
     接著，我們輸入：`plot(g)`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: plot(g)
+  AnswerTests: omnitest('plot(g)')
+  Hint: plot(g)
 - Class: text
   Output: |
     同學的電腦瀏覽器中，就會打開一個網頁，上面繪製著一份barchart。
@@ -84,9 +84,9 @@
 - Class: cmd_question
   Output: |
     接著我們試著執行：`dcast(dat1, race ~ sex)`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: dcast(dat1, race ~ sex)
+  AnswerTests: omnitest('dcast(dat1, race ~ sex)')
+  Hint: dcast(dat1, race ~ sex)
 - Class: text
   Output: |
     同學會看到sex欄位被拉到data.frame的欄位，也就是female一欄，male一欄。
@@ -94,9 +94,9 @@
   Output: |
     讓我們把這筆資料餵給gvisBarChart後呈現在網頁上。請同學輸入：
     `dcast(dat1, race ~ sex) %>% gvisBarChart() %>% plot()`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: dcast(dat1, race ~ sex) %>% gvisBarChart() %>% plot()
+  AnswerTests: omnitest('dcast(dat1, race ~ sex) %>% gvisBarChart() %>% plot()')
+  Hint: dcast(dat1, race ~ sex) %>% gvisBarChart() %>% plot()
 - Class: text
   Output: |
     這次就會看到不同的性別有不同的顏色。
@@ -104,9 +104,9 @@
   Output: |
     接著我們挑出read和math做scatter plot。請同學輸入：
     `select(hsb, read, math) %>% gvisScatterChart() %>% plot()`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: select(hsb, read, math) %>% gvisScatterChart() %>% plot()
+  AnswerTests: omnitest('select(hsb, read, math) %>% gvisScatterChart() %>% plot()')
+  Hint: select(hsb, read, math) %>% gvisScatterChart() %>% plot()
 - Class: text
   Output: |
     目前googleVis整合了google Chart API，提供了許多功能。但是和ggplot2相比，它的功能相對簡單。
@@ -164,9 +164,9 @@
 - Class: cmd_question
   Output: |
     eq是來自<http://earthquake.usgs.gov>所抓取的地震資料。請同學輸入`View(eq)`看一下這筆資料。
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: View(eq)
+  AnswerTests: omnitest('View(eq)')
+  Hint: View(eq)
 - Class: text
   Output: |
     同學可以看到eq中有提供地震的位置(經緯度：longitude, latitude)和地震的規模(mag)
@@ -188,15 +188,15 @@
 - Class: cmd_question
   Output: |
     我們接著建立ggplot物件：`g <- ggmap(twmap, extent = "device")`
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g <- ggmap(twmap, extent = "device")
+  AnswerTests: omnitest('g <- ggmap(twmap, extent = "device")')
+  Hint: g <- ggmap(twmap, extent = "device")
 - Class: cmd_question
   Output: |
     我們輸入`g`看一下剛剛抓回來的圖資。
-  CorrectAnswer: .na.character
-  AnswerTests: omnitest('NA')
-  Hint: .na.character
+  CorrectAnswer: g
+  AnswerTests: omnitest('g')
+  Hint: g
 - Class: cmd_question
   Output: |
     接著請同學輸入：`g + geom_point(aes(x = longitude, y = latitude), data = eq)`

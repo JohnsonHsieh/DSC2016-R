@@ -24,22 +24,22 @@ assign("gdp_path",
        .get_path("GDP.txt"),
        envir = globalenv())
 
-assign("flights",
-       read.table(file=file(.get_path("nyc13_01_flights.csv"), encoding = "UTF-8"),
-         sep=",",stringsAsFactors=FALSE,header=TRUE),
-       envir = globalenv())
+#assign("flights",
+#       read.table(file=file(.get_path("nyc13_01_flights.csv"), encoding = "UTF-8"),
+#         sep=",",stringsAsFactors=FALSE,header=TRUE),
+#       envir = globalenv())
 
-assign("airlines",
-       read.table(file=file(.get_path("nyc13_01_airlines.csv"), encoding = "UTF-8"),
-         sep=",",stringsAsFactors=FALSE,header=TRUE),
-       envir = globalenv())
+#assign("airlines",
+#       read.table(file=file(.get_path("nyc13_01_airlines.csv"), encoding = "UTF-8"),
+#         sep=",",stringsAsFactors=FALSE,header=TRUE),
+#       envir = globalenv())
 
-assign("weather",
-       read.table(file=file(.get_path("nyc13_01_weather.csv"), encoding = "UTF-8"),
-         sep=",",stringsAsFactors=FALSE,header=TRUE),
-       envir = globalenv())
+#assign("weather",
+#       read.table(file=file(.get_path("nyc13_01_weather.csv"), encoding = "UTF-8"),
+#         sep=",",stringsAsFactors=FALSE,header=TRUE),
+#       envir = globalenv())
 
-assign("airports",
-       read.table(file=file(.get_path("nyc13_01_airports.csv"), encoding = "UTF-8"),
-         sep=",",stringsAsFactors=FALSE,header=TRUE),
-       envir = globalenv())
+#assign("airports",
+#       read.table(file=file(.get_path("nyc13_01_airports.csv"), encoding = "UTF-8"),
+#         sep=",",stringsAsFactors=FALSE,header=TRUE),
+#       envir = globalenv())
