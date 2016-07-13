@@ -146,5 +146,5 @@
   AnswerTests: rdatamining_01_test()
 - Class: script
   Output: 最後，我們提供一個台電決標公告資料分析範例作為本課程的小結。請同學直接執行RDataMining-Taipower.R的範例碼，看完結果後回到 console 輸入`submit()`已完成本次課程。
-  Script: rstatistics-02-03-02.R
-  AnswerTests: rstatistics_02_03_02()
+  Script: RDataMining-Taipower.R
+  AnswerTests: rdatamining_taipower_test()

@@ -52,3 +52,19 @@ rdatamining_01_test <- function() {
     FALSE
   })
 }
+
+rdatamining_taipower_test <- function(){
+    e <- get("e", parent.frame())
+        tryCatch({
+        for(name in name.list) {
+            if (!isTRUE(all.equal(
+            get(name, envir = globalenv()),
+            reference
+            ))) stop(sprintf("%s is wrong! Try again.\n", name))
+        }
+        TRUE
+    }, error = function(e) {
+        cat(conditionMessage(e))
+        FALSE
+    })
+}
