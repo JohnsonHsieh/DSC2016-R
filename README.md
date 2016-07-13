@@ -1,8 +1,8 @@
-# R 語言資料工程及探勘實務 (DSC2016) 課程教材 
+# R 語言資料工程及探勘實務 (DSC2016) 課程教材
 
 作者群
 - 吳齊軒 / 國立臺灣大學電機所博士生
-- 許懷中 / 中研院資科所博士後研究員 
+- 許懷中 / 中研院資科所博士後研究員
 - 謝宗震 / DSP 智庫驅動資料科學家
 
 
@@ -37,8 +37,7 @@ install_course_github("JohnsonHsieh", "DSC2016-R", "course")
 ```
 
 ## 課程公布欄
-- [共同筆記]()
-- [關卡提示]()
-- [討論聊天]()
-- [臭蟲回報]()
-
+- [共同筆記](https://dsp.hackpad.com/R--zX1JuCX7uEF)
+- [關卡提示](https://johnsonhsieh.github.io/DSC2016-R/note/)
+- [討論聊天](https://gitter.im/JohnsonHsieh/DSC2016-R)
+- [臭蟲回報](https://github.com/JohnsonHsieh/DSC2016-R/issues)
