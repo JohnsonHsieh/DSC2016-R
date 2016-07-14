@@ -111,209 +111,197 @@ $(document).ready(function () {
 </div>
 
 
-<pre><code>            ## 關卡 1
-            這門課程會跟同學介紹在R中常用的三種Clustering算法。第一種是HierarchicalClustering，第二種是K-means，第三種是套件fpc提供的DensityBasedClustering演算法。
-            
-
-            ## 關卡 2
-            我們第一個要介紹的是`hclust`這個算法。請同學先輸入`?hclust`打開`hclust`的說明頁面。
-            ```r
-            ?hclust
-            ```
-            
-
-            ## 關卡 3
-            hclust這個函數是用來計算HierarchicalClustring。它的參數共有三個。而第一個參數d則是用來接受用`dist`指令建立的距離矩陣。請同學先輸入：`d&lt;-dist(iris[c(1:2,51:52,101:102),1:4])`用iris的資料建立6筆量測數據間的距離。
-            ```r
-            d &lt;- dist(iris[c(1:2, 51:52, 101:102),1:4])
-            ```
-            
-
-            ## 關卡 4
-            我們先請同學試試看輸入：`cl&lt;-hclust(d)`
-            ```r
-            cl &lt;- hclust(d)
-            ```
-            
-
-            ## 關卡 5
-            接著請同學輸入`plot(cl)`來簡單看看hclust的結果。
-            ```r
-            plot(cl)
-            ```
-            
-
-            ## 關卡 6
-            由圖中可以看到，最下方的地方，hclust把每個資料點都當成是單獨的Cluster。然後依照距離，挑出兩個距離最近的Cluster，合併成一個Cluster。然後一直重複做出同樣的動作。由下往上看，我們可以看出iris的第1和第2筆資料最像，所以被先合併成一個Cluster。接下來是第51和第52，然後是101和102筆資料。接著，51、52、101和102合併成一個Cluster，最後是所有的資料合併成一個單一的Cluster。
-            
-
-            ## 關卡 7
-            請問同學，iris的第51和52，以及101和102筆資料，何者比較相近？1)51和52，2)101和102。
-            1
-            
-
-            ## 關卡 8
-            如果我們希望把這六筆資料分成三群，可以輸入：`cl2&lt;-cutree(cl,k=3)`，請同學試試看。
-            ```r
-            cl2 &lt;- cutree(cl, k = 3)
-            ```
-            
-
-            ## 關卡 9
-            rect.hclust會由上而下，依照距離，分出在計算hclust時最後三個才合併的cluster。請同學輸入：`rect.hclust(cl,k=3)`，就可以在圖上看到結果。
-            ```r
-            rect.hclust(cl, k = 3)
-            ```
-            
-
-            ## 關卡 10
-            接下來我們來看一下`cl2`的型態。請同學輸入`class(cl2)`。
-            ```r
-            class(cl2)
-            ```
-            
-
-            ## 關卡 11
-            每個`cl2`的element，就代表是對應資料所分配到的cluster編號。請同學把cl2印出來看看。
-            ```r
-            cl2
-            ```
-            
-
-            ## 關卡 12
-            同學應該會看到，cl2這個整數向量中包含了三個cluster，並且R透過cl2告訴我們每一筆資料被分配到第幾個cluster。
-            
-
-            ## 關卡 13
-            請問第一筆資料，被分第幾個cluster？
-            1
-            
-
-            ## 關卡 14
-            在使用許多R提供的Cluster演算法，常常最終目標就是要拿到一個類似cl2的整數向量。
-            
-
-            ## 關卡 15
-            接著我們來試試看R提供的`kmeans`函數。請同學打開`kmeans`的說明文件。
-            ```r
-            ?kmeans
-            ```
-            
-
-            ## 關卡 16
-            請同學輸入：`cl3&lt;-kmeans(iris[,1:4],centers=3)`
-            ```r
-            cl3 &lt;- kmeans(iris[,1:4], centers = 3)
-            ```
-            
-
-            ## 關卡 17
-            請同學參閱說明文件中的Value的段落。請問哪一個cl3的元素會包含各筆資料的分群結果，也就是類似cl2這樣的整數向量呢？
-            cluster
-            
-
-            ## 關卡 18
-            透過說明文件，同學應該也能查閱到R中的`kmeans`所支援的演算法，以及提供的各種計算數據。
-            
-
-            ## 關卡 19
-            最後我們請同學安裝fpc套件。
-            ```r
-            check_then_install(&quot;fpc&quot;, &quot;2.1.10&quot;)
-            ```
-            
-
-            ## 關卡 20
-            接著，我們載入fpc套件。
-            ```r
-            library(fpc)
-            ```
-            
-
-            ## 關卡 21
-            請同學打開`dbscan`函數的說明文件。
-            ```r
-            ?dbscan
-            ```
-            
-
-            ## 關卡 22
-            請問dbscan的第一個參數，「不能」接受以下哪一種物件？請同學參考Arguments章節的說明作答。
-            numeric vector
-            
-
-            ## 關卡 23
-            請問參數`data`使用哪一種型態的物件時，需要額外設定`method`參數為`&quot;dist&quot;`？
-            dissimilarity matrix or dist-object
-            
-
-            ## 關卡 24
-            這裡提到的`dist-object`就是之前在介紹hclust函數時提到的`dist`函數。
-            
-
-            ## 關卡 25
-            同學也可以趁機認知一見事情：Cluster的核心之一，就是如何計算資料點之間的距離。除了常用的歐式距離(Euclideandistance)之外，我們也能用dist搭配其他計算距離的演算法來建構`dist-object`，再使用Cluster演算法。
-            
-
-            ## 關卡 26
-            回到主題。dbscan中最重要的兩個參數就是`eps`和`MinPts`。同學可以參考&lt;https://en.wikipedia.org/wiki/DBSCAN#Preliminary&gt;理解eps（圖中的圓圈半徑）和MinPts（要多少點聚集在一起才能成為一個Cluster的一部分）
-            
-
-            ## 關卡 27
-            請同學輸入：`cl4&lt;-dbscan(iris[,1:4],0.42)`
-            ```r
-            cl4 &lt;- dbscan(iris[,1:4], 0.42)
-            ```
-            
-
-            ## 關卡 28
-            請同學回答：「哪一個cl4的element，會是每一筆資料被分配的Cluster結果（一個整數向量）」。同學可以參考說明文件中的Value段的說明。
-            cluster
-            
-
-            ## 關卡 29
-            讓我們輸入`cl4$cluster`，看看分群結果。
-            ```r
-            cl4$cluster
-            ```
-            
-
-            ## 關卡 30
-            除了數字1,2,和3之外，同學還會看到數字0。在dbscan的輸出中，0的意義是？A)一種clusterB)雜訊。請同學依照說明文件中的解釋作答。
-            B
-            
-
-            ## 關卡 31
-            我們對分群演算法的使用就介紹就到這了。請同學完成以下綜合練習，結束之後請輸入`submit()`檢查正確性。
-            ```r
-            #' 請同學先安裝 mlbench 這個套件後進行這份作業</code></pre>
-<p>check_then_install &lt;- function(pkg_name, pkg_version) { if (!require(pkg_name, character.only = TRUE)) utils::install.packages(pkg_name, repos = “<a href="http://cran.r-project.org" class="uri">http://cran.r-project.org</a>”) else { if (packageVersion(pkg_name) &lt; package_version(pkg_version)) utils::install.packages(pkg_name, repos = “<a href="http://cran.r-project.org" class="uri">http://cran.r-project.org</a>”) } } check_then_install(“mlbench”, “2.1.1”) library(mlbench)</p>
-<p>set.seed(1) shapes &lt;- mlbench.shapes(500) table(shapes<span class="math inline">\(classes) d.shapes &lt;- dist(shapes\)</span>x)</p>
-<div id="hclust-hierarchical-clustering-4cluster" class="section level1">
-<h1>‘請使用hclust 的預設參數，建立一個Hierarchical Clustering的結果 #’ 再從上述結果產生一個有4群的Cluster結果</h1>
-<p>cl1 &lt;- { NULL #’ 請在這邊輸入你的程式碼 }</p>
-<p>cl1 &lt;- { tmp &lt;- hclust(d.shapes) cutree(tmp, 4) }</p>
+<div id="-1" class="section level2">
+<h2>關卡 1</h2>
+<p>這門課程會跟同學介紹在R中常用的三種Clustering算法。第一種是HierarchicalClustering，第二種是K-means，第三種是套件fpc提供的DensityBasedClustering演算法。</p>
 </div>
-<div id="integer-vector" class="section level1">
-<h1>’ 結果應該是一個integer vector</h1>
-<p>stopifnot(class(cl1)[1] == “integer”)</p>
+<div id="-2" class="section level2">
+<h2>關卡 2</h2>
+<p>我們第一個要介紹的是<code>hclust</code>這個算法。請同學先輸入<code>?hclust</code>打開<code>hclust</code>的說明頁面。</p>
+<pre class="r"><code>?hclust</code></pre>
 </div>
-<div id="k.means-cluster-centers-shapesxc1126251-376" class="section level1">
-<h1>‘請使用k.means 和以下參數得到第二個cluster的結果 #’ centers = shapes$x[c(1,126,251, 376),]</h1>
-<p>cl2 &lt;- { NULL #’ 請在這邊輸入你的程式碼 }</p>
-<p>cl2 &lt;- { kmeans(shapes<span class="math inline">\(x, centers = shapes\)</span>x[c(1,126,251, 376),])$cluster }</p>
+<div id="-3" class="section level2">
+<h2>關卡 3</h2>
+<p>hclust這個函數是用來計算HierarchicalClustring。它的參數共有三個。而第一個參數d則是用來接受用<code>dist</code>指令建立的距離矩陣。請同學先輸入：<code>d&lt;-dist(iris[c(1:2,51:52,101:102),1:4])</code>用iris的資料建立6筆量測數據間的距離。</p>
+<pre class="r"><code>d &lt;- dist(iris[c(1:2, 51:52, 101:102),1:4])</code></pre>
 </div>
-<div id="integer-vector-1" class="section level1">
-<h1>’ 結果應該是一個integer vector</h1>
-<p>stopifnot(class(cl2)[1] == “integer”)</p>
-<p>cl3 &lt;- { NULL #’ 請在這邊輸入你的程式碼 }</p>
-<p>cl3 &lt;- { as.integer(dbscan(d.shapes, eps = 0.5, method = “dist”)$cluster) }</p>
+<div id="-4" class="section level2">
+<h2>關卡 4</h2>
+<p>我們先請同學試試看輸入：<code>cl&lt;-hclust(d)</code></p>
+<pre class="r"><code>cl &lt;- hclust(d)</code></pre>
 </div>
-<div id="integer-vector-2" class="section level1">
-<h1>’ 結果應該是一個integer vector</h1>
-<p>stopifnot(class(cl3)[1] == “integer” | class(cl3)[1] == “numeric”)</p>
-<pre><code>            ```
-            </code></pre>
+<div id="-5" class="section level2">
+<h2>關卡 5</h2>
+<p>接著請同學輸入<code>plot(cl)</code>來簡單看看hclust的結果。</p>
+<pre class="r"><code>plot(cl)</code></pre>
+</div>
+<div id="-6" class="section level2">
+<h2>關卡 6</h2>
+<p>由圖中可以看到，最下方的地方，hclust把每個資料點都當成是單獨的Cluster。然後依照距離，挑出兩個距離最近的Cluster，合併成一個Cluster。然後一直重複做出同樣的動作。由下往上看，我們可以看出iris的第1和第2筆資料最像，所以被先合併成一個Cluster。接下來是第51和第52，然後是101和102筆資料。接著，51、52、101和102合併成一個Cluster，最後是所有的資料合併成一個單一的Cluster。</p>
+</div>
+<div id="-7" class="section level2">
+<h2>關卡 7</h2>
+<p>請問同學，iris的第51和52，以及101和102筆資料，何者比較相近？1)51和52，2)101和102。 1</p>
+</div>
+<div id="-8" class="section level2">
+<h2>關卡 8</h2>
+<p>如果我們希望把這六筆資料分成三群，可以輸入：<code>cl2&lt;-cutree(cl,k=3)</code>，請同學試試看。</p>
+<pre class="r"><code>cl2 &lt;- cutree(cl, k = 3)</code></pre>
+</div>
+<div id="-9" class="section level2">
+<h2>關卡 9</h2>
+<p>rect.hclust會由上而下，依照距離，分出在計算hclust時最後三個才合併的cluster。請同學輸入：<code>rect.hclust(cl,k=3)</code>，就可以在圖上看到結果。</p>
+<pre class="r"><code>rect.hclust(cl, k = 3)</code></pre>
+</div>
+<div id="-10" class="section level2">
+<h2>關卡 10</h2>
+<p>接下來我們來看一下<code>cl2</code>的型態。請同學輸入<code>class(cl2)</code>。</p>
+<pre class="r"><code>class(cl2)</code></pre>
+</div>
+<div id="-11" class="section level2">
+<h2>關卡 11</h2>
+<p>每個<code>cl2</code>的element，就代表是對應資料所分配到的cluster編號。請同學把cl2印出來看看。</p>
+<pre class="r"><code>cl2</code></pre>
+</div>
+<div id="-12" class="section level2">
+<h2>關卡 12</h2>
+<p>同學應該會看到，cl2這個整數向量中包含了三個cluster，並且R透過cl2告訴我們每一筆資料被分配到第幾個cluster。</p>
+</div>
+<div id="-13" class="section level2">
+<h2>關卡 13</h2>
+<p>請問第一筆資料，被分第幾個cluster？ 1</p>
+</div>
+<div id="-14" class="section level2">
+<h2>關卡 14</h2>
+<p>在使用許多R提供的Cluster演算法，常常最終目標就是要拿到一個類似cl2的整數向量。</p>
+</div>
+<div id="-15" class="section level2">
+<h2>關卡 15</h2>
+<p>接著我們來試試看R提供的<code>kmeans</code>函數。請同學打開<code>kmeans</code>的說明文件。</p>
+<pre class="r"><code>?kmeans</code></pre>
+</div>
+<div id="-16" class="section level2">
+<h2>關卡 16</h2>
+<p>請同學輸入：<code>cl3&lt;-kmeans(iris[,1:4],centers=3)</code></p>
+<pre class="r"><code>cl3 &lt;- kmeans(iris[,1:4], centers = 3)</code></pre>
+</div>
+<div id="-17" class="section level2">
+<h2>關卡 17</h2>
+<p>請同學參閱說明文件中的Value的段落。請問哪一個cl3的元素會包含各筆資料的分群結果，也就是類似cl2這樣的整數向量呢？ cluster</p>
+</div>
+<div id="-18" class="section level2">
+<h2>關卡 18</h2>
+<p>透過說明文件，同學應該也能查閱到R中的<code>kmeans</code>所支援的演算法，以及提供的各種計算數據。</p>
+</div>
+<div id="-19" class="section level2">
+<h2>關卡 19</h2>
+<p>最後我們請同學安裝fpc套件。</p>
+<pre class="r"><code>check_then_install(&quot;fpc&quot;, &quot;2.1.10&quot;)</code></pre>
+</div>
+<div id="-20" class="section level2">
+<h2>關卡 20</h2>
+<p>接著，我們載入fpc套件。</p>
+<pre class="r"><code>library(fpc)</code></pre>
+</div>
+<div id="-21" class="section level2">
+<h2>關卡 21</h2>
+<p>請同學打開<code>dbscan</code>函數的說明文件。</p>
+<pre class="r"><code>?dbscan</code></pre>
+</div>
+<div id="-22" class="section level2">
+<h2>關卡 22</h2>
+<p>請問dbscan的第一個參數，「不能」接受以下哪一種物件？請同學參考Arguments章節的說明作答。 numeric vector</p>
+</div>
+<div id="-23" class="section level2">
+<h2>關卡 23</h2>
+<p>請問參數<code>data</code>使用哪一種型態的物件時，需要額外設定<code>method</code>參數為<code>&quot;dist&quot;</code>？ dissimilarity matrix or dist-object</p>
+</div>
+<div id="-24" class="section level2">
+<h2>關卡 24</h2>
+<p>這裡提到的<code>dist-object</code>就是之前在介紹hclust函數時提到的<code>dist</code>函數。</p>
+</div>
+<div id="-25" class="section level2">
+<h2>關卡 25</h2>
+<p>同學也可以趁機認知一見事情：Cluster的核心之一，就是如何計算資料點之間的距離。除了常用的歐式距離(Euclideandistance)之外，我們也能用dist搭配其他計算距離的演算法來建構<code>dist-object</code>，再使用Cluster演算法。</p>
+</div>
+<div id="-26" class="section level2">
+<h2>關卡 26</h2>
+<p>回到主題。dbscan中最重要的兩個參數就是<code>eps</code>和<code>MinPts</code>。同學可以參考<a href="https://en.wikipedia.org/wiki/DBSCAN#Preliminary" class="uri">https://en.wikipedia.org/wiki/DBSCAN#Preliminary</a>理解eps（圖中的圓圈半徑）和MinPts（要多少點聚集在一起才能成為一個Cluster的一部分）</p>
+</div>
+<div id="-27" class="section level2">
+<h2>關卡 27</h2>
+<p>請同學輸入：<code>cl4&lt;-dbscan(iris[,1:4],0.42)</code></p>
+<pre class="r"><code>cl4 &lt;- dbscan(iris[,1:4], 0.42)</code></pre>
+</div>
+<div id="-28" class="section level2">
+<h2>關卡 28</h2>
+<p>請同學回答：「哪一個cl4的element，會是每一筆資料被分配的Cluster結果（一個整數向量）」。同學可以參考說明文件中的Value段的說明。 cluster</p>
+</div>
+<div id="-29" class="section level2">
+<h2>關卡 29</h2>
+<p>讓我們輸入<code>cl4$cluster</code>，看看分群結果。</p>
+<pre class="r"><code>cl4$cluster</code></pre>
+</div>
+<div id="-30" class="section level2">
+<h2>關卡 30</h2>
+<p>除了數字1,2,和3之外，同學還會看到數字0。在dbscan的輸出中，0的意義是？A)一種clusterB)雜訊。請同學依照說明文件中的解釋作答。 B</p>
+</div>
+<div id="-31" class="section level2">
+<h2>關卡 31</h2>
+<p>我們對分群演算法的使用就介紹就到這了。請同學完成以下綜合練習，結束之後請輸入<code>submit()</code>檢查正確性。</p>
+<pre class="r"><code>#' 請同學先安裝 mlbench 這個套件後進行這份作業
+check_then_install &lt;- function(pkg_name, pkg_version) {
+  if (!require(pkg_name, character.only = TRUE)) utils::install.packages(pkg_name, repos = &quot;http://cran.r-project.org&quot;) else {
+    if (packageVersion(pkg_name) &lt; package_version(pkg_version)) utils::install.packages(pkg_name, repos = &quot;http://cran.r-project.org&quot;)
+  }
+}
+check_then_install(&quot;mlbench&quot;, &quot;2.1.1&quot;)
+library(mlbench)
+
+set.seed(1)
+shapes &lt;- mlbench.shapes(500)
+table(shapes$classes)
+d.shapes &lt;- dist(shapes$x)
+
+#' 請使用hclust 的預設參數，建立一個Hierarchical Clustering的結果
+#' 再從上述結果產生一個有4群的Cluster結果
+cl1 &lt;- {
+  NULL #' 請在這邊輸入你的程式碼
+}
+
+cl1 &lt;- {
+  tmp &lt;- hclust(d.shapes)
+  cutree(tmp, 4)
+}
+
+#' 結果應該是一個integer vector
+stopifnot(class(cl1)[1] == &quot;integer&quot;)
+
+#' 請使用k.means 和以下參數得到第二個cluster的結果
+#' centers = shapes$x[c(1,126,251, 376),]
+
+cl2 &lt;- {
+  NULL #' 請在這邊輸入你的程式碼
+}
+
+cl2 &lt;- {
+  kmeans(shapes$x, centers = shapes$x[c(1,126,251, 376),])$cluster
+}
+
+#' 結果應該是一個integer vector
+stopifnot(class(cl2)[1] == &quot;integer&quot;)
+
+cl3 &lt;- {
+  NULL #' 請在這邊輸入你的程式碼
+}
+
+cl3 &lt;- {
+  as.integer(dbscan(d.shapes, eps = 0.5, method = &quot;dist&quot;)$cluster)
+}
+
+#' 結果應該是一個integer vector
+stopifnot(class(cl3)[1] == &quot;integer&quot; | class(cl3)[1] == &quot;numeric&quot;)
+</code></pre>
 </div>
 
 

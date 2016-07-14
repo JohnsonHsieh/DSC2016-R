@@ -111,279 +111,232 @@ $(document).ready(function () {
 </div>
 
 
-<pre><code>            ## 關卡 1
-            這門課程會跟同學介紹在R中常用的AssociationRule算法。
-            
+<div id="-1" class="section level2">
+<h2>關卡 1</h2>
+<p>這門課程會跟同學介紹在R中常用的AssociationRule算法。</p>
+</div>
+<div id="-2" class="section level2">
+<h2>關卡 2</h2>
+<p>首先請同學安裝arules這個套件。</p>
+<pre class="r"><code>check_then_install(&quot;arules&quot;, &quot;1.3.0&quot;)</code></pre>
+</div>
+<div id="-3" class="section level2">
+<h2>關卡 3</h2>
+<p>載入arules套件。</p>
+<pre class="r"><code>library(arules)</code></pre>
+</div>
+<div id="-4" class="section level2">
+<h2>關卡 4</h2>
+<p>接著，我們查一查arules有沒有vignette。</p>
+<pre class="r"><code>vignette(package = &quot;arules&quot;)</code></pre>
+</div>
+<div id="-5" class="section level2">
+<h2>關卡 5</h2>
+<p>有一篇名叫arules的vignette。麻煩同學先打開它。</p>
+<pre class="r"><code>vignette(&quot;arules&quot;, package = &quot;arules&quot;)</code></pre>
+</div>
+<div id="-6" class="section level2">
+<h2>關卡 6</h2>
+<p>這篇文章仔細的介紹arules套件所提供的演算法、參數，以及提供了範例。如果想要深入了解apriori演算法的同學，可以花點時間細讀這份文件。</p>
+</div>
+<div id="-7" class="section level2">
+<h2>關卡 7</h2>
+<p>讓我們先看看arules提供的apriori函數。請同學先打開apriori函數的說明頁面。</p>
+<pre class="r"><code>?apriori</code></pre>
+</div>
+<div id="-8" class="section level2">
+<h2>關卡 8</h2>
+<p>請問下列哪一個「不是」apriori函數的參數？請參考說明文件作答。 confidence</p>
+</div>
+<div id="-9" class="section level2">
+<h2>關卡 9</h2>
+<p>apriori的data參數必須要是transactions型態。所以我們要先探索何謂transactions型態的物件</p>
+</div>
+<div id="-10" class="section level2">
+<h2>關卡 10</h2>
+<p>請同學輸入：<code>?&quot;transactions-class&quot;</code>來打開transactions的說明文件。這裡因為文字中包含<code>-</code>這個符號，所以要用雙引號。</p>
+<pre class="r"><code>?&quot;transactions-class&quot;</code></pre>
+</div>
+<div id="-11" class="section level2">
+<h2>關卡 11</h2>
+<p>請問transactions物件預設「不能」從哪些物件轉換而來？請參考Details章節作答。 numeric vector</p>
+</div>
+<div id="-12" class="section level2">
+<h2>關卡 12</h2>
+<p>AssociationRules要挖掘的，就是透過探索哪些物品(Item)會共同出現在哪些交易(Transaction)中，而衍生出來的技術。在R裡面，我們要透過list、matrix或data.frame來告訴R這些物品和交易的資訊。</p>
+</div>
+<div id="-13" class="section level2">
+<h2>關卡 13</h2>
+<p>舉例來說，如果我們有三種物品：<code>c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)</code>。而第一筆交易有<code>c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)</code>，第二筆交易有<code>c(&quot;a&quot;,&quot;b&quot;)</code>，那我們就可以建立以下的list：<code>record_list&lt;-list(c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;),c(&quot;a&quot;,&quot;b&quot;))</code>請同學試試看。</p>
+<pre class="r"><code>record_list &lt;- list(c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), c(&quot;a&quot;, &quot;b&quot;))</code></pre>
+</div>
+<div id="-14" class="section level2">
+<h2>關卡 14</h2>
+<p>有了<code>record_list</code>之後，我們可以利用<code>as</code>來把<code>record_list</code>轉換成transactions物件。請同學輸入：<code>record&lt;-as(record_list,&quot;transactions&quot;)</code></p>
+<pre class="r"><code>record &lt;- as(record_list, &quot;transactions&quot;)</code></pre>
+</div>
+<div id="-15" class="section level2">
+<h2>關卡 15</h2>
+<p>我們來看看record的結果。請同學輸入：<code>record</code></p>
+<pre class="r"><code>record</code></pre>
+</div>
+<div id="-16" class="section level2">
+<h2>關卡 16</h2>
+<p>我們看到了2筆交易，因為<code>length(record_list)</code>為2。而且我們看到了3個物品，它們是：<code>c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)</code>。</p>
+</div>
+<div id="-17" class="section level2">
+<h2>關卡 17</h2>
+<p>R也提供了<code>summary</code>來更仔細的檢視<code>record</code>。請同學輸入：<code>summary(record)</code></p>
+<pre class="r"><code>summary(record)</code></pre>
+</div>
+<div id="-18" class="section level2">
+<h2>關卡 18</h2>
+<p>我們看到了更多更深入的資訊，例如出現最多次的物品、交易中包含的物品類別的分佈</p>
+</div>
+<div id="-19" class="section level2">
+<h2>關卡 19</h2>
+<p>接著，讓我們看一個真實的範例：AdultUCI資料。請同學輸入：<code>data(AdultUCI)</code></p>
+<pre class="r"><code>data(AdultUCI)</code></pre>
+</div>
+<div id="-20" class="section level2">
+<h2>關卡 20</h2>
+<p>也請同學輸入：<code>?AdultUCI</code>來看一看arules套件針對這個範例資料的說明。有興趣的同學可以深入閱讀。</p>
+<pre class="r"><code>?AdultUCI</code></pre>
+</div>
+<div id="-21" class="section level2">
+<h2>關卡 21</h2>
+<p>由於AdultUCI有numeric型態的欄位，而AssociationRule基本上只能使用在類別型變數，所以我們需要先把AdultUCI作整理，把numeric變成factor，然後用剛剛學到的<code>as</code>函數轉換成transactions物件。說明文件的Example區塊有示範怎麼正確的做資料的整理與轉換。請同學輸入：<code>example(AdultUCI)</code>來讓R自動幫我們整理資料。</p>
+<pre class="r"><code>example(AdultUCI)</code></pre>
+</div>
+<div id="-22" class="section level2">
+<h2>關卡 22</h2>
+<p>這裡，我們把描述人的特色，當成「物品」，而把每個人當成「交易」。透過AssociationRule的技術，我們可以回答如：如果一個人的婚姻狀態、工作和教育等屬性為何時，資料顯示會比較容易有高收入。<strong>AssociationRule的結果不代表因果關係</strong></p>
+</div>
+<div id="-23" class="section level2">
+<h2>關卡 23</h2>
+<p>arules套件已經把Adult資料轉換成transactions物件了。請同學用<code>class(Adult)</code>來確認。</p>
+<pre class="r"><code>class(Adult)</code></pre>
+</div>
+<div id="-24" class="section level2">
+<h2>關卡 24</h2>
+<p>請同學輸入<code>summary(Adult)</code>，準備回答下一個問題。</p>
+<pre class="r"><code>summary(Adult)</code></pre>
+</div>
+<div id="-25" class="section level2">
+<h2>關卡 25</h2>
+<p>請問哪一個物品是最頻繁出現的物品？ capital-loss=None</p>
+</div>
+<div id="-26" class="section level2">
+<h2>關卡 26</h2>
+<p>如果我們計算每筆交易所包含物品的數量，哪一個數字是頻率最高的？ 13</p>
+</div>
+<div id="-27" class="section level2">
+<h2>關卡 27</h2>
+<p>請同學輸入<code>inspect(head(Adult,10))</code>來看前10筆資料。</p>
+<pre class="r"><code>inspect(head(Adult, 10))</code></pre>
+</div>
+<div id="-28" class="section level2">
+<h2>關卡 28</h2>
+<p>接著我們再回到apriori函數的說明頁面。</p>
+<pre class="r"><code>?apriori</code></pre>
+</div>
+<div id="-29" class="section level2">
+<h2>關卡 29</h2>
+<p>我們請同學先輸入：<code>rules&lt;-apriori(Adult,parameter=list(support=0.5,confidence=0.9))</code></p>
+<pre class="r"><code>rules &lt;- apriori(Adult, parameter = list(support = 0.5, confidence = 0.9))</code></pre>
+</div>
+<div id="-30" class="section level2">
+<h2>關卡 30</h2>
+<p>上一題的<code>parameter=list(support=0.5,confidence=0.9)</code>就是控制aprori演算法的參數。不同的參數會導致不同的答案。</p>
+</div>
+<div id="-31" class="section level2">
+<h2>關卡 31</h2>
+<p>接著我們來看看學到的結果。請同學輸入：<code>summary(rules)</code></p>
+<pre class="r"><code>summary(rules)</code></pre>
+</div>
+<div id="-32" class="section level2">
+<h2>關卡 32</h2>
+<p>請問我們一個學到多少個規則？ 52</p>
+</div>
+<div id="-33" class="section level2">
+<h2>關卡 33</h2>
+<p>接著請同學輸入<code>inspect(rules[1])</code>來看看第一個規則。</p>
+<pre class="r"><code>inspect(rules[1])</code></pre>
+</div>
+<div id="-34" class="section level2">
+<h2>關卡 34</h2>
+<p>由於這個規則只有牽涉一個物品，所以它描述的是說capital-gain=None是一個很常看到的物品。這裡代表的是說，有91%的人的capital-gane都是None。</p>
+</div>
+<div id="-35" class="section level2">
+<h2>關卡 35</h2>
+<p>請同學輸入：<code>inspect(rules[4])</code>來看看第四個規則。</p>
+<pre class="r"><code>inspect(rules[4])</code></pre>
+</div>
+<div id="-36" class="section level2">
+<h2>關卡 36</h2>
+<p>這條規則就有歸納出lhs（因）和rhs（果）的關係。也就是說，擁有一個Full-time的工作的人，資產上通常不會有損失。support0.56代表的是，同時有lhs+rhs特性的人，占總資料的56%。confidence0.96則代表所有具備lhs特性的人，有96%的人具備有rhs。lift則代表套用這個規則對rhs做預測是否效果良好。以這個規則來說，有lhs的人相對沒有lhs的人，具備rhs的機率只高了1.005，算是沒什麼效果的規則。</p>
+</div>
+<div id="-37" class="section level2">
+<h2>關卡 37</h2>
+<p>我們可以運用<code>subset</code>指令來挑出我們特別感興趣的規則。請同學先輸入<code>?&quot;subset,rules-method&quot;</code>來打開subset用在rules物件上的說明訊息。</p>
+<pre class="r"><code>?&quot;subset,rules-method&quot;</code></pre>
+</div>
+<div id="-38" class="section level2">
+<h2>關卡 38</h2>
+<p>我覺得這裡套件開發者在前半段的說明並不算明確。但是透過閱讀Examples中的範例程式碼，我們仍然可以了解到不少subset的功能。在學習開放原始碼的程式時，常常會發生程式碼或範例比說明文件還清楚的狀況。</p>
+</div>
+<div id="-39" class="section level2">
+<h2>關卡 39</h2>
+<p>我們先試試看：<code>rules.none&lt;-subset(rules,subset=rhs%in%&quot;capital-gain=None&quot;)</code></p>
+<pre class="r"><code>rules.none &lt;- subset(rules, subset = rhs %in% &quot;capital-gain=None&quot;)</code></pre>
+</div>
+<div id="-40" class="section level2">
+<h2>關卡 40</h2>
+<p>rules.none應該包含所有rhs為capital-gain=None的規則。</p>
+</div>
+<div id="-41" class="section level2">
+<h2>關卡 41</h2>
+<p>接著，我們來看篩選出來的<code>rules.none</code>包含的第一個規則。請同學使用<code>inspect</code>和<code>[]</code>。</p>
+<pre class="r"><code>inspect(rules.none[1])</code></pre>
+</div>
+<div id="-42" class="section level2">
+<h2>關卡 42</h2>
+<p>我們可以再看看篩選出來後，<code>rules.none</code>所包含的第二個規則。</p>
+<pre class="r"><code>inspect(rules.none[2])</code></pre>
+</div>
+<div id="-43" class="section level2">
+<h2>關卡 43</h2>
+<p>這結果看來很聳動：擁有Full-time工作的人，有93%的機會資產是沒有增加的。但是如果同學仔細看的話，會發現lift非常的低，而且上一個規則才告訴我們capital-gain=None的人非常非常多（92%），所以這個規則可能沒什麼意義。</p>
+</div>
+<div id="-44" class="section level2">
+<h2>關卡 44</h2>
+<p>我們可能只對lift很高的規則有興趣。請同學輸入：<code>rules.none2&lt;-subset(rules,subset=rhs%in%&quot;capital-gain=None&quot;&amp;lift&gt;1.1)</code>篩選所有rhs為capital-gain=None且lift超過1.1的規則。</p>
+<pre class="r"><code>rules.none2 &lt;- subset(rules, subset = rhs %in% &quot;capital-gain=None&quot; &amp; lift &gt; 1.1)</code></pre>
+</div>
+<div id="-45" class="section level2">
+<h2>關卡 45</h2>
+<p>結果資料中學不出任何這樣的規則，哈哈。</p>
+</div>
+<div id="-46" class="section level2">
+<h2>關卡 46</h2>
+<p>我們對AssociationRule的介紹就到這。最後請同學完成一個小練習後輸入<code>submit()</code></p>
+<pre class="r"><code>library(arules)
+data(Adult)
+#' 請同學使用參數 support = 0.3, confidence = 0.9 在Adult上學一個新的規則結果
+rules2 &lt;- {
+  NULL # 請在這邊寫上你的程式碼
+}
 
-            ## 關卡 2
-            首先請同學安裝arules這個套件。
-            ```r
-            check_then_install(&quot;arules&quot;, &quot;1.3.0&quot;)
-            ```
-            
+rules2 &lt;- apriori(Adult, parameter = list(support = 0.3, confidence = 0.9))
+stopifnot(length(rules2) == 326)
 
-            ## 關卡 3
-            載入arules套件。
-            ```r
-            library(arules)
-            ```
-            
+#' 請同學挑選出lhs 包含 hours-per-week=Full-time 的規則
+rules2.fulltime &lt;- {
+  NULL # 請在這邊寫上你的程式碼
+}
 
-            ## 關卡 4
-            接著，我們查一查arules有沒有vignette。
-            ```r
-            vignette(package = &quot;arules&quot;)
-            ```
-            
-
-            ## 關卡 5
-            有一篇名叫arules的vignette。麻煩同學先打開它。
-            ```r
-            vignette(&quot;arules&quot;, package = &quot;arules&quot;)
-            ```
-            
-
-            ## 關卡 6
-            這篇文章仔細的介紹arules套件所提供的演算法、參數，以及提供了範例。如果想要深入了解apriori演算法的同學，可以花點時間細讀這份文件。
-            
-
-            ## 關卡 7
-            讓我們先看看arules提供的apriori函數。請同學先打開apriori函數的說明頁面。
-            ```r
-            ?apriori
-            ```
-            
-
-            ## 關卡 8
-            請問下列哪一個「不是」apriori函數的參數？請參考說明文件作答。
-            confidence
-            
-
-            ## 關卡 9
-            apriori的data參數必須要是transactions型態。所以我們要先探索何謂transactions型態的物件
-            
-
-            ## 關卡 10
-            請同學輸入：`?&quot;transactions-class&quot;`來打開transactions的說明文件。這裡因為文字中包含`-`這個符號，所以要用雙引號。
-            ```r
-            ?&quot;transactions-class&quot;
-            ```
-            
-
-            ## 關卡 11
-            請問transactions物件預設「不能」從哪些物件轉換而來？請參考Details章節作答。
-            numeric vector
-            
-
-            ## 關卡 12
-            AssociationRules要挖掘的，就是透過探索哪些物品(Item)會共同出現在哪些交易(Transaction)中，而衍生出來的技術。在R裡面，我們要透過list、matrix或data.frame來告訴R這些物品和交易的資訊。
-            
-
-            ## 關卡 13
-            舉例來說，如果我們有三種物品：`c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)`。而第一筆交易有`c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)`，第二筆交易有`c(&quot;a&quot;,&quot;b&quot;)`，那我們就可以建立以下的list：`record_list&lt;-list(c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;),c(&quot;a&quot;,&quot;b&quot;))`請同學試試看。
-            ```r
-            record_list &lt;- list(c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), c(&quot;a&quot;, &quot;b&quot;))
-            ```
-            
-
-            ## 關卡 14
-            有了`record_list`之後，我們可以利用`as`來把`record_list`轉換成transactions物件。請同學輸入：`record&lt;-as(record_list,&quot;transactions&quot;)`
-            ```r
-            record &lt;- as(record_list, &quot;transactions&quot;)
-            ```
-            
-
-            ## 關卡 15
-            我們來看看record的結果。請同學輸入：`record`
-            ```r
-            record
-            ```
-            
-
-            ## 關卡 16
-            我們看到了2筆交易，因為`length(record_list)`為2。而且我們看到了3個物品，它們是：`c(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;)`。
-            
-
-            ## 關卡 17
-            R也提供了`summary`來更仔細的檢視`record`。請同學輸入：`summary(record)`
-            ```r
-            summary(record)
-            ```
-            
-
-            ## 關卡 18
-            我們看到了更多更深入的資訊，例如出現最多次的物品、交易中包含的物品類別的分佈
-            
-
-            ## 關卡 19
-            接著，讓我們看一個真實的範例：AdultUCI資料。請同學輸入：`data(AdultUCI)`
-            ```r
-            data(AdultUCI)
-            ```
-            
-
-            ## 關卡 20
-            也請同學輸入：`?AdultUCI`來看一看arules套件針對這個範例資料的說明。有興趣的同學可以深入閱讀。
-            ```r
-            ?AdultUCI
-            ```
-            
-
-            ## 關卡 21
-            由於AdultUCI有numeric型態的欄位，而AssociationRule基本上只能使用在類別型變數，所以我們需要先把AdultUCI作整理，把numeric變成factor，然後用剛剛學到的`as`函數轉換成transactions物件。說明文件的Example區塊有示範怎麼正確的做資料的整理與轉換。請同學輸入：`example(AdultUCI)`來讓R自動幫我們整理資料。
-            ```r
-            example(AdultUCI)
-            ```
-            
-
-            ## 關卡 22
-            這裡，我們把描述人的特色，當成「物品」，而把每個人當成「交易」。透過AssociationRule的技術，我們可以回答如：如果一個人的婚姻狀態、工作和教育等屬性為何時，資料顯示會比較容易有高收入。**AssociationRule的結果不代表因果關係**
-            
-
-            ## 關卡 23
-            arules套件已經把Adult資料轉換成transactions物件了。請同學用`class(Adult)`來確認。
-            ```r
-            class(Adult)
-            ```
-            
-
-            ## 關卡 24
-            請同學輸入`summary(Adult)`，準備回答下一個問題。
-            ```r
-            summary(Adult)
-            ```
-            
-
-            ## 關卡 25
-            請問哪一個物品是最頻繁出現的物品？
-            capital-loss=None
-            
-
-            ## 關卡 26
-            如果我們計算每筆交易所包含物品的數量，哪一個數字是頻率最高的？
-            13
-            
-
-            ## 關卡 27
-            請同學輸入`inspect(head(Adult,10))`來看前10筆資料。
-            ```r
-            inspect(head(Adult, 10))
-            ```
-            
-
-            ## 關卡 28
-            接著我們再回到apriori函數的說明頁面。
-            ```r
-            ?apriori
-            ```
-            
-
-            ## 關卡 29
-            我們請同學先輸入：`rules&lt;-apriori(Adult,parameter=list(support=0.5,confidence=0.9))`
-            ```r
-            rules &lt;- apriori(Adult, parameter = list(support = 0.5, confidence = 0.9))
-            ```
-            
-
-            ## 關卡 30
-            上一題的`parameter=list(support=0.5,confidence=0.9)`就是控制aprori演算法的參數。不同的參數會導致不同的答案。
-            
-
-            ## 關卡 31
-            接著我們來看看學到的結果。請同學輸入：`summary(rules)`
-            ```r
-            summary(rules)
-            ```
-            
-
-            ## 關卡 32
-            請問我們一個學到多少個規則？
-            52
-            
-
-            ## 關卡 33
-            接著請同學輸入`inspect(rules[1])`來看看第一個規則。
-            ```r
-            inspect(rules[1])
-            ```
-            
-
-            ## 關卡 34
-            由於這個規則只有牽涉一個物品，所以它描述的是說capital-gain=None是一個很常看到的物品。這裡代表的是說，有91%的人的capital-gane都是None。
-            
-
-            ## 關卡 35
-            請同學輸入：`inspect(rules[4])`來看看第四個規則。
-            ```r
-            inspect(rules[4])
-            ```
-            
-
-            ## 關卡 36
-            這條規則就有歸納出lhs（因）和rhs（果）的關係。也就是說，擁有一個Full-time的工作的人，資產上通常不會有損失。support0.56代表的是，同時有lhs+rhs特性的人，占總資料的56%。confidence0.96則代表所有具備lhs特性的人，有96%的人具備有rhs。lift則代表套用這個規則對rhs做預測是否效果良好。以這個規則來說，有lhs的人相對沒有lhs的人，具備rhs的機率只高了1.005，算是沒什麼效果的規則。
-            
-
-            ## 關卡 37
-            我們可以運用`subset`指令來挑出我們特別感興趣的規則。請同學先輸入`?&quot;subset,rules-method&quot;`來打開subset用在rules物件上的說明訊息。
-            ```r
-            ?&quot;subset,rules-method&quot;
-            ```
-            
-
-            ## 關卡 38
-            我覺得這裡套件開發者在前半段的說明並不算明確。但是透過閱讀Examples中的範例程式碼，我們仍然可以了解到不少subset的功能。在學習開放原始碼的程式時，常常會發生程式碼或範例比說明文件還清楚的狀況。
-            
-
-            ## 關卡 39
-            我們先試試看：`rules.none&lt;-subset(rules,subset=rhs%in%&quot;capital-gain=None&quot;)`
-            ```r
-            rules.none &lt;- subset(rules, subset = rhs %in% &quot;capital-gain=None&quot;)
-            ```
-            
-
-            ## 關卡 40
-            rules.none應該包含所有rhs為capital-gain=None的規則。
-            
-
-            ## 關卡 41
-            接著，我們來看篩選出來的`rules.none`包含的第一個規則。請同學使用`inspect`和`[]`。
-            ```r
-            inspect(rules.none[1])
-            ```
-            
-
-            ## 關卡 42
-            我們可以再看看篩選出來後，`rules.none`所包含的第二個規則。
-            ```r
-            inspect(rules.none[2])
-            ```
-            
-
-            ## 關卡 43
-            這結果看來很聳動：擁有Full-time工作的人，有93%的機會資產是沒有增加的。但是如果同學仔細看的話，會發現lift非常的低，而且上一個規則才告訴我們capital-gain=None的人非常非常多（92%），所以這個規則可能沒什麼意義。
-            
-
-            ## 關卡 44
-            我們可能只對lift很高的規則有興趣。請同學輸入：`rules.none2&lt;-subset(rules,subset=rhs%in%&quot;capital-gain=None&quot;&amp;lift&gt;1.1)`篩選所有rhs為capital-gain=None且lift超過1.1的規則。
-            ```r
-            rules.none2 &lt;- subset(rules, subset = rhs %in% &quot;capital-gain=None&quot; &amp; lift &gt; 1.1)
-            ```
-            
-
-            ## 關卡 45
-            結果資料中學不出任何這樣的規則，哈哈。
-            
-
-            ## 關卡 46
-            我們對AssociationRule的介紹就到這。最後請同學完成一個小練習後輸入`submit()`
-            ```r
-            library(arules)</code></pre>
-<p>data(Adult) #’ 請同學使用參數 support = 0.3, confidence = 0.9 在Adult上學一個新的規則結果 rules2 &lt;- { NULL # 請在這邊寫上你的程式碼 }</p>
-<p>rules2 &lt;- apriori(Adult, parameter = list(support = 0.3, confidence = 0.9)) stopifnot(length(rules2) == 326)</p>
-<div id="lhs--hours-per-weekfull-time-" class="section level1">
-<h1>’ 請同學挑選出lhs 包含 hours-per-week=Full-time 的規則</h1>
-<p>rules2.fulltime &lt;- { NULL # 請在這邊寫上你的程式碼 }</p>
-<p>rules2.fulltime &lt;- subset(rules2, subset = lhs %in% “hours-per-week=Full-time”) stopifnot(length(rules2.fulltime) == 42) ```</p>
+rules2.fulltime &lt;- subset(rules2, subset = lhs %in% &quot;hours-per-week=Full-time&quot;)
+stopifnot(length(rules2.fulltime) == 42)</code></pre>
 </div>
 
 

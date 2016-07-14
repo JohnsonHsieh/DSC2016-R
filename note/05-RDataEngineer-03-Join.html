@@ -111,478 +111,451 @@ $(document).ready(function () {
 </div>
 
 
-<pre><code>            ## 關卡 1
-            這門課程要介紹資料科學團隊在剛成立時，一定要經常使用的技術：資料比對。
-            
-
-            ## 關卡 2
-            現代資料科學有很豐富的內涵。每天都有新的統計方法、新的演算法的發明，讓人類在處理資料的能力上更進一步。
-            
-
-            ## 關卡 3
-            但是在企業中，或是實際應用中，最重要的是「價值」，而不是「處理資料的手法」。
-            
-
-            ## 關卡 4
-            而一種很重要的「價值」來自於，我們能夠完成過去辦不到的事情。資料科學也是如此。我們在企業內，就是要能夠在「有限的資源中」做出「過去做不到的事情」。而一個資料科學團隊，所擁有的最特別的資產，就是檢視各種不同資料源的能力。
-            
-
-            ## 關卡 5
-            當我們取得一個來源的資料之後，前面的課程協助我們從中萃取出有用的資訊（01~04）、並且能夠轉換成結構化資料（05），而這個課程的目的是要讓大家可以將複數資料源的知識彙整起來。
-            
-
-            ## 關卡 6
-            就我個人的經驗，這是資料科學團隊為企業帶來價值的捷徑。
-            
-
-            ## 關卡 7
-            首先，請同學安裝套件dplyr。已經裝過得同學請輸入`skip()`略過
-            ```r
-            check_then_install(&quot;dplyr&quot;, &quot;0.4.3&quot;)
-            ```
-            
-
-            ## 關卡 8
-            接著，請同學載入dplyr
-            ```r
-            library(dplyr)
-            ```
-            
-
-            ## 關卡 9
-            再來，請同學打開：`vignette(&quot;two-table&quot;,package=&quot;dplyr&quot;)`
-            ```r
-            vignette(&quot;two-table&quot;, package = &quot;dplyr&quot;)
-            ```
-            
-
-            ## 關卡 10
-            這份文件很清楚的說明dplyr所提供的各種整合兩個data.frame的功能。接下來的課程中，我們就依照這份文件的脈落，用肌肉記住它們。
-            
-
-            ## 關卡 11
-            請同學安裝nycflights13的資料。已經載入的同學可以輸入`skip()`
-            ```r
-            check_then_install(&quot;nycflights13&quot;, &quot;0.1&quot;)
-            ```
-            
-
-            ## 關卡 12
-            請同學載入套件：`nycflights13`
-            ```r
-            library(nycflights13)
-            ```
-            
-
-            ## 關卡 13
-            nycflights13的`flights`，有航空公司的簡稱（在`carrier`欄位）。而`airlines`中則有航空公司的全名。做上一課時，我們已經看過`flights`的資料了。現在請同學輸入：`View(airlines)`看一下航空公司的資料。
-            ```r
-            View(airlines)
-            ```
-            
-
-            ## 關卡 14
-            dplyr提供的`left_join`可以讓我們把航空公司的全名貼到`flights`資料上。但是在貼資料的時候，我們一定要有一個依據。我們先看一下`flights`的第一筆資料，請同學用`slice`作答。
-            ```r
-            slice(flights, 1)
-            ```
-            
-
-            ## 關卡 15
-            參考airlines的資料後，我們要貼哪一筆航空公司的全名到`flights`的第一筆資料呢？
-            United Air Lines Inc.(UA)
-            
-
-            ## 關卡 16
-            在同學剛剛的思考過程中，應該是這樣的。`flights`的第一筆資料的航空公司簡稱是UA，而UnitedAirLinesInc.的簡稱也是UA，所以我們把UnitedAirLinesInc.當成第一筆資料的航空公司全名。
-            
-
-            ## 關卡 17
-            這樣的比對過程中，我們是透過航空公司簡稱（carrier欄位），當兩者相同的時候，才宣佈比對成功，貼上資料。接下來，我們請同學打開`left_join`的說明文件。
-            ```r
-            ?left_join
-            ```
-            
-
-            ## 關卡 18
-            請問以下哪一個「不是」`left_join`的參數呢？
-            key
-            
-
-            ## 關卡 19
-            我們來講解`left_join`的參數意義。`x`和`y`在這邊，扮演的角色就是兩個data.frame。`x`是我們關心的、主要的data.frame，我們的目的是想把`y`的資料貼到`x`之上。所以在剛剛航空公司名稱的範例中，`x`是`flights`，`y`是`airlines`。
-            
-
-            ## 關卡 20
-            `by`則代表「黏貼規則」的欄位。回憶一下航空公司的範例，我們是透過比對「航空公司簡稱（carrier）」才能完成比對，所以`by`在這裡的值就是`&quot;carrier&quot;`，也就是欄位名稱。在慣例中，當我們提到：依據「xxx」來比對`x`和`y`兩張表格的時候，通常我們就是指要作上述的動作，而「xxx」扮演的角色就是航空公司簡稱所扮演的角色。
-            
-
-            ## 關卡 21
-            接著請同學從flights中「依序」選出`year:day,hour,origin,dest,tailnum,carrier`等欄位，再抽出前100筆記資料，最後和`airlines`做`left_join`。
-            ```r
-            answer01 &lt;- local({</code></pre>
-<p># 請在此填寫你的程式碼 slice(flights, 1:100) %&gt;% select(year:day, hour, origin, dest, tailnum, carrier) %&gt;% left_join(y = airlines, by = “carrier”) }) # 結束之後請回到console輸入<code>submit()</code> ```</p>
-<pre><code>            ## 關卡 22
-            `weather`資料中也包含了天氣的資訊。所以我們可以依據時間和地點，把天氣的資料貼到`answer01`之上。請同學輸入：`View(weather)`先看一下天氣資料
-            ```r
-            View(weather)
-            ```
-            
-
-            ## 關卡 23
-            接著請同學輸入：`answer02&lt;-left_join(answer01,weather)`，請注意到我們沒有給任何`by`的資訊。
-            ```r
-            answer02 &lt;- left_join(answer01, weather)
-            ```
-            
-
-            ## 關卡 24
-            請輸入`View(answer02)`，我們看一下`answer02`的資料，黏貼後的結果。
-            ```r
-            View(answer02)
-            ```
-            
-
-            ## 關卡 25
-            剛剛我們為什麼省略`by`之後，`left_join`還是仍然正常運作呢？它是依據什麼欄位來比對資料的？
-            
-
-            ## 關卡 26
-            根據文件，在沒有給定`by`的狀況下，`left_join`會比對兩個data.frame的欄位名稱（`colnames`），並且用重複的欄位名稱做比對的依據。請同學輸入：`intersect(colnames(answer01),colnames(weather))`
-            ```r
-            intersect(colnames(answer01), colnames(weather))
-            ```
-            
-
-            ## 關卡 27
-            螢幕上顯示的四個欄位：`&quot;year&quot;&quot;month&quot;&quot;day&quot;&quot;hour&quot;&quot;origin&quot;`就是`left_join`比對`answer01`與`weather`的依據。這代表說，要這五個欄位全部都一模一樣，`left_join`才會把對應的天氣資料黏貼到`answer01`上。另外同學也可以體會，上一課所學的`select`搭配重新命名的機制在此是很有用的。
-            
-
-            ## 關卡 28
-            課程進行至今，我們開始會跳過一些字面意義上很簡單的函數，例如`intersect`。同學可以自行打開說明文件查詢這些函數的用法。如果覺得太難需要說明，我也很歡迎同學到&lt;https://github.com/wush978/DataScienceAndR/issues&gt;（輸入：`issue()`）或是聊天室&lt;https://gitter.im/wush978/DataScienceAndR&gt;（輸入：chat()）進行回報。
-            
-
-            ## 關卡 29
-            另外在剛剛的比對過程中，R有發出警告：這是因為我們在比較一個字串向量與一個`factor`。有走過RBasic系列的同學應該可以同意，這兩者的本質是非常類似的，所以`left_join`就會自動把factor轉換成字串向量後再做比對。
-            
-
-            ## 關卡 30
-            接著，我們看一下`airports`這個資料集。請同學輸入：`View(airports)`，可以看到裡面有不少關於機場的資訊（如：經緯度、簡稱等等）
-            ```r
-            View(airports)
-            ```
-            
-
-            ## 關卡 31
-            這裡我們要比對的依據是地點，但是`flights`的資料裡面有兩個關於地點的欄位：`origin`與`dest`。這兩個欄位都是記載著美國機場的代號。而`airports`資料中機場的代號是`faa`。問題來了，請問我們應該要怎麼告訴`left_join`做比對呢？
-            
-
-            ## 關卡 32
-            我們可以透過`by`參數來指定比對的方法。`by`的參數除了是一般的字串向量外，也可以是有名字的字串向量。舉例來說：`c(&quot;origin&quot;=&quot;faa&quot;)`就是一個有名字的字串向量。請同學輸入：`c(&quot;origin&quot;=&quot;faa&quot;)`看看。
-            ```r
-            c(&quot;origin&quot; = &quot;faa&quot;)
-            ```
-            
-
-            ## 關卡 33
-            接著，我們透過`left_join`來比對這兩筆資料。比對的依據分別是`answer02$origin`與`airports$faa`。請同學試試看執行`answer03&lt;-left_join(answer02,airports,by=c(&quot;origin&quot;=&quot;faa&quot;))`
-            ```r
-            answer03 &lt;- left_join(answer02, airports, by = c(&quot;origin&quot; = &quot;faa&quot;))
-            ```
-            
-
-            ## 關卡 34
-            現在我們輸入`View(answer03)`看看這個包含航班資訊、天氣資訊與出發機場的地理位置資訊的資料。
-            ```r
-            View(answer03)
-            ```
-            
-
-            ## 關卡 35
-            最後，我們再把`answer03`與`airports`做一次整合，但是這次是比對`answer03$dest`與`airports$faa`請同學寫寫看，並且把結果存到變數`answer04`
-            ```r
-            answer04 &lt;- left_join(answer03, airports, by = c(&quot;dest&quot; = &quot;faa&quot;))
-            ```
-            
-
-            ## 關卡 36
-            請同學輸入`colnames(answer04)`看一下比對後的名稱
-            ```r
-            colnames(answer04)
-            ```
-            
-
-            ## 關卡 37
-            在最後，是不是有看到lat.x或lat.y這些欄位名稱呢？這是因為`answer03`和`airports`比對時，`answer03$lat`與`airports$lat`撞名，而且也不在`by`之內，所以產生的資料就會有兩種`lat`。`left_join`在這邊的處理方式，就在把來自參數`x`的`lat`標記做`lat.x`，來自參數`y`（比對機場代碼後被貼上去的`lat`）則取名作`lat.y`
-            
-
-            ## 關卡 38
-            以上的內容，大致上把`left_join`的所有功能與應用上可能發生的狀況細解一遍。接著我們來練習解決一個問題：起飛機場的風速對抵達時間的延遲是不是有影響。請同學在完成之後存檔，並輸入`submit()`來檢查結果是否符合預期。如果同學在檔案中看到亂碼，請使用Rstudio左上角的File-&gt;Reopen
-            ```r
-            # 請同學使用`left_join`將`weather`的資訊貼到`flights`資料中</code></pre>
-<div id="-yearday-hour-origin-key" class="section level1">
-<h1>合併的過程請使用 year:day, hour, origin 當成合併的key</h1>
+<div id="-1" class="section level2">
+<h2>關卡 1</h2>
+<p>這門課程要介紹資料科學團隊在剛成立時，一定要經常使用的技術：資料比對。</p>
 </div>
-<div id="weatherflights" class="section level1">
-<h1>提示：請檢查weather與flights的欄位名稱重複的部分</h1>
+<div id="-2" class="section level2">
+<h2>關卡 2</h2>
+<p>現代資料科學有很豐富的內涵。每天都有新的統計方法、新的演算法的發明，讓人類在處理資料的能力上更進一步。</p>
 </div>
-<div class="section level1">
-<h1>比對完畢後，請先做資料的清理：</h1>
+<div id="-3" class="section level2">
+<h2>關卡 3</h2>
+<p>但是在企業中，或是實際應用中，最重要的是「價值」，而不是「處理資料的手法」。</p>
 </div>
-<div id="wind_speedarr_delay" class="section level1">
-<h1>- 結果只包含wind_speed與arr_delay這兩個欄位</h1>
+<div id="-4" class="section level2">
+<h2>關卡 4</h2>
+<p>而一種很重要的「價值」來自於，我們能夠完成過去辦不到的事情。資料科學也是如此。我們在企業內，就是要能夠在「有限的資源中」做出「過去做不到的事情」。而一個資料科學團隊，所擁有的最特別的資產，就是檢視各種不同資料源的能力。</p>
 </div>
-<div id="nanan" class="section level1">
-<h1>- 並且這些欄位中都不應該有NA或NaN</h1>
-<p>answer02.1 &lt;- local({ select(flights, year:day, hour, origin, dest, tailnum, carrier, arr_delay) %&gt;% left_join(weather) %&gt;% select(wind_speed, arr_delay) %&gt;% filter(!is.na(wind_speed), !is.na(arr_delay)) })</p>
-<p>stopifnot(nrow(answer02.1) == switch(packageVersion(“nycflights13”), “0.1” = 116774, “0.2.0” = 326116, stop(“Invalid nycflights13 version”))) stopifnot(sum(is.na(answer02.1<span class="math inline">\(wind_speed)) == 0) stopifnot(sum(is.nan(answer02.1\)</span>wind_speed)) == 0) stopifnot(sum(is.na(answer02.1<span class="math inline">\(arr_delay)) == 0) stopifnot(sum(is.nan(answer02.1\)</span>arr_delay)) == 0)</p>
+<div id="-5" class="section level2">
+<h2>關卡 5</h2>
+<p>當我們取得一個來源的資料之後，前面的課程協助我們從中萃取出有用的資訊（01~04）、並且能夠轉換成結構化資料（05），而這個課程的目的是要讓大家可以將複數資料源的知識彙整起來。</p>
 </div>
-<div id="wind_speed" class="section level1">
-<h1>接著我們要把風速（wind_speed)做分級。</h1>
+<div id="-6" class="section level2">
+<h2>關卡 6</h2>
+<p>就我個人的經驗，這是資料科學團隊為企業帶來價值的捷徑。</p>
 </div>
-<div class="section level1">
-<h1>由於我們對氣象的數據沒有背景知識，所以最好的分類方法就是透過數據的比率來抓。</h1>
+<div id="-7" class="section level2">
+<h2>關卡 7</h2>
+<p>首先，請同學安裝套件dplyr。已經裝過得同學請輸入<code>skip()</code>略過</p>
+<pre class="r"><code>check_then_install(&quot;dplyr&quot;, &quot;0.4.3&quot;)</code></pre>
 </div>
-<div id="quantile" class="section level1">
-<h1>quantile函數會抓出一個數值向量中的百分位數，也就是說：</h1>
+<div id="-8" class="section level2">
+<h2>關卡 8</h2>
+<p>接著，請同學載入dplyr</p>
+<pre class="r"><code>library(dplyr)</code></pre>
 </div>
-<div id="answer02.21-0--answer02.2" class="section level1">
-<h1>answer02.2[1]會超過 0% 的 answer02.2</h1>
+<div id="-9" class="section level2">
+<h2>關卡 9</h2>
+<p>再來，請同學打開：<code>vignette(&quot;two-table&quot;,package=&quot;dplyr&quot;)</code></p>
+<pre class="r"><code>vignette(&quot;two-table&quot;, package = &quot;dplyr&quot;)</code></pre>
 </div>
-<div id="answer02.22-25--answer02.2" class="section level1">
-<h1>answer02.2[2]會超過 25% 的 answer02.2</h1>
+<div id="-10" class="section level2">
+<h2>關卡 10</h2>
+<p>這份文件很清楚的說明dplyr所提供的各種整合兩個data.frame的功能。接下來的課程中，我們就依照這份文件的脈落，用肌肉記住它們。</p>
 </div>
-<div id="answer02.23-50--answer02.2" class="section level1">
-<h1>answer02.2[3]會超過 50% 的 answer02.2</h1>
+<div id="-11" class="section level2">
+<h2>關卡 11</h2>
+<p>請同學安裝nycflights13的資料。已經載入的同學可以輸入<code>skip()</code></p>
+<pre class="r"><code>check_then_install(&quot;nycflights13&quot;, &quot;0.1&quot;)</code></pre>
 </div>
-<div id="answer02.24-75--answer02.2" class="section level1">
-<h1>answer02.2[4]會超過 75% 的 answer02.2</h1>
+<div id="-12" class="section level2">
+<h2>關卡 12</h2>
+<p>請同學載入套件：<code>nycflights13</code></p>
+<pre class="r"><code>library(nycflights13)</code></pre>
 </div>
-<div id="answer02.25-100--answer02.2" class="section level1">
-<h1>answer02.2[5]會超過 100% 的 answer02.2</h1>
-<p>answer02.2 &lt;- quantile(answer02.1$wind_speed, seq(0, 1, by = 0.25)) stopifnot(length(answer02.2) == 5) stopifnot(answer02.2[1] == 0) stopifnot(answer02.2[5] == max(answer02.2))</p>
+<div id="-13" class="section level2">
+<h2>關卡 13</h2>
+<p>nycflights13的<code>flights</code>，有航空公司的簡稱（在<code>carrier</code>欄位）。而<code>airlines</code>中則有航空公司的全名。做上一課時，我們已經看過<code>flights</code>的資料了。現在請同學輸入：<code>View(airlines)</code>看一下航空公司的資料。</p>
+<pre class="r"><code>View(airlines)</code></pre>
 </div>
-<div id="cutanswer02.2wind_speed" class="section level1">
-<h1>最後，我們利用<code>cut</code>與<code>answer02.2</code>對原始的wind_speed做分類。</h1>
+<div id="-14" class="section level2">
+<h2>關卡 14</h2>
+<p>dplyr提供的<code>left_join</code>可以讓我們把航空公司的全名貼到<code>flights</code>資料上。但是在貼資料的時候，我們一定要有一個依據。我們先看一下<code>flights</code>的第一筆資料，請同學用<code>slice</code>作答。</p>
+<pre class="r"><code>slice(flights, 1)</code></pre>
 </div>
-<div id="-answer02.21answer02.221" class="section level1">
-<h1>介於 answer02.2[1]至answer02.2[2]的風速，會被歸類為等級1</h1>
+<div id="-15" class="section level2">
+<h2>關卡 15</h2>
+<p>參考airlines的資料後，我們要貼哪一筆航空公司的全名到<code>flights</code>的第一筆資料呢？ United Air Lines Inc.(UA)</p>
 </div>
-<div id="-answer02.22answer02.232" class="section level1">
-<h1>介於 answer02.2[2]至answer02.2[3]的風速，會被歸類為等級2</h1>
+<div id="-16" class="section level2">
+<h2>關卡 16</h2>
+<p>在同學剛剛的思考過程中，應該是這樣的。<code>flights</code>的第一筆資料的航空公司簡稱是UA，而UnitedAirLinesInc.的簡稱也是UA，所以我們把UnitedAirLinesInc.當成第一筆資料的航空公司全名。</p>
 </div>
-<div id="-answer02.23answer02.243" class="section level1">
-<h1>介於 answer02.2[3]至answer02.2[4]的風速，會被歸類為等級3</h1>
+<div id="-17" class="section level2">
+<h2>關卡 17</h2>
+<p>這樣的比對過程中，我們是透過航空公司簡稱（carrier欄位），當兩者相同的時候，才宣佈比對成功，貼上資料。接下來，我們請同學打開<code>left_join</code>的說明文件。</p>
+<pre class="r"><code>?left_join</code></pre>
 </div>
-<div id="-answer02.24answer02.254" class="section level1">
-<h1>介於 answer02.2[4]至answer02.2[5]的風速，會被歸類為等級4</h1>
+<div id="-18" class="section level2">
+<h2>關卡 18</h2>
+<p>請問以下哪一個「不是」<code>left_join</code>的參數呢？ key</p>
 </div>
-<div id="arr_delay" class="section level1">
-<h1>接著，我們計算arr_delay在每一種分類中的平均數</h1>
-<p>answer02.3 &lt;- local({ mutate(answer02.1, wind_speed = cut(wind_speed, breaks = c(answer02.2[1]-1e-5, tail(answer02.2, -1)))) %&gt;% group_by(wind_speed) %&gt;% summarise(mean(arr_delay)) }) stopifnot(nrow(answer02.3) == 4) stopifnot(colnames(answer02.3) == c(“wind_speed”, “mean(arr_delay)”)) if (packageVersion(“nycflights13”) != “0.2.0”) stopifnot(answer02.3[[2]] &gt; 4) stopifnot(answer02.3[[2]] &lt; 16) # 請同學完成後回到console輸入<code>submit()</code>做檢查 ```</p>
-<pre><code>            ## 關卡 39
-            請同學看用`View(answer02.3)`，觀察我們在上一題得到的結果。
-            ```r
-            View(answer02.3)
-            ```
-            
-
-            ## 關卡 40
-            這樣的數據顯示，當起飛機場的風速越大，飛機在降落時的延誤就越大。
-            
-
-            ## 關卡 41
-            接著我們來講解dplyr提供的各種合併表格的方法。
-            
-
-            ## 關卡 42
-            除了`left_join`之外，dplyr還提供了6種join函數。而他們的參數都非常類似：`x`、`y`和`by`，而且他們的用法都一模一樣，比對的方法也一模一樣。他們的差異只在於：當比對結束之後，產生的data.frame中到底要包含哪些資料呢？
-            
-
-            ## 關卡 43
-            為了等下的說明，我們仿照vignette，建立了兩個變數：`df1`與`df2`。請同學輸入`View(df1)`來看看`df1`的資料。
-            ```r
-            View(df1)
-            ```
-            
-
-            ## 關卡 44
-            請同學輸入`View(df2)`來看看`df2`的資料。
-            ```r
-            View(df2)
-            ```
-            
-
-            ## 關卡 45
-            我們先拿`left_join`作解說。做完`left_join`之後，最後的data.frame，就是`x`中所有的資料。而`y`的資料只有在和`x`比對成功之後，才會貼當輸出的欄位中。否則就是NA。
-            
-
-            ## 關卡 46
-            請同學輸入：`wiki_join()`來打開這六種JOIN的圖示。
-            ```r
-            wiki_join()
-            ```
-            
-
-            ## 關卡 47
-            `wiki_join()`中的第一張圖中淺藍色的部份，就代表最後輸出的`data.frame`剛剛好就是原本`x`的資料。
-            
-
-            ## 關卡 48
-            請問同學，如果輸入：`left_join(df1,df2)`的話，`left_join`會以哪一個欄位名稱為基準作比對呢？（df1和df2共有的名稱）
-            x
-            
-
-            ## 關卡 49
-            請同學輸入：`left_join(df1,df2)`
-            ```r
-            left_join(df1, df2)
-            ```
-            
-
-            ## 關卡 50
-            我們會看到`df1`資料都有保留下來。（結果的`x`欄的值為`c(1,2)`）而結果的第二筆資料，因為df2中沒有`x=2`的資料，所以`a`與`b`的欄位都是NA
-            
-
-            ## 關卡 51
-            `wiki_join()`中的第二張圖中淺藍色的部份，就代表`right_join`最後輸出的`data.frame`，剛剛好就是原本`y`的資料。事實上，`right_join(x,y)`就等價於`left_join(y,x)`，差別只在欄位排序的不同。
-            
-
-            ## 關卡 52
-            請同學輸入：`right_join(df2,df1)`。請注意，我們這次是`x=df2`。
-            ```r
-            right_join(df2, df1)
-            ```
-            
-
-            ## 關卡 53
-            和`left_join(df1,df2)`相比，`x`欄位的值一樣是`c(1,2)`，但是欄位順序不同了。
-            
-
-            ## 關卡 54
-            `wiki_join()`中的第三張圖中淺藍色的部份，就代表`inner_join`最後輸出的`data.frame`，資料必須要同時存在於`x`和`y`之中。
-            
-
-            ## 關卡 55
-            請同學輸入：`inner_join(df1,df2)`。
-            ```r
-            inner_join(df1, df2)
-            ```
-            
-
-            ## 關卡 56
-            結果的`x`欄位只剩下`1`的狀況了，`df1`和`df2`都有`x=1`的資料。
-            
-
-            ## 關卡 57
-            接續著的`full_join`與`anti_join`為止，都是非常類似的。我們練習一下，用肌肉作記憶。
-            
-
-            ## 關卡 58
-            請同學輸入：`full_join(df1,df2)`。
-            ```r
-            full_join(df1, df2)
-            ```
-            
-
-            ## 關卡 59
-            輸出的結果的`x`欄位為`c(1,2,3)`，是df1和df2的聯集。
-            
-
-            ## 關卡 60
-            請同學輸入：`anti_join(df1,df2)`。
-            ```r
-            anti_join(df1, df2)
-            ```
-            
-
-            ## 關卡 61
-            結果只列出`df1`中和`df2`比對失敗的資料。這是目前為止唯一欄位只剩下`x`的欄位的JOIN結果。
-            
-
-            ## 關卡 62
-            在講解`semi_join`之前，我們要先提醒同學一個狀況：當比對的欄位，值不唯一的時候，JOIN要如何作操作呢？
-            
-
-            ## 關卡 63
-            舉例來說，我們已經建立了兩個data.frame:`df3`與`df4`。他們的`x`欄位都有兩個1。請同學輸入`View(df3)`看看`df3`
-            ```r
-            View(df3)
-            ```
-            
-
-            ## 關卡 64
-            請同學輸入`View(df4)`看看`df4`
-            ```r
-            View(df4)
-            ```
-            
-
-            ## 關卡 65
-            接著，我們輸入`inner_join(df3,df4)`看看結果有多少列。
-            ```r
-            inner_join(df3, df4)
-            ```
-            
-
-            ## 關卡 66
-            上述的這些`join`都會窮舉出所有可能排列組合。因為`df3`的`x`有兩個1,`df4`的`x`有兩個1,所以所有可能的排列組合有：2*2=4因此`inner_join`就回傳4列。
-            
-
-            ## 關卡 67
-            最後一個`semi_join`非常類似`inner_join`，但是當比對的資料不是唯一時，它不會窮舉所有的可能性，而只是把有比對成功的`x`的資料留下來。
-            
-
-            ## 關卡 68
-            請同學輸入：`semi_join(df3,df4)`看看結果。
-            ```r
-            semi_join(df3, df4)
-            ```
-            
-
-            ## 關卡 69
-            結果幾乎等價於`df3[1:2,]`，這是因為只有前兩列資料有和`df4`比對成功。
-            
-
-            ## 關卡 70
-            這次的大魔王要延續RDataEngineer-05-Data-Manipulation最後所使用的`cl_info`資料。
-            
-
-            ## 關卡 71
-            同時，我們也準備了從央行抓取的GDP資料。但是這份資料要請同學自己想辦法讀出來。
-            
-
-            ## 關卡 72
-            我們的目標，是要比對房貸餘額是否超過GDP的40%。這是一種拿來評估房地產是否會泡沫化的指標。
-            
-
-            ## 關卡 73
-            就請同學多多加油了！利用從RBasic到RDataEngineer系列所學到的知識，完成這個挑戰。請同學在完成之後存檔，並輸入`submit()`來檢查結果是否符合預期。如果同學在檔案中看到亂碼，請使用Rstudio左上角的File-&gt;Reopen
-            ```r
-            #' 請用各種方式讀取`gdp_path`的資料、整理資料，並把最後的結果存到變數`gdp`。</code></pre>
+<div id="-19" class="section level2">
+<h2>關卡 19</h2>
+<p>我們來講解<code>left_join</code>的參數意義。<code>x</code>和<code>y</code>在這邊，扮演的角色就是兩個data.frame。<code>x</code>是我們關心的、主要的data.frame，我們的目的是想把<code>y</code>的資料貼到<code>x</code>之上。所以在剛剛航空公司名稱的範例中，<code>x</code>是<code>flights</code>，<code>y</code>是<code>airlines</code>。</p>
 </div>
-<div id="gdp_pathgdp-gdp" class="section level1">
-<h1>‘提示：<code>gdp_path</code>中的第一欄數據是年/季、第二欄數據是該季的GDP(百萬) #’ 結果應該要有兩欄的數據，第一欄是年，第二欄是我國每年的GDP</h1>
+<div id="-20" class="section level2">
+<h2>關卡 20</h2>
+<p><code>by</code>則代表「黏貼規則」的欄位。回憶一下航空公司的範例，我們是透過比對「航空公司簡稱（carrier）」才能完成比對，所以<code>by</code>在這裡的值就是<code>&quot;carrier&quot;</code>，也就是欄位名稱。在慣例中，當我們提到：依據「xxx」來比對<code>x</code>和<code>y</code>兩張表格的時候，通常我們就是指要作上述的動作，而「xxx」扮演的角色就是航空公司簡稱所扮演的角色。</p>
 </div>
-<div id="stopifnot-gsubpattern-replacement-x-" class="section level1">
-<h1>‘具體細節請參考最後的<code>stopifnot</code>的檢查事項 #’ 提示：拿掉數據中間的逗號，請用：<code>gsub(pattern = &quot;,&quot;, replacement = &quot;&quot;, x = &lt;你的字串向量&gt;)</code></h1>
-<p>gdp &lt;- local({ # 請填寫你的程式碼 read.table(gdp_path, skip = 4, header = FALSE, sep = “,”) %&gt;% slice(1:132) %&gt;% select(season = V1, gdp = V2) %&gt;% mutate( season = as.character(season), year = substring(season, 1, 4), gdp = gsub(pattern = “,”, replacement = “”, x = gdp), gdp = as.numeric(gdp) * 1000000) %&gt;% group_by(year) %&gt;% summarise(gdp = sum(gdp)) }) stopifnot(is.data.frame(gdp)) stopifnot(colnames(gdp) == c(“year”, “gdp”)) stopifnot(class(gdp<span class="math inline">\(year) == &quot;character&quot;) stopifnot(class(gdp\)</span>gdp) == “numeric”) stopifnot(nrow(gdp) == 33) stopifnot(range(gdp<span class="math inline">\(year) == c(&quot;1981&quot;, &quot;2013&quot;)) stopifnot(range(gdp\)</span>gdp) == c(1810829,14564242) * 1000000)</p>
+<div id="-21" class="section level2">
+<h2>關卡 21</h2>
+<p>接著請同學從flights中「依序」選出<code>year:day,hour,origin,dest,tailnum,carrier</code>等欄位，再抽出前100筆記資料，最後和<code>airlines</code>做<code>left_join</code>。</p>
+<pre class="r"><code>answer01 &lt;- local({
+  # 請在此填寫你的程式碼
+  slice(flights, 1:100) %&gt;%
+    select(year:day, hour, origin, dest, tailnum, carrier) %&gt;%
+    left_join(y = airlines, by = &quot;carrier&quot;)
+})
+# 結束之後請回到console輸入`submit()`</code></pre>
 </div>
-<div id="cl_infomortgage_baldata_dt-cl_infocl_info_year" class="section level1">
-<h1>‘cl_info的資料包含各家銀行的房貸餘額（mortgage_bal）資訊與資料的時間（data_dt）。 #’ 請用各種方法整理cl_info的資料，把最後的結果整理至<code>cl_info_year</code></h1>
+<div id="-22" class="section level2">
+<h2>關卡 22</h2>
+<p><code>weather</code>資料中也包含了天氣的資訊。所以我們可以依據時間和地點，把天氣的資料貼到<code>answer01</code>之上。請同學輸入：<code>View(weather)</code>先看一下天氣資料</p>
+<pre class="r"><code>View(weather)</code></pre>
 </div>
-<div id="-stopifnot" class="section level1">
-<h1>‘結果應該要有兩欄的數據，第一欄是年，第二欄是每年房貸餘額的值(請以每年的一月份資料為準) #’ 具體細節請參考最後的<code>stopifnot</code>檢查事項</h1>
-<p>cl_info_year &lt;- local({ select(cl_info, data_dt, mortgage_bal) %&gt;% mutate(month = substring(data_dt,1,7)) %&gt;% group_by(month) %&gt;% summarise(mortgage_total_bal = sum(mortgage_bal, na.rm = TRUE)) %&gt;% mutate(year = substring(month, 1, 4)) %&gt;% group_by(year) %&gt;% arrange(month) %&gt;% summarise(month = head(month, 1), mortgage_total_bal = head(mortgage_total_bal, 1)) %&gt;% select(year, mortgage_total_bal) })</p>
-<p>stopifnot(is.data.frame(cl_info_year)) stopifnot(colnames(cl_info_year) == c(“year”, “mortgage_total_bal”)) stopifnot(class(cl_info_year<span class="math inline">\(year) == &quot;character&quot;) stopifnot(class(cl_info_year\)</span>mortgage_total_bal) == “numeric”) stopifnot(nrow(cl_info_year) == 9) stopifnot(range(cl_info_year<span class="math inline">\(year) == c(&quot;2006&quot;, &quot;2014&quot;)) stopifnot(range(cl_info_year\)</span>mortgage_total_bal) == c(3.79632e+12, 5.726784e+12))</p>
+<div id="-23" class="section level2">
+<h2>關卡 23</h2>
+<p>接著請同學輸入：<code>answer02&lt;-left_join(answer01,weather)</code>，請注意到我們沒有給任何<code>by</code>的資訊。</p>
+<pre class="r"><code>answer02 &lt;- left_join(answer01, weather)</code></pre>
 </div>
-<div id="gdpcl_info-gdpmortgage_total_bal-gdp" class="section level1">
-<h1>‘最後請同學用這門課程所學的技術整合<code>gdp</code>與<code>cl_info</code>的資料， #’ 計算出房貸餘額與gdp的比率（mortgage_total_bal / gdp）。</h1>
+<div id="-24" class="section level2">
+<h2>關卡 24</h2>
+<p>請輸入<code>View(answer02)</code>，我們看一下<code>answer02</code>的資料，黏貼後的結果。</p>
+<pre class="r"><code>View(answer02)</code></pre>
 </div>
-<div id="data.framegdp-stopifnot" class="section level1">
-<h1>‘請將結果輸出到一個data.frame，第一攔是年份，第二欄是房貸餘額的GDP佔有比率。 #’ 細節請參考<code>stopifnot</code>的檢查</h1>
-<p>answerHW &lt;- local({ # 請在這邊填寫你的程式碼 inner_join(cl_info_year, gdp, by = “year”) %&gt;% mutate(index = mortgage_total_bal / gdp) %&gt;% select(year, index) })</p>
-<p>stopifnot(is.data.frame(answerHW)) stopifnot(nrow(answerHW) == 8) stopifnot(colnames(answerHW) == c(“year”, “index”)) stopifnot(class(answerHW<span class="math inline">\(year) == &quot;character&quot;) stopifnot(class(answerHW\)</span>index) == “numeric”) stopifnot(min(answerHW<span class="math inline">\(index) &gt; 0.3) stopifnot(max(answerHW\)</span>index) &lt; 0.4) ```</p>
+<div id="-25" class="section level2">
+<h2>關卡 25</h2>
+<p>剛剛我們為什麼省略<code>by</code>之後，<code>left_join</code>還是仍然正常運作呢？它是依據什麼欄位來比對資料的？</p>
+</div>
+<div id="-26" class="section level2">
+<h2>關卡 26</h2>
+<p>根據文件，在沒有給定<code>by</code>的狀況下，<code>left_join</code>會比對兩個data.frame的欄位名稱（<code>colnames</code>），並且用重複的欄位名稱做比對的依據。請同學輸入：<code>intersect(colnames(answer01),colnames(weather))</code></p>
+<pre class="r"><code>intersect(colnames(answer01), colnames(weather))</code></pre>
+</div>
+<div id="-27" class="section level2">
+<h2>關卡 27</h2>
+<p>螢幕上顯示的四個欄位：<code>&quot;year&quot;&quot;month&quot;&quot;day&quot;&quot;hour&quot;&quot;origin&quot;</code>就是<code>left_join</code>比對<code>answer01</code>與<code>weather</code>的依據。這代表說，要這五個欄位全部都一模一樣，<code>left_join</code>才會把對應的天氣資料黏貼到<code>answer01</code>上。另外同學也可以體會，上一課所學的<code>select</code>搭配重新命名的機制在此是很有用的。</p>
+</div>
+<div id="-28" class="section level2">
+<h2>關卡 28</h2>
+<p>課程進行至今，我們開始會跳過一些字面意義上很簡單的函數，例如<code>intersect</code>。同學可以自行打開說明文件查詢這些函數的用法。如果覺得太難需要說明，我也很歡迎同學到<a href="https://github.com/wush978/DataScienceAndR/issues" class="uri">https://github.com/wush978/DataScienceAndR/issues</a>（輸入：<code>issue()</code>）或是聊天室<a href="https://gitter.im/wush978/DataScienceAndR" class="uri">https://gitter.im/wush978/DataScienceAndR</a>（輸入：chat()）進行回報。</p>
+</div>
+<div id="-29" class="section level2">
+<h2>關卡 29</h2>
+<p>另外在剛剛的比對過程中，R有發出警告：這是因為我們在比較一個字串向量與一個<code>factor</code>。有走過RBasic系列的同學應該可以同意，這兩者的本質是非常類似的，所以<code>left_join</code>就會自動把factor轉換成字串向量後再做比對。</p>
+</div>
+<div id="-30" class="section level2">
+<h2>關卡 30</h2>
+<p>接著，我們看一下<code>airports</code>這個資料集。請同學輸入：<code>View(airports)</code>，可以看到裡面有不少關於機場的資訊（如：經緯度、簡稱等等）</p>
+<pre class="r"><code>View(airports)</code></pre>
+</div>
+<div id="-31" class="section level2">
+<h2>關卡 31</h2>
+<p>這裡我們要比對的依據是地點，但是<code>flights</code>的資料裡面有兩個關於地點的欄位：<code>origin</code>與<code>dest</code>。這兩個欄位都是記載著美國機場的代號。而<code>airports</code>資料中機場的代號是<code>faa</code>。問題來了，請問我們應該要怎麼告訴<code>left_join</code>做比對呢？</p>
+</div>
+<div id="-32" class="section level2">
+<h2>關卡 32</h2>
+<p>我們可以透過<code>by</code>參數來指定比對的方法。<code>by</code>的參數除了是一般的字串向量外，也可以是有名字的字串向量。舉例來說：<code>c(&quot;origin&quot;=&quot;faa&quot;)</code>就是一個有名字的字串向量。請同學輸入：<code>c(&quot;origin&quot;=&quot;faa&quot;)</code>看看。</p>
+<pre class="r"><code>c(&quot;origin&quot; = &quot;faa&quot;)</code></pre>
+</div>
+<div id="-33" class="section level2">
+<h2>關卡 33</h2>
+<p>接著，我們透過<code>left_join</code>來比對這兩筆資料。比對的依據分別是<code>answer02$origin</code>與<code>airports$faa</code>。請同學試試看執行<code>answer03&lt;-left_join(answer02,airports,by=c(&quot;origin&quot;=&quot;faa&quot;))</code></p>
+<pre class="r"><code>answer03 &lt;- left_join(answer02, airports, by = c(&quot;origin&quot; = &quot;faa&quot;))</code></pre>
+</div>
+<div id="-34" class="section level2">
+<h2>關卡 34</h2>
+<p>現在我們輸入<code>View(answer03)</code>看看這個包含航班資訊、天氣資訊與出發機場的地理位置資訊的資料。</p>
+<pre class="r"><code>View(answer03)</code></pre>
+</div>
+<div id="-35" class="section level2">
+<h2>關卡 35</h2>
+<p>最後，我們再把<code>answer03</code>與<code>airports</code>做一次整合，但是這次是比對<code>answer03$dest</code>與<code>airports$faa</code>請同學寫寫看，並且把結果存到變數<code>answer04</code></p>
+<pre class="r"><code>answer04 &lt;- left_join(answer03, airports, by = c(&quot;dest&quot; = &quot;faa&quot;))</code></pre>
+</div>
+<div id="-36" class="section level2">
+<h2>關卡 36</h2>
+<p>請同學輸入<code>colnames(answer04)</code>看一下比對後的名稱</p>
+<pre class="r"><code>colnames(answer04)</code></pre>
+</div>
+<div id="-37" class="section level2">
+<h2>關卡 37</h2>
+<p>在最後，是不是有看到lat.x或lat.y這些欄位名稱呢？這是因為<code>answer03</code>和<code>airports</code>比對時，<code>answer03$lat</code>與<code>airports$lat</code>撞名，而且也不在<code>by</code>之內，所以產生的資料就會有兩種<code>lat</code>。<code>left_join</code>在這邊的處理方式，就在把來自參數<code>x</code>的<code>lat</code>標記做<code>lat.x</code>，來自參數<code>y</code>（比對機場代碼後被貼上去的<code>lat</code>）則取名作<code>lat.y</code></p>
+</div>
+<div id="-38" class="section level2">
+<h2>關卡 38</h2>
+<p>以上的內容，大致上把<code>left_join</code>的所有功能與應用上可能發生的狀況細解一遍。接著我們來練習解決一個問題：起飛機場的風速對抵達時間的延遲是不是有影響。請同學在完成之後存檔，並輸入<code>submit()</code>來檢查結果是否符合預期。如果同學在檔案中看到亂碼，請使用Rstudio左上角的File-&gt;Reopen</p>
+<pre class="r"><code># 請同學使用`left_join`將`weather`的資訊貼到`flights`資料中
+#   合併的過程請使用 year:day, hour, origin 當成合併的key
+#   提示：請檢查weather與flights的欄位名稱重複的部分
+# 比對完畢後，請先做資料的清理：
+# - 結果只包含wind_speed與arr_delay這兩個欄位
+# - 並且這些欄位中都不應該有NA或NaN
+answer02.1 &lt;- local({
+  select(flights, year:day, hour, origin, dest, tailnum, carrier, arr_delay) %&gt;%
+    left_join(weather) %&gt;%
+    select(wind_speed, arr_delay) %&gt;%
+    filter(!is.na(wind_speed), !is.na(arr_delay))
+})
+
+stopifnot(nrow(answer02.1) == switch(packageVersion(&quot;nycflights13&quot;), &quot;0.1&quot; = 116774, &quot;0.2.0&quot; = 326116, stop(&quot;Invalid nycflights13 version&quot;)))
+stopifnot(sum(is.na(answer02.1$wind_speed)) == 0)
+stopifnot(sum(is.nan(answer02.1$wind_speed)) == 0)
+stopifnot(sum(is.na(answer02.1$arr_delay)) == 0)
+stopifnot(sum(is.nan(answer02.1$arr_delay)) == 0)
+
+# 接著我們要把風速（wind_speed)做分級。
+# 由於我們對氣象的數據沒有背景知識，所以最好的分類方法就是透過數據的比率來抓。
+# quantile函數會抓出一個數值向量中的百分位數，也就是說：
+# answer02.2[1]會超過 0% 的 answer02.2
+# answer02.2[2]會超過 25% 的 answer02.2
+# answer02.2[3]會超過 50% 的 answer02.2
+# answer02.2[4]會超過 75% 的 answer02.2
+# answer02.2[5]會超過 100% 的 answer02.2
+answer02.2 &lt;- quantile(answer02.1$wind_speed, seq(0, 1, by = 0.25))
+stopifnot(length(answer02.2) == 5)
+stopifnot(answer02.2[1] == 0)
+stopifnot(answer02.2[5] == max(answer02.2))
+
+# 最後，我們利用`cut`與`answer02.2`對原始的wind_speed做分類。
+# 介於 answer02.2[1]至answer02.2[2]的風速，會被歸類為等級1
+# 介於 answer02.2[2]至answer02.2[3]的風速，會被歸類為等級2
+# 介於 answer02.2[3]至answer02.2[4]的風速，會被歸類為等級3
+# 介於 answer02.2[4]至answer02.2[5]的風速，會被歸類為等級4
+# 接著，我們計算arr_delay在每一種分類中的平均數
+answer02.3 &lt;- local({
+  mutate(answer02.1, wind_speed = cut(wind_speed, breaks = c(answer02.2[1]-1e-5, tail(answer02.2, -1)))) %&gt;%
+    group_by(wind_speed) %&gt;%
+    summarise(mean(arr_delay))
+})
+stopifnot(nrow(answer02.3) == 4)
+stopifnot(colnames(answer02.3) == c(&quot;wind_speed&quot;, &quot;mean(arr_delay)&quot;))
+if (packageVersion(&quot;nycflights13&quot;) != &quot;0.2.0&quot;) stopifnot(answer02.3[[2]] &gt; 4)
+stopifnot(answer02.3[[2]] &lt; 16)
+# 請同學完成後回到console輸入`submit()`做檢查</code></pre>
+</div>
+<div id="-39" class="section level2">
+<h2>關卡 39</h2>
+<p>請同學看用<code>View(answer02.3)</code>，觀察我們在上一題得到的結果。</p>
+<pre class="r"><code>View(answer02.3)</code></pre>
+</div>
+<div id="-40" class="section level2">
+<h2>關卡 40</h2>
+<p>這樣的數據顯示，當起飛機場的風速越大，飛機在降落時的延誤就越大。</p>
+</div>
+<div id="-41" class="section level2">
+<h2>關卡 41</h2>
+<p>接著我們來講解dplyr提供的各種合併表格的方法。</p>
+</div>
+<div id="-42" class="section level2">
+<h2>關卡 42</h2>
+<p>除了<code>left_join</code>之外，dplyr還提供了6種join函數。而他們的參數都非常類似：<code>x</code>、<code>y</code>和<code>by</code>，而且他們的用法都一模一樣，比對的方法也一模一樣。他們的差異只在於：當比對結束之後，產生的data.frame中到底要包含哪些資料呢？</p>
+</div>
+<div id="-43" class="section level2">
+<h2>關卡 43</h2>
+<p>為了等下的說明，我們仿照vignette，建立了兩個變數：<code>df1</code>與<code>df2</code>。請同學輸入<code>View(df1)</code>來看看<code>df1</code>的資料。</p>
+<pre class="r"><code>View(df1)</code></pre>
+</div>
+<div id="-44" class="section level2">
+<h2>關卡 44</h2>
+<p>請同學輸入<code>View(df2)</code>來看看<code>df2</code>的資料。</p>
+<pre class="r"><code>View(df2)</code></pre>
+</div>
+<div id="-45" class="section level2">
+<h2>關卡 45</h2>
+<p>我們先拿<code>left_join</code>作解說。做完<code>left_join</code>之後，最後的data.frame，就是<code>x</code>中所有的資料。而<code>y</code>的資料只有在和<code>x</code>比對成功之後，才會貼當輸出的欄位中。否則就是NA。</p>
+</div>
+<div id="-46" class="section level2">
+<h2>關卡 46</h2>
+<p>請同學輸入：<code>wiki_join()</code>來打開這六種JOIN的圖示。</p>
+<pre class="r"><code>wiki_join()</code></pre>
+</div>
+<div id="-47" class="section level2">
+<h2>關卡 47</h2>
+<p><code>wiki_join()</code>中的第一張圖中淺藍色的部份，就代表最後輸出的<code>data.frame</code>剛剛好就是原本<code>x</code>的資料。</p>
+</div>
+<div id="-48" class="section level2">
+<h2>關卡 48</h2>
+<p>請問同學，如果輸入：<code>left_join(df1,df2)</code>的話，<code>left_join</code>會以哪一個欄位名稱為基準作比對呢？（df1和df2共有的名稱） x</p>
+</div>
+<div id="-49" class="section level2">
+<h2>關卡 49</h2>
+<p>請同學輸入：<code>left_join(df1,df2)</code></p>
+<pre class="r"><code>left_join(df1, df2)</code></pre>
+</div>
+<div id="-50" class="section level2">
+<h2>關卡 50</h2>
+<p>我們會看到<code>df1</code>資料都有保留下來。（結果的<code>x</code>欄的值為<code>c(1,2)</code>）而結果的第二筆資料，因為df2中沒有<code>x=2</code>的資料，所以<code>a</code>與<code>b</code>的欄位都是NA</p>
+</div>
+<div id="-51" class="section level2">
+<h2>關卡 51</h2>
+<p><code>wiki_join()</code>中的第二張圖中淺藍色的部份，就代表<code>right_join</code>最後輸出的<code>data.frame</code>，剛剛好就是原本<code>y</code>的資料。事實上，<code>right_join(x,y)</code>就等價於<code>left_join(y,x)</code>，差別只在欄位排序的不同。</p>
+</div>
+<div id="-52" class="section level2">
+<h2>關卡 52</h2>
+<p>請同學輸入：<code>right_join(df2,df1)</code>。請注意，我們這次是<code>x=df2</code>。</p>
+<pre class="r"><code>right_join(df2, df1)</code></pre>
+</div>
+<div id="-53" class="section level2">
+<h2>關卡 53</h2>
+<p>和<code>left_join(df1,df2)</code>相比，<code>x</code>欄位的值一樣是<code>c(1,2)</code>，但是欄位順序不同了。</p>
+</div>
+<div id="-54" class="section level2">
+<h2>關卡 54</h2>
+<p><code>wiki_join()</code>中的第三張圖中淺藍色的部份，就代表<code>inner_join</code>最後輸出的<code>data.frame</code>，資料必須要同時存在於<code>x</code>和<code>y</code>之中。</p>
+</div>
+<div id="-55" class="section level2">
+<h2>關卡 55</h2>
+<p>請同學輸入：<code>inner_join(df1,df2)</code>。</p>
+<pre class="r"><code>inner_join(df1, df2)</code></pre>
+</div>
+<div id="-56" class="section level2">
+<h2>關卡 56</h2>
+<p>結果的<code>x</code>欄位只剩下<code>1</code>的狀況了，<code>df1</code>和<code>df2</code>都有<code>x=1</code>的資料。</p>
+</div>
+<div id="-57" class="section level2">
+<h2>關卡 57</h2>
+<p>接續著的<code>full_join</code>與<code>anti_join</code>為止，都是非常類似的。我們練習一下，用肌肉作記憶。</p>
+</div>
+<div id="-58" class="section level2">
+<h2>關卡 58</h2>
+<p>請同學輸入：<code>full_join(df1,df2)</code>。</p>
+<pre class="r"><code>full_join(df1, df2)</code></pre>
+</div>
+<div id="-59" class="section level2">
+<h2>關卡 59</h2>
+<p>輸出的結果的<code>x</code>欄位為<code>c(1,2,3)</code>，是df1和df2的聯集。</p>
+</div>
+<div id="-60" class="section level2">
+<h2>關卡 60</h2>
+<p>請同學輸入：<code>anti_join(df1,df2)</code>。</p>
+<pre class="r"><code>anti_join(df1, df2)</code></pre>
+</div>
+<div id="-61" class="section level2">
+<h2>關卡 61</h2>
+<p>結果只列出<code>df1</code>中和<code>df2</code>比對失敗的資料。這是目前為止唯一欄位只剩下<code>x</code>的欄位的JOIN結果。</p>
+</div>
+<div id="-62" class="section level2">
+<h2>關卡 62</h2>
+<p>在講解<code>semi_join</code>之前，我們要先提醒同學一個狀況：當比對的欄位，值不唯一的時候，JOIN要如何作操作呢？</p>
+</div>
+<div id="-63" class="section level2">
+<h2>關卡 63</h2>
+<p>舉例來說，我們已經建立了兩個data.frame:<code>df3</code>與<code>df4</code>。他們的<code>x</code>欄位都有兩個1。請同學輸入<code>View(df3)</code>看看<code>df3</code></p>
+<pre class="r"><code>View(df3)</code></pre>
+</div>
+<div id="-64" class="section level2">
+<h2>關卡 64</h2>
+<p>請同學輸入<code>View(df4)</code>看看<code>df4</code></p>
+<pre class="r"><code>View(df4)</code></pre>
+</div>
+<div id="-65" class="section level2">
+<h2>關卡 65</h2>
+<p>接著，我們輸入<code>inner_join(df3,df4)</code>看看結果有多少列。</p>
+<pre class="r"><code>inner_join(df3, df4)</code></pre>
+</div>
+<div id="-66" class="section level2">
+<h2>關卡 66</h2>
+<p>上述的這些<code>join</code>都會窮舉出所有可能排列組合。因為<code>df3</code>的<code>x</code>有兩個1,<code>df4</code>的<code>x</code>有兩個1,所以所有可能的排列組合有：2*2=4因此<code>inner_join</code>就回傳4列。</p>
+</div>
+<div id="-67" class="section level2">
+<h2>關卡 67</h2>
+<p>最後一個<code>semi_join</code>非常類似<code>inner_join</code>，但是當比對的資料不是唯一時，它不會窮舉所有的可能性，而只是把有比對成功的<code>x</code>的資料留下來。</p>
+</div>
+<div id="-68" class="section level2">
+<h2>關卡 68</h2>
+<p>請同學輸入：<code>semi_join(df3,df4)</code>看看結果。</p>
+<pre class="r"><code>semi_join(df3, df4)</code></pre>
+</div>
+<div id="-69" class="section level2">
+<h2>關卡 69</h2>
+<p>結果幾乎等價於<code>df3[1:2,]</code>，這是因為只有前兩列資料有和<code>df4</code>比對成功。</p>
+</div>
+<div id="-70" class="section level2">
+<h2>關卡 70</h2>
+<p>這次的大魔王要延續RDataEngineer-05-Data-Manipulation最後所使用的<code>cl_info</code>資料。</p>
+</div>
+<div id="-71" class="section level2">
+<h2>關卡 71</h2>
+<p>同時，我們也準備了從央行抓取的GDP資料。但是這份資料要請同學自己想辦法讀出來。</p>
+</div>
+<div id="-72" class="section level2">
+<h2>關卡 72</h2>
+<p>我們的目標，是要比對房貸餘額是否超過GDP的40%。這是一種拿來評估房地產是否會泡沫化的指標。</p>
+</div>
+<div id="-73" class="section level2">
+<h2>關卡 73</h2>
+<p>就請同學多多加油了！利用從RBasic到RDataEngineer系列所學到的知識，完成這個挑戰。請同學在完成之後存檔，並輸入<code>submit()</code>來檢查結果是否符合預期。如果同學在檔案中看到亂碼，請使用Rstudio左上角的File-&gt;Reopen</p>
+<pre class="r"><code>#' 請用各種方式讀取`gdp_path`的資料、整理資料，並把最後的結果存到變數`gdp`。
+#' 提示：`gdp_path`中的第一欄數據是年/季、第二欄數據是該季的GDP(百萬)
+#' 結果應該要有兩欄的數據，第一欄是年，第二欄是我國每年的GDP
+#' 具體細節請參考最後的`stopifnot`的檢查事項
+#' 提示：拿掉數據中間的逗號，請用：`gsub(pattern = &quot;,&quot;, replacement = &quot;&quot;, x = &lt;你的字串向量&gt;)`
+gdp &lt;- local({
+  # 請填寫你的程式碼
+  read.table(gdp_path, skip = 4, header = FALSE, sep = &quot;,&quot;) %&gt;%
+    slice(1:132) %&gt;%
+    select(season = V1, gdp = V2) %&gt;%
+    mutate(
+      season = as.character(season),
+      year = substring(season, 1, 4),
+      gdp = gsub(pattern = &quot;,&quot;, replacement = &quot;&quot;, x = gdp), 
+      gdp = as.numeric(gdp) * 1000000) %&gt;%
+    group_by(year) %&gt;%
+    summarise(gdp = sum(gdp))
+})
+stopifnot(is.data.frame(gdp))
+stopifnot(colnames(gdp) == c(&quot;year&quot;, &quot;gdp&quot;))
+stopifnot(class(gdp$year) == &quot;character&quot;)
+stopifnot(class(gdp$gdp) == &quot;numeric&quot;)
+stopifnot(nrow(gdp) == 33)
+stopifnot(range(gdp$year) == c(&quot;1981&quot;, &quot;2013&quot;))
+stopifnot(range(gdp$gdp) == c(1810829,14564242) * 1000000)
+
+#' cl_info的資料包含各家銀行的房貸餘額（mortgage_bal）資訊與資料的時間（data_dt）。
+#' 請用各種方法整理cl_info的資料，把最後的結果整理至`cl_info_year`
+#' 結果應該要有兩欄的數據，第一欄是年，第二欄是每年房貸餘額的值(請以每年的一月份資料為準)
+#' 具體細節請參考最後的`stopifnot`檢查事項
+cl_info_year &lt;- local({
+  select(cl_info, data_dt, mortgage_bal) %&gt;%
+    mutate(month = substring(data_dt,1,7)) %&gt;%
+    group_by(month) %&gt;%
+    summarise(mortgage_total_bal = sum(mortgage_bal, na.rm = TRUE)) %&gt;%
+    mutate(year = substring(month, 1, 4)) %&gt;%
+    group_by(year) %&gt;%
+    arrange(month) %&gt;%
+    summarise(month = head(month, 1), mortgage_total_bal = head(mortgage_total_bal, 1)) %&gt;%
+    select(year, mortgage_total_bal)
+})
+
+stopifnot(is.data.frame(cl_info_year))
+stopifnot(colnames(cl_info_year) == c(&quot;year&quot;, &quot;mortgage_total_bal&quot;))
+stopifnot(class(cl_info_year$year) == &quot;character&quot;)
+stopifnot(class(cl_info_year$mortgage_total_bal) == &quot;numeric&quot;)
+stopifnot(nrow(cl_info_year) == 9)
+stopifnot(range(cl_info_year$year) == c(&quot;2006&quot;, &quot;2014&quot;))
+stopifnot(range(cl_info_year$mortgage_total_bal) == c(3.79632e+12, 5.726784e+12))
+
+#' 最後請同學用這門課程所學的技術整合`gdp`與`cl_info`的資料，
+#' 計算出房貸餘額與gdp的比率（mortgage_total_bal / gdp）。
+#' 請將結果輸出到一個data.frame，第一攔是年份，第二欄是房貸餘額的GDP佔有比率。
+#' 細節請參考`stopifnot`的檢查
+answerHW &lt;- local({
+  # 請在這邊填寫你的程式碼
+  inner_join(cl_info_year, gdp, by = &quot;year&quot;) %&gt;%
+    mutate(index = mortgage_total_bal / gdp) %&gt;%
+    select(year, index)
+})
+
+stopifnot(is.data.frame(answerHW))
+stopifnot(nrow(answerHW) == 8)
+stopifnot(colnames(answerHW) == c(&quot;year&quot;, &quot;index&quot;))
+stopifnot(class(answerHW$year) == &quot;character&quot;)
+stopifnot(class(answerHW$index) == &quot;numeric&quot;)
+stopifnot(min(answerHW$index) &gt; 0.3)
+stopifnot(max(answerHW$index) &lt; 0.4)</code></pre>
 </div>
 
 
