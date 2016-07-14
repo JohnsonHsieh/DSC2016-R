@@ -89,8 +89,8 @@
 
 - Class: cmd_question
   Output: |
-    上述的方法，要計算kNN是比較不方便的。因此，我們使用class
-    這個套件來計算kNN的結果。請同學先安裝套件class
+    上述的方法，要計算kNN是比較不方便的。因此，我們使用`class`
+    這個套件來計算kNN的結果。請同學先安裝套件`class`
   CorrectAnswer: check_then_install("class", "7.3")
   AnswerTests: test_package_version("class", "7.3")
 

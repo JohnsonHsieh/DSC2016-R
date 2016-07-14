@@ -30,5 +30,6 @@ cl3 <- {
   NULL #' 請在這邊輸入你的程式碼
 }
 
-#' 結果應該是一個integer vector
-stopifnot(class(cl3)[1] == "integer")
+#' 結果應該是一個integer/numeric vector
+stopifnot(class(cl3)[1] == "integer" | class(cl3)[1] == "numeric")
+

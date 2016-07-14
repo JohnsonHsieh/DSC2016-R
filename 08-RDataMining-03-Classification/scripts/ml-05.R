@@ -24,13 +24,14 @@ answer_05 <- local({
   NULL
   # 請調整以下的程式碼
   # rpart(Class ~ ?, data = df.train, control = rpart.control(minsplit=?))
+  # Hint : 多試試看幾種不同的 minsplit
 })
 
 stopifnot(class(answer_05) == c("rpart"))
 if (interactive()) {
   stopifnot(local({
     p <- predict(answer_05, df.test)[,"good"]
-    logloss(df.test$Class == "good", p)
+    logloss(df.test$Class == "good", p) < 12
   }))
 }
 

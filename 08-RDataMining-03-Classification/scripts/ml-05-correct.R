@@ -23,6 +23,7 @@ df.train <- Ionosphere[train.i,-2]
 answer_05 <- local({
   NULL
   # 請調整以下的程式碼
+  # Hint : 多試試看幾種不同的 minsplit
   rpart(Class ~ ., data = df.train, control = rpart.control(minsplit=50))
 })
 

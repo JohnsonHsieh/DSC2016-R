@@ -49,4 +49,5 @@ cl3 <- {
 }
 
 #' 結果應該是一個integer vector
-stopifnot(class(cl3)[1] == "integer")
+stopifnot(class(cl3)[1] == "integer" | class(cl3)[1] == "numeric")
+
