@@ -6,9 +6,14 @@
 - 謝宗震 / DSP 智庫驅動資料科學家
 
 
-## 安裝Swirl課程
+## 一鍵安裝本次課程，打開 R 執行：
+```
+source("http://hjhsu.github.io/r_course/init-swirl.R")
+```
 
-- 請檢查是否使用 `http://wush978.github.io` 上的swirl套件：
+## 土炮安裝Swirl課程
+
+- 請檢查是否使用 `http://wush978.github.io` 上的swirl套件，
 
 ```
 tryCatch({
@@ -37,6 +42,7 @@ install_course_github("JohnsonHsieh", "DSC2016-R", "course")
 ```
 
 ## 課程公布欄
+- 課程講義：[Day1](https://hjhsu.github.io/r_course/R_DataEngineering.pdf), [Day2](https://johnsonhsieh.github.io//DSC2016-R/slide/R-Data-Mining.html)
 - [共同筆記](https://dsp.hackpad.com/R--zX1JuCX7uEF)
 - [關卡提示](https://johnsonhsieh.github.io/DSC2016-R/note/)
 - [討論聊天](https://gitter.im/JohnsonHsieh/DSC2016-R)
