@@ -1,0 +1,170 @@
+
+                ## 關卡 1
+                在Loading_n_Parsing課程中，同學已經學會了如何檢查含中文資料檔案的編碼，並且利用適當的參數，將這些檔案載入R環境之中。
+                
+
+                ## 關卡 2
+                然而有時候，由於不明原因，R還是會發生無法讀取特定編碼的狀況。這時候，我們可以先把資料以位元的方式讀取到R中，再做轉碼。
+                
+
+                ## 關卡 3
+                在程式的世界中，資料在電腦中最終都是儲存為0和1的位元。在處理資料時，程式需要先對資料有一些認識才能做處理，例如把資料當成字串、整數或浮點數。文字的資料才會被編碼影響，所以如果我們只是用位元來處理檔案的內容，就可以避開編碼的問題。
+                
+
+                ## 關卡 4
+                我們拿一個自<http://data.gov.tw/node/6213>下載的csv檔做範例。這個檔案的目錄已經存入了`lvr_land.path`變數之中。
+                
+
+                ## 關卡 5
+                R是型態為raw的向量來處理位元的物件。只要能知道檔案的大小，readBin就可以把所有的檔案資料以raw的形式輸入到R中。我們可以使用`file.info`來查詢檔案的大小。請同學利用`file.info(lvr_land.path)`來查詢檔案的資訊，並且把結果存到變數`lvr_land.info`。
+                ```r
+                lvr_land.info <- file.info(lvr_land.path)
+                ```
+                
+
+                ## 關卡 6
+                請同學先輸入`class(lvr_land.info)`
+                ```r
+                class(lvr_land.info)
+                ```
+                
+
+                ## 關卡 7
+                請問同學，`file.info`的回傳值是什麼型態？
+                data.frame
+                
+
+                ## 關卡 8
+                接下來請同學列出`lvr_land.info`的欄位名稱
+                ```r
+                colnames(lvr_land.info)
+                ```
+                
+
+                ## 關卡 9
+                請問同學，`lvr_land.path`背後的檔案大小，應該是多少呢？請輸入一個指令，讓R輸出一個數值，代表這個檔案的大小。
+                ```r
+                lvr_land.info$size
+                ```
+                
+
+                ## 關卡 10
+                接著請同學利用`readBin`來把`lvr_land.path`的檔案完全以位元的方式讀到R中，並且存到名稱為`lvr_land.bin`的變數。
+                ```r
+                lvr_land.bin <- readBin(lvr_land.path, what = "raw", n = lvr_land.info$size)
+                ```
+                
+
+                ## 關卡 11
+                接著，我們需要使用stringi套件。由於swirl本身已經相依於stringi，所以請同學直接載入stringi。
+                ```r
+                library(stringi)
+                ```
+                
+
+                ## 關卡 12
+                透過stringi套件的`stri_encode`，我們可以把一個位元組的向量（在R中，這類向量的型態是raw）從一個編碼轉換為另一個編碼。
+                
+
+                ## 關卡 13
+                請同學把`stri_encode(lvr_land.bin,"BIG-5","UTF-8")`的結果存到`lvr_land.txt`之中。
+                ```r
+                lvr_land.txt <- stri_encode(lvr_land.bin, "BIG-5", "UTF-8")
+                ```
+                
+
+                ## 關卡 14
+                透過以上的方法，我們可以取得轉換編碼後的character向量`lvr_land.txt`。
+                
+
+                ## 關卡 15
+                接著我們開始來講解`read.table`這個讀取CSV格式檔案最泛用的指令。
+                
+
+                ## 關卡 16
+                在R中，`read.table`的第一個參數和readLines的第一個參數一樣，代表要開啟的檔案。如果我們不在乎檔案的編碼，可以直接輸入檔案的路徑。以下哪一個是正確的路徑？
+                lvr_land.path
+                
+
+                ## 關卡 17
+                請同學特別注意`read.table`的參數fileEncoding的用法，這個參數雖然可以解碼，但只能用在file參數為字串的case。請同學試試看`read.table(lvr_land.path,fileEncoding="BIG-5")`。
+                ```r
+                read.table(lvr_land.path, fileEncoding = "BIG-5")
+                ```
+                
+
+                ## 關卡 18
+                可惜我們需要設定編碼。（註：在中文版windows上預設會使用BIG5編碼，所以可以直接如上題輸入`lvr_land.path`。第二個重要的參數，是`header`。`header=TRUE`代表檔案的第一行是欄位名稱，而不是資料。`header=FALSE`代表檔案的第一行就是資料。剛剛我們看到檔案的前五行的內容是：`[1]"鄉鎮市區,交易標的,..."[2]"文山區,房地(土地+建物)..."`。請問同學，`header`的參數應該要給哪一個呢？
+                TRUE
+                
+
+                ## 關卡 19
+                第三個重要的參數是`sep`，這代表各行欄位間的分隔符號。根據之前我們看到的前五行的資料：`[1]"鄉鎮市區,交易標的,土地區段位置...,土地移轉總面積..."[2]"文山區,房地(土地+建物),臺北市文山區...,43.44..."[3]"中正區,房地(土地+建物),臺北市中正區...,40.19..."。請問同學，這份檔案個欄位的分隔符號是什麼呢？
+                ,
+                
+
+                ## 關卡 20
+                依照以上問答題的答案，請同學利用`read.table`，用BIG5編碼讀取`lvr_land.path`，並且把輸出存到變數`lvr_land`
+                ```r
+                lvr_land <- read.table(file(lvr_land.path, encoding = "BIG5"), header = TRUE, sep = ",")
+                ```
+                
+
+                ## 關卡 21
+                如果我們要直接從`lvr_land.txt`的內容取出表格，一種方法是直接把`lvr_land.txt`寫成一個檔案，再用`read.table`讀取。另外一種方法，是把`lvr_land.txt`視為一個類似檔案的物件，也就是connection。
+                
+
+                ## 關卡 22
+                在windows上，有一個很不方便的地方，是接下來的作法和Windows的語系有關。如果同學的Windows的語系有支援多位元組字串（例如中文、日文等語系），那語法需要調整。
+                
+
+                ## 關卡 23
+                我們可以用`l10n_info()`來查詢作業系統對於各種Encoding的支援狀況。`l10n_info()`會回報系統對是否有支援UTF-8（UTF-8欄位），或是多位元組字串（MBCS欄位）。請同學試試看輸入：`l10n_info()`
+                ```r
+                l10n_info()
+                ```
+                
+
+                ## 關卡 24
+                根據經驗，如果`l10n_info()`的輸出中，MBCS為TRUE且UTF-8為FALSE，則要使用：`textConnection(lvr_land.txt)`來從`lvr_land.txt`建立一個connection。除此之外，則使用`textConnection(lvr_land.txt,encoding="UTF-8")`即可。請同學依據上一題的結果，在MBCS為TRUE且UTF-8為FALSE時執行：`read.table(textConnection(lvr_land.txt),header=TRUE,sep=",")`否則，執行：`read.table(textConnection(lvr_land.txt,encoding="UTF-8"),header=TRUE,sep=",")`
+                ```r
+                read.table(get_text_connection_by_l10n_info(lvr_land.txt), header = TRUE, sep = ",")
+                ```
+                
+
+                ## 關卡 25
+                以上提供數種在R中處理中文資料的方法給同學參考。
+                
+
+                ## 關卡 26
+                事實上，如果同學自行下載原本的檔案來處理，上述的流程還是會出錯的。那是因為在第21行，資料的最後一欄的內容包含：`,`這個符號，導致欄位判斷出錯。
+                
+
+                ## 關卡 27
+                遇到這種狀況，最好的方式是自己用如notepad++或是其他的編輯器，自行編輯原始的檔案資料（依照錯誤訊息，移除多餘的,），再用R讀取。由於這樣的動作超過這個課程系統的內容，所以我們就不帶著同學做操作了。
+                
+
+                ## 關卡 28
+                另外一種方式，是透過`readLines`來讀取資料，再用R的其他函數自行把讀入的字串轉換為data.frame。這部分很難歸納，會隨著資料的乾淨程度而有所不同。同學可以再閱讀本課程中的，一些實際分析OpenData的範例，就可以學到一些技巧。或是繼續學習R的字串處理函數與套件。
+                
+
+                ## 關卡 29
+                最後，還是要請同學利用這次所學的內容，做一個小練習。請同學在完成之後存檔，並輸入`submit()`來檢查結果是否符合預期。如果同學在檔案中看到亂碼，請使用Rstudio左上角的File->ReopenWithEncoding...->選取：UTF-8
+                ```r
+                #' 請同學用這章節所學的技巧，讀取`orglist.path`的檔案
+#' 資料來源：<http://data.gov.tw/node/7307>
+
+# <你可以在這裡做各種嘗試>
+answer.raw <- readBin(orglist.path, what = "raw", n = file.info(orglist.path)$size)
+answer.txt <- stringi::stri_encode(answer.raw, from = "UTF-16", to = "UTF-8")
+get_text_connection_by_l10n_info <- function(x) {
+  info <- l10n_info()
+  if (info$MBCS & !info$`UTF-8`) {
+    textConnection(x)
+  } else {
+    textConnection(x, encoding = "UTF-8")
+  }
+}
+answer <- read.table(get_text_connection_by_l10n_info(answer.txt), header = TRUE, sep = ",")
+                ```
+                

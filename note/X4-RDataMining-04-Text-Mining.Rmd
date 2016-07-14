@@ -1,0 +1,187 @@
+
+                ## 關卡 1
+                這門課程會跟同學介紹在R中常用的TextMining功能。
+                
+
+                ## 關卡 2
+                請同學先安裝套件tm
+                ```r
+                check_then_install("tm", "0.6.2")
+                ```
+                
+
+                ## 關卡 3
+                接著請同學載入tm套件
+                ```r
+                library(tm)
+                ```
+                
+
+                ## 關卡 4
+                tm套件是目前R中最泛用的TextMining資料處理工具。先請同學查查看tm套件有沒有vignette。
+                ```r
+                vignette(package = "tm")
+                ```
+                
+
+                ## 關卡 5
+                接著請同學打開名為tm的vignette。
+                ```r
+                vignette("tm")
+                ```
+                
+
+                ## 關卡 6
+                有興趣深入研究tm套件的同學，隨時可以深入閱讀這份文件。
+                
+
+                ## 關卡 7
+                在tm套件中，所有的文字資料，都會以文集(Corpus)為單位做處理。同學可以先簡單把文集理解為一段有意義的文字，例如文章、評論，或是句子。
+                
+
+                ## 關卡 8
+                tm套件提供了一些範例資料讓我們可以使用。請同學輸入`txt.dir<-system.file("texts","txt",package="tm")`這裡的system.file函數讓我們可以快速取得套件內附帶的檔案路徑。
+                ```r
+                txt.dir <- system.file("texts", "txt", package = "tm")
+                ```
+                
+
+                ## 關卡 9
+                我們可以使用`dir`來列出`txt.dir`這個目錄底下的檔案清單。請同學輸入：`dir(txt.dir)`
+                ```r
+                dir(txt.dir)
+                ```
+                
+
+                ## 關卡 10
+                我們看到了五個檔案。同學可以用`readLines(file.path(txt.dir,"ovid_1.txt"))`來看看第一個檔案的內容。這裡的`file.path`是R中拿來組合目錄名稱與檔案名稱的函數。由於剛剛的檔案是在`txt.dir`目錄中，而`"ovid_1.txt"`是該目錄的第一個檔案，所以要讓R讀取該檔案，則要利用`file.path`組合完整的路徑。
+                ```r
+                readLines(file.path(txt.dir, "ovid_1.txt"))
+                ```
+                
+
+                ## 關卡 11
+                根據vignette，這些文章是古羅馬詩Ovid的內容，並不是英文！
+                
+
+                ## 關卡 12
+                是不是英文沒關係。我們可以使用tm的`DirSource`函數來定義資料來源。請同學輸入：`src<-DirSource(txt.dir)`
+                ```r
+                src <- DirSource(txt.dir)
+                ```
+                
+
+                ## 關卡 13
+                接著我們使用VCorpus來建立一個文集物件。請同學輸入：`ovid<-VCorpus(src)`
+                ```r
+                ovid <- VCorpus(src)
+                ```
+                
+
+                ## 關卡 14
+                讓我們來看看VCorpus物件。請同學輸入：`ovid`
+                ```r
+                ovid
+                ```
+                
+
+                ## 關卡 15
+                一般的`print`方法，並不會顯示`ovid`的內容。我們需要使用：`inspect(ovid)`來獲取更詳細的資訊。請同學試試看。
+                ```r
+                inspect(ovid)
+                ```
+                
+
+                ## 關卡 16
+                從Rconsole上我們觀察到非常類似list的物件顯示（有兩層的中括號）事實上，如果我們想要看文件內容，可以使用：`as.character(ovid[[1]])`
+                ```r
+                as.character(ovid[[1]])
+                ```
+                
+
+                ## 關卡 17
+                接下來我們示範要怎麼使用tm套件進行資料的清理。請同學使用`ovid2<-tm_map(ovid,stripWhitespace)`
+                ```r
+                ovid2 <- tm_map(ovid, stripWhitespace)
+                ```
+                
+
+                ## 關卡 18
+                我們用`as.character(ovid2[[1]])`看看清理後的資料。多餘的空白都消失了。
+                ```r
+                as.character(ovid2[[1]])
+                ```
+                
+
+                ## 關卡 19
+                這裡`tm_map`函數，就是把stripWhitespace函數套用到所有的ovid資料集上。舉例來說，很類似：`ovid2[[1]]<-stripWhitespace(ovid[[1]])`,`ovid2[[2]]<-stripWhitespace(ovid[[2]])`,...透過這個tm_map，我們可以很方便的使用各種函數來清理ovid
+                
+
+                ## 關卡 20
+                在做進階的資料處理之前，我們可以把文本轉換成TermDocumentMatrix或是DocumentTermMatrix。TermDocumentMatrix會把term當成列，而DocumentTermMatrix則是把Term當成欄。請同學試試看：`tdm<-TermDocumentMatrix(ovid2)`
+                ```r
+                tdm <- TermDocumentMatrix(ovid2)
+                ```
+                
+
+                ## 關卡 21
+                我們先看看tdm的資訊。請輸入`tdm`
+                ```r
+                tdm
+                ```
+                
+
+                ## 關卡 22
+                我們看到關於這個TermDocumentMatrix的一些整體資訊。諸如我們看到389個term，5個文件（就是當初看到的五個檔案）有興趣的同學可以去研讀tm的vignette獲取更多資訊。
+                
+
+                ## 關卡 23
+                讓我們用`inspect(tdm[1,])`來看看這個矩陣的第一列
+                ```r
+                inspect(tdm[1,])
+                ```
+                
+
+                ## 關卡 24
+                我們看到一個字在term的下方，而右邊會列出文件的列表，如：ovid_1.txt、ovid_2.txt、ovid_3.txt、ovid_4.txt與ovid_1.txt。這其實就是TermDocumentMatrix的意思。它利用空格切出terms，然後去紀錄每一個terms出現在哪些文件(docuemtns)中的次數。
+                
+
+                ## 關卡 25
+                實務上，分析師可以從tdm出發，搭配各種DataMining或MachineLearning的演算法，做出更有趣的應用。
+                
+
+                ## 關卡 26
+                以上就是我們對tm套件的簡介。有興趣的同學可以參考<https://github.com/wush978/DataScienceAndR/blob/master/slide/get_stupid_clown.R>上助教下載和清理ptt笨版資料的程式碼，來看看如何在R使用tm套件處理中文資料。
+                
+
+                ## 關卡 27
+                請同學跟著作業的程式碼，整理一個簡單的文本。完成之後可以輸入`submit()`檢查。
+                ```r
+                check_then_install("XML", "3.98.1.3")
+
+library(tm)
+crude.path <- system.file("texts", "crude", package = "tm")
+crude <- VCorpus(DirSource(crude.path), readerControl = list(reader = readReut21578XMLasPlain))
+
+#' 請依序利用tm_map 和以下函數對crude做清理之後，建立TermDocumentMatrix
+#' 1) stripWhitespace
+#' 2) content_transformer(tolower)
+#' 3) removeWords 搭配參數 stopwords("english")
+
+crude.tdm <- {
+  NULL
+  # 你的程式碼
+}
+
+crude.tdm <- {
+  NULL
+  tmp <- tm_map(crude, stripWhitespace)
+  tmp <- tm_map(tmp, content_transformer(tolower))
+  tmp <- tm_map(tmp, removeWords, stopwords('english'))
+  TermDocumentMatrix(tmp)
+}
+
+#' 預期的結果的dimension
+stopifnot(dim(crude.tdm) == c(1183, 20))
+                ```
+                

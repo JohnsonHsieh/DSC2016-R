@@ -1,0 +1,420 @@
+
+                ## 關卡 1
+                各位同學好，這門課程將會帶大家學習如何辨認外部資料集的編碼，將其正確地載入R環境，並針對其中的字串資料進行處理。
+                
+
+                ## 關卡 2
+                外部資料集的格式有千百種，今天只跟大家介紹最常見的CSV檔。
+                
+
+                ## 關卡 3
+                CSV檔的格式是以行(Line)為單位。每一行(Line)就是一筆紀錄(Record)。而每一筆紀錄中，是以一個分隔符號來讓使用者或程式分辨欄位。常見的分隔符號有：tab(\t)或逗號(,)。若以逗號做為分隔符號，則學生姓名加上4次小考分數的一筆紀錄，可用CSV表達如下：`柯小哲,77,82,87,92`
+                
+
+                ## 關卡 4
+                這個課程中，我們事先從政府的公開資料平台抓取了血清白蛋白(Albumin)檢查比率的資料。這個資料已經存放於`hospital_path`了。有興趣的同學，可以參考網址：<http://data.gov.tw/node/25511>閱讀這個資料集的故事。
+                
+
+                ## 關卡 5
+                載入中文資料，最重要的就是要抓對檔案所採用的中文的編碼；目前在R中尚沒有可以直接偵測外部資料編碼的工具，我們在這裡將帶著同學手動測試這個檔案的編碼。
+                
+
+                ## 關卡 6
+                檢查編碼的起手式是檢查該檔案有沒有BOM。BOM是一種利用檔案最前面的2個或3個位元組來標示檔案編碼的方式。在windows底下建立的中文檔案，有很高的機會會帶BOM。請同學執行：`readBin(hospital_path,"raw",n=3L)`
+                ```r
+                readBin(hospital_path,"raw",n = 3L)
+                ```
+                
+
+                ## 關卡 7
+                R中的`readBin`是一個直接讀取檔案中的位元組的指令，所以可以正確的處理BOM。第一個參數是檔案的路徑。第二個名稱為what的參數，是告訴R要如何處理讀入的資料。`what="raw"`代表讀入的資料用位元處理，而不是文字。第三個名稱為n的參數，代表要輸入的長度。這裡選`n=3`是因為通常BOM最多就是3個位元組。
+                
+
+                ## 關卡 8
+                參考<https://zh.wikipedia.org/wiki/位元組順序記號>請問同學，根據這三個byte，他們的BOM可能是什麼呢？
+                Unknown
+                
+
+                ## 關卡 9
+                當BOM不能判斷的時候，我們只好用各種Encoding讀個幾行試試看。由於政府公開資料網宣稱這個檔案為UTF-8編碼，我們可以先試試看UTF-8編碼。請同學輸入：`readLines(file(hospital_path,encoding="UTF-8"),n=3)`
+                ```r
+                readLines(file(hospital_path,encoding = "UTF-8"),n = 3)
+                ```
+                
+
+                ## 關卡 10
+                同學在這邊應該會看到一些警告（warning）訊息，那是因為這份檔案並非UTF-8編碼，所導致的小錯誤。
+                
+
+                ## 關卡 11
+                繁體中文檔案一般會以BIG5編碼，既然這份檔案並非其所宣稱的UTF-8編碼，那麼我們就試試看BIG5編碼吧。請各位同學輸入`readLines(file(hospital_path,encoding="BIG5"),n=3)`試試看。
+                ```r
+                readLines(file(hospital_path,encoding = "BIG5"),n = 3)
+                ```
+                
+
+                ## 關卡 12
+                同學們應該正確地看到了中文資料，那麼請問同學，這個檔案的編碼應該是：
+                BIG5
+                
+
+                ## 關卡 13
+                像是這類文件宣稱的編碼與實際情形不符的狀況，在實務上是很常見的。
+                
+
+                ## 關卡 14
+                補充說明，在這邊我們用到了函數`file`，這個函數會建立一個代表檔案的物件，在R之中叫做`connection`。而上述指令中的`readLines`函數，則會透過該`connection`將資料逐行讀入。R會不定時的關閉不使用的connection，並且在console顯示警告訊息。所以之後同學會不定時的看到：`closingunusedconnection`。
+                
+
+                ## 關卡 15
+                此外，各位也可以注意一下`readLines`函數的參數`n`，`n`代表的是要讀入幾行資料，接觸到一個新的資料檔案，先用`readLines`看一下資料是個好習慣，實務上會多看幾行，以利瞭解檔案的格式。
+                
+
+                ## 關卡 16
+                接著我們開始來講解`read.table`這個讀取CSV格式檔案最泛用的指令。
+                
+
+                ## 關卡 17
+                在R中，`read.table`的第一個參數和`readLines`的第一個參數一樣，代表要開啟的檔案。
+                
+
+                ## 關卡 18
+                第二個重要的參數，是`header`。`header=TRUE`代表檔案的第一行是欄位名稱，而非資料。`header=FALSE`則代表檔案的第一行就是資料。剛剛我們看到檔案的前五行的內容是：`[1]"YEARYY,HOSPID,HOSPNAME..."[2]"100Q1,0501010019,三軍總醫院松山分院附設民眾診療服務處..."`。請問同學，`header`的參數應該要給哪一個呢？
+                TRUE
+                
+
+                ## 關卡 19
+                第三個重要的參數是`sep`，這代表各行欄位間的分隔符號。根據之前我們看到的前五行的資料：`[1]"YEARYY,HOSPID,HOSPNAME..."[2]"100Q1,0501010019,三軍總醫院松山分院附設民眾診療服務處..."[3]"100Q1,3501013040,安禾聯合診所`。請問同學，這份檔案個欄位的分隔符號是什麼呢？
+                ,
+                
+
+                ## 關卡 20
+                依照以上問答題的答案，請同學利用`read.table`，用`read.table`和`file`兩個函數的組合，藉由適當的設定`sep`以及`header`和`encoding`等參數將`hospital_path`的內容存到`hospital`
+                ```r
+                hospital<-read.table(file(hospital_path,encoding = "BIG5"),header = TRUE,sep = ",")
+                ```
+                
+
+                ## 關卡 21
+                此外，在R中，`read.table`的第一個參數也可以直接輸入檔案的路徑。以下哪一個是正確的路徑？
+                hospital_path
+                
+
+                ## 關卡 22
+                在file參數為字串的前提下，同學可以藉由設定`read.table`的參數fileEncoding來進行解碼。同學試試看`read.table(hospital_path,fileEncoding="BIG5",sep=",",header=TRUE,nrows=5)`。這邊我們設定`nrows`參數為5，讀取資料的前五行展示此功能。
+                ```r
+                read.table(hospital_path,fileEncoding="BIG5",sep=",",header=TRUE,nrows=5)
+                ```
+                
+
+                ## 關卡 23
+                在實務上，數據來源常常都是隱含某些規則的文字檔案。例如：伺服器依據工程師擬定的規則所產生的資料。這個規則可能是工程師自己訂的，也可能是符合眾人智慧所訂定的規範。
+                
+
+                ## 關卡 24
+                但是不管是工程師自己的想法，或是眾人的智慧，R都能從文字中萃取出資訊。一般而言，這樣的技術就稱作Parsing。同學在這一堂課中所學到的`read.table`，其實就是一種Parsing的功能。
+                
+
+                ## 關卡 25
+                我們可能希望從欄位YEARYY中擷取出資料的年份。我們先看看名稱為YEARYY這欄，請同學自hospital中選出YEARYY欄位。（同學可以使用`[[`、或`$`搭配名稱或是欄位順序）
+                ```r
+                hospital$YEARYY
+                ```
+                
+
+                ## 關卡 26
+                有時候，觀察到太大量的資料可能會對R、電腦帶來大量的負荷，同時也對我們沒有意義。因為我們能同時處理的資料量是有限的。這裡我建議同學，可以用`head`這個函數篩選出資料的前6列做觀察。
+                
+
+                ## 關卡 27
+                請問同學，`hospital`中的YEARYY欄位的型態為何？
+                factor
+                
+
+                ## 關卡 28
+                從Levels上的資訊顯示，年份的資訊，可能是在前兩個數字，或是前三個數字。如果通通都是兩個數字的話，我們可以透過`substring`函數直接擷取字串中的段落即可。請同學輸入：`?substring`先看看substring函數的說明文件。
+                ```r
+                ?substring
+                ```
+                
+
+                ## 關卡 29
+                請問下列哪一個「不是」`substring`的參數？
+                x
+                
+
+                ## 關卡 30
+                R的`substring`函數會把`text`參數所代表的字串，依照字符的位置，擷取出中間的段落。舉例來說，`substring("abc",1,2)`就會擷取出"abc"中第1個字母到第2個字母的段落，也就是"ab"。而`substring`也是向量式的函數。請同學輸入`substring(head(hospital$YEARYY),1,3)`看看前6筆數據經過R的`substring`函數處理之後的結果。
+                ```r
+                substring(head(hospital$YEARYY),1,3)
+                ```
+                
+
+                ## 關卡 31
+                這樣的作法，有時候就夠了，可惜在現在的狀況不適合。因為年度可能是2位數也可能是3位數。
+                
+
+                ## 關卡 32
+                另外一種想法，是拿`"Q"`當做定位點。我們如果利用`"Q"`把字串分割成兩部份，第一部份就是我們需要的年份了。在R中，我們可以運用函數`strsplit`達到這個目的。請同學打開`strsplit`的說明文件。
+                ```r
+                ?strsplit
+                ```
+                
+
+                ## 關卡 33
+                請問同學，下列哪一個「不是」`strsplit`的參數？
+                str
+                
+
+                ## 關卡 34
+                根據說明文件，`strsplit`會利用`split`參數來切割`x`這個字串，並且回傳一個`list`。這是因為`x`的長度可能超過1，而`strsplit`會用`split`去切割每一個`x`的元素。而切割出來的結果，第一個元素可能切出兩段，但是第二個元素可能只切出一段。所以R用`list`這個結構來處理。但是`strsplit`並不接受factor參數，只接受字串向量。因此請同學用：`yearyy<-as.character(hospital$YEARYY)`把資料存到`yearyy`這個變數。
+                ```r
+                yearyy<-as.character(hospital$YEARYY)
+                ```
+                
+
+                ## 關卡 35
+                接著請同學輸入：`tmp<-strsplit(yearyy,"Q")`，把切割的結果儲存到`tmp`這個變數。
+                ```r
+                tmp<-strsplit(yearyy,"Q")
+                ```
+                
+
+                ## 關卡 36
+                請同學輸入：`head(tmp)`看看結果
+                ```r
+                head(tmp)
+                ```
+                
+
+                ## 關卡 37
+                同學應該會看到裝著許多字串向量的list。這樣，甚至是更複雜的結構，是我們在處理文字資料時常常遇到的。
+                
+
+                ## 關卡 38
+                由於我們要的是在`"Q"`之前的文字，而在經過`strsplit`處理後，這些文字會在每個list元素的第一個。請同學先拿用`[[`拿出tmp的第一個字串向量元素，然後用`[`拿出這個字串向量的第一個值。這就會是第一筆資料的年度。
+                ```r
+                tmp[[1]][1]
+                ```
+                
+
+                ## 關卡 39
+                同樣的要領，如果我們要拿出第二筆資料的年度，就只是把上一題`tmp[[1]][1]`的語法改成`tmp[[2]][1]`。
+                
+
+                ## 關卡 40
+                請問同學，`tmp`中總共有多少筆資料呢？
+                ```r
+                length(tmp)
+                ```
+                
+
+                ## 關卡 41
+                顯然一個一個處理是不可行的。R當然有設計針對這種狀況的解答。首先我們看看`tmp[[1]][1]`、`tmp[[2]][1]`、`tmp[[3]][1]`有什麼共通性？一種觀點是，我們需要對`tmp`的每一個元素進行`[1]`的操作。
+                
+
+                ## 關卡 42
+                這樣的需求，在parsing時是非常常見的。所以R提供了`lapply`這個函數。請同學先打開`lapply`的說明文件。
+                ```r
+                ?lapply
+                ```
+                
+
+                ## 關卡 43
+                R的`lapply`是同學接觸的第一個比較進階的函數。請問同學，下列哪一個不是`lapply`的參數？
+                Y
+                
+
+                ## 關卡 44
+                R的`lapply`的第一個參數`X`，通常是一個vector。第二個參數`FUN`，則是代表一種「動作」。而`lapply`會對每一個`X`的元素進行`FUN`所定義的動作，並且把結果彙整回R。
+                
+
+                ## 關卡 45
+                我們想要對`tmp`的每一個元素進行`[1]`的操作。根據上述的解釋，所以`lapply`的`X`參數，應該要填何？
+                tmp
+                
+
+                ## 關卡 46
+                而`lapply`的`FUN`參數，也就是對每個`X`的元素所進行的動作，應該是以下哪一個動作呢？
+                [1]
+                
+
+                ## 關卡 47
+                這裡再解釋一遍給還無法理解的同學。回到最前面，我們希望產生的結果會等價於：`c(tmp[[1]][1],tmp[[2]][1],tmp[[3]][1],...)`而第一個`[[1]]`、`[[2]]`、`[[3]]`是變動的，代表著從`tmp`中拿出第一個元素、第二個元素和第三個元素等等。而`[1]`是不變的動作。
+                
+
+                ## 關卡 48
+                因此`lapply`的第一個參數`X`放的是`tmp`，光這個動作就代表著：`c(FUN(tmp[[1]]),FUN(tmp[[2]]),FUN(tmp[[3]]),...)`而在此時此刻我們希望`FUN`就是作出`[1]`的動作。但是，`lapply(tmp,[1])`這種語法是不合法的。
+                
+
+                ## 關卡 49
+                在R裡面，所有的動作都是函數，所以`[1]`在R中，其實是一個名叫`[`的函數。
+                
+
+                ## 關卡 50
+                又因為這個函數比較特別，所以我們得使用`lapply(tmp,"[",1)`這個語法來取出`tmp`中每個元素（字串向量）的第一個欄位。請同學試試看。
+                ```r
+                lapply(tmp,"[",1)
+                ```
+                
+
+                ## 關卡 51
+                如果我們要取出`tmp`中每個元素（字串向量）的第二個欄位，就是用：`lapply(tmp,"[",2)`請同學試試看。
+                ```r
+                lapply(tmp,"[",2)
+                ```
+                
+
+                ## 關卡 52
+                到目前為止，同學應該可以理解`X`和`FUN`這兩個參數在`lapply`中扮演的角色。但是最後一個`...`的參數是什麼意思呢？這是因為`lapply`並不清楚`FUN`需要什麼參數，所以使用者可以在指定`X`和`FUN`之後，放入任意的參數，而這些參數並不是由`lapply`所使用，而是由`FUN`所使用。
+                
+
+                ## 關卡 53
+                所以`lapply(tmp,"[",1)`的第三個參數`1`就會透過`lapply`轉交給`[`，因此R知道要從`tmp`的每個元素中拿出第**1**個元素。
+                
+
+                ## 關卡 54
+                同理，`lapply(tmp,"[",2)`的第三個參數`2`透過`lapply`轉交給`[`，因此R知道要從`tmp`的每個元素中拿出第**2**個元素。
+                
+
+                ## 關卡 55
+                接著，請教同學`lapply(tmp,"[",1)`的輸出結果是什麼型態？
+                list
+                
+
+                ## 關卡 56
+                list型態對於後續的處理還是比較麻煩的。我們希望能夠將輸出轉換為字串向量。一種做法是透過`unlist`把`lapply`所輸出的`list`拆開。請同學試試看先輸入：`tmp2<-lapply(tmp,"[",1)`將結果儲存到`tmp2`這個變數。
+                ```r
+                tmp2<-lapply(tmp,"[",1)
+                ```
+                
+
+                ## 關卡 57
+                接著，我們可以使用`unlist(tmp2)`，就可以取得字串向量了。請同學試試看。
+                ```r
+                unlist(tmp2)
+                ```
+                
+
+                ## 關卡 58
+                另外一種方式是使用`sapply`這個函數。`sapply`和`lapply`幾乎一樣，差別只在於`sapply`最後會嘗試重新整理輸出的格式，從list轉成array。請同學試試`sapply(tmp,"[",1)`
+                ```r
+                sapply(tmp,"[",1)
+                ```
+                
+
+                ## 關卡 59
+                以上示範的技巧在實務很常見。當我們想要從文字中擷取出資訊時，都可以優先考慮運用`substring`或`strsplit`來擷取資訊。而當R把資訊放成非結構化的list物件中，我們可以運用`lapply`或`sapply`做資料的整理。
+                
+
+                ## 關卡 60
+                事實上，如果同學能夠撰寫R的函數，就可以適當的和`lapply`與`sapply`作組合，更有效率的整理資料。
+                
+
+                ## 關卡 61
+                我們在這門課程中展示了，以及如何從檔案中讀取CSV的資料並加以處理。
+                
+
+                ## 關卡 62
+                如果要使用R讀取XML的資料，可以使用套件XML。如果要讀取JSON，可以使用rjsonlite。只要資料格式是公開格式，我們很容易找到R的套件來讀取該資料格式。這就是R是OpenSource的威力！
+                
+
+                ## 關卡 63
+                受限於課程內容，所以我們這裡只講讀取CSV的方式。這應該是最泛用的內容了。未來有時間，會再找社群的其他大大合作開寫其他和讀資料相關的課程。同學如果很期待看到處理某些形態資料的課程，歡迎到<https://github.com/wush978/DataScienceAndR/issues>許願。
+                
+
+                ## 關卡 64
+                最後，還是要請同學利用這次所學的內容，做一個小練習。請同學在完成之後存檔，並輸入`submit()`來檢查結果是否符合預期。如果同學在檔案中看到亂碼，請使用Rstudio左上角的File->ReopenWithEncoding...->選取：UTF-8
+                ```r
+                # 這是從 <http://data.gov.tw/node/7769> 下載的海盜通報資料
+# 由於這份文件並沒有遵循任何已知的常見格式
+# 所以我們必須要利用這章所學的技巧
+# 才能從中翠取出資訊
+# 首先，我們把該檔案載入到R 之中
+pirate_info <- readLines(file(pirate_path, encoding = "BIG5"))
+
+# 接著我們要把經緯度從這份資料中萃取出來
+# 這份資料的格式，基本上可以用`：`分割出資料的欄位與內容
+# 請同學利用`strsplit`將`pirate_info`做切割
+# 並把結果儲存到`pirate_info_key_value`之中
+pirate_info_key_value <- {
+  # 請在這邊填寫你的程式碼
+  # 這個程式碼可以多行
+  .delim <- strsplit(pirate_info[2], "")[[1]][3]
+  strsplit(pirate_info, .delim)
+}
+
+# 我們需要的欄位名稱是「經緯度」
+# 請同學先把`pirate_info_key_value`中每個元素（這些元素均為字串向量）的第一個值取出
+# 你的答案鷹該要是字串向量
+pirate_info_key <- {
+  # 請在這邊填寫你的程式碼
+  # 這個程式碼可以多行
+  sapply(pirate_info_key_value, "[", 1)
+}
+
+# 確保你的結果是字串向量，否則答案會出錯
+stopifnot(class(pirate_info_key) == "character")
+
+# 我們將`pirate_info_key`和`"經緯度"`做比較後，把結果存到變數`pirate_is_coordinate`
+# 結果應該為一個布林向量
+pirate_is_coordinate <- {
+  # 請在這邊填寫你的程式碼
+  # 這個程式碼可以多行
+  pirate_info_key == pirate_info_key[8]
+}
+
+# 確保你的結果是布林向量，否則答案會出錯
+stopifnot(class(pirate_is_coordinate) == "logical")
+# 應該總共有11件海盜通報事件
+stopifnot(sum(pirate_is_coordinate) == 11)
+
+# 接著我們可以利用`pirate_is_coordinate`和`pirate_info_key_value`
+# 找出所有的經緯度資料
+# 請把這個資料存到變數`pirate_coordinate_raw`中，並且是個長度為11的字串向量
+pirate_coordinate_raw <- {
+  .tmp <- sapply(pirate_info_key_value, "[", 2)
+  .tmp[pirate_is_coordinate]
+}
+
+stopifnot(class(pirate_coordinate_raw) == "character")
+stopifnot(length(pirate_coordinate_raw) == 11)
+
+# 我們接著可以使用`substring`抓出經緯度的數字
+# 請先抓出緯度並忽略「分」的部份
+# 結果應該是整數（請用as.integer轉換）
+pirate_coordinate_latitude <- {
+  # 請在這邊填寫你的程式碼
+  # 這個程式碼可以多行
+  as.integer(substring(pirate_coordinate_raw, 3, 4))
+}
+
+stopifnot(class(pirate_coordinate_latitude) == "integer")
+stopifnot(length(pirate_coordinate_latitude) == 11)
+
+# 請用同樣的要領取出經度並忽略「分」的部份
+# 結果同樣應該是整數
+pirate_coordinate_longitude <- {
+  # 請在這邊填寫你的程式碼
+  # 這個程式碼可以多行
+  as.integer(substring(pirate_coordinate_raw, 12, 14))
+}
+
+stopifnot(class(pirate_coordinate_longitude) == "integer")
+stopifnot(length(pirate_coordinate_longitude) == 11)
+stopifnot(sum(pirate_coordinate_longitude) == 1151)
+
+pirate_df <- data.frame(
+  latitude = pirate_coordinate_latitude,
+  longitude = pirate_coordinate_longitude
+  )
+
+stopifnot(is.data.frame(pirate_df))
+stopifnot(nrow(pirate_df) == 11)
+stopifnot(ncol(pirate_df) == 2)
+stopifnot(class(pirate_df$latitude) == "integer")
+stopifnot(class(pirate_df$longitude) == "integer")
+stopifnot(sum(pirate_df$latitude) == 43)
+stopifnot(sum(pirate_df$longitude) == 1151)
+                ```
+                
