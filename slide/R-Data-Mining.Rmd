@@ -61,7 +61,7 @@ sys_encode <- c("utf8", "utf8", "big5")[pmatch(sys_name, c("linux", "darwin", "w
 ## 開始之前，回顧一下
 
 --- .largecontent
-## 資料科學的 Hello World
+## 資料科學的 Hello World 
 <center>`r fig("ds-hello-world.png", 80)`</center>
 
 --- .largecontent

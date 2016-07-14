@@ -30,7 +30,7 @@ geometry: margin=0in
 ## 開始之前，回顧一下
 
 --- .largecontent
-## 資料科學的 Hello World
+## 資料科學的 Hello World 
 <center><img src='assets/img/ds-hello-world.png' style='max-width: 80%;max-height: 80%'></img></center>
 
 --- .largecontent
