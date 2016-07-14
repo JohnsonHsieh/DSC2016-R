@@ -56,6 +56,22 @@ sys_encode <- c("utf8", "utf8", "big5")[pmatch(sys_name, c("linux", "darwin", "w
 ## About Me 
 <center>`r fig("about_johnson.png")`</center>
 
+--- .dark .segue
+
+## 開始之前，回顧一下
+
+--- .largecontent
+## 資料科學的 Hello World
+<center>`r fig("ds-hello-world.png", 80)`</center>
+
+--- .largecontent
+## `Shiny`, R語言的 Dashboard 製作工具
+<center>`r fig("serve.png", 80)`</center>
+
+
+--- &fullimg bg:url(assets/img/EVA.png)
+<font color="white">客製化的資料科學產品</font>
+
 
 --- .dark .segue
 
@@ -87,12 +103,7 @@ sys_encode <- c("utf8", "utf8", "big5")[pmatch(sys_name, c("linux", "darwin", "w
 <br> (Cross-Industry Standard Process for Data Mining)
 </h3></center>
 
-- 定義商業問題
-- 資料理解
-- 資料預處理
-- 建立模型
-- 評價與解釋
-- 實施
+`r fig("CRISP-DM.png", 70)`
 
 --- .largecontent
 ## 核心概念
@@ -170,9 +181,11 @@ sys_encode <- c("utf8", "utf8", "big5")[pmatch(sys_name, c("linux", "darwin", "w
 
 --- &vcenter .largecontent
 ## 課程聲明
-- <h3>本課程專注在理解資料探勘方法的思路</h3>
-- <h3>不會講述演算法細節</h3>
-- <h3>強調R語言資料探勘的個人實作</h3>
+- <h3 style="line-height:2em">恭喜各位，這是不刪檔封測</h3>
+- <h3 style="line-height:2em">有商業行為、企業內訓的需求請洽[R 語言翻轉教室團隊](mailto:wush978@gmail.com)</h3>
+- <h3 style="line-height:2em">本課程專注在理解資料探勘方法的思路</h3>
+- <h3 style="line-height:2em">強調R語言資料探勘的個人實作</h3>
+- <h3 style="line-height:2em">不會詳述演算法細節</h3>
 
 
 --- .dark .segue
@@ -299,7 +312,7 @@ $$Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}$$
 --- &vcenter .largecontent
 ## 練習
 
-- 請完成`RDataMining-01-Association-Rule`
+- 請完成`06-RDataMining-01-Association-Rule`
 
 --- .dark .segue
 
@@ -372,7 +385,7 @@ $$Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}$$
   - 常見的`相似度`常常介於0與1之間
   - 定義`相異度`： 1 - `相似度`
 - `相似度`/`相異度`可以視為`距離指標`的特例
-  - `距離`沒有值域的限制 $\[0, \infty\)$
+  - `距離`沒有值域的限制 $[0, \infty)$
 
 
 --- .largecontent
@@ -381,6 +394,10 @@ $$Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}$$
 - Simple Matching Coefficient (SMC): $\frac{M_{11} + M_{00}}{M_{01} + M_{10} + M_{11} + M_{00}}$
 - Jaccard Index: $\frac{M_{11}}{M_{01} + M_{10} + M_{11}}$
 - Jaccard 省略了$M_{00}$的訊息，WHY?
+
+--- &fullimg `r bg("CKLGs3P.jpg")`
+
+<font size="2">http://imgur.com/gallery/CKLGs3P</font>
 
 --- .largecontent
 
@@ -778,6 +795,7 @@ file.rename("kmeans.gif", "assets/img/kmeans.gif")
 ## 如何評估 K-Means
 - 如何評估分群結果好壞
 - 如何決定分群數 k
+
 ```{r withinss}
 d <- dist(iris[,-5])
 result <- 
@@ -816,12 +834,15 @@ for(i in seq_len(nrow(iris2))) {
 --- .largecontent
 
 ## Gap Statistic for Estimating the Number of Clusters
+
 <center>
 ```{r gap-cluster}
 library(cluster)
 gap <- clusGap(iris[,-5], kmeans, 10, B = 100, verbose = interactive())
 plot(gap, cex.lab = 1.5)
 ```
+
+<http://www.web.stanford.edu/~hastie/Papers/gap.pdf>
 </center>
 
 
@@ -979,7 +1000,8 @@ par(op)
 
 ## 練習
 
-- 請完成RDataMining-02-Clustering
+- 請完成 `07-RDataMining-02-Clustering`
+- 給進度超前朋友的小挑戰：[台電得標公司資料分析](https://johnsonhsieh.github.io//DSC2016-R/example/R-Clustering-Taipower.html)
 
 --- .dark .segue
 
@@ -1090,7 +1112,8 @@ https://github.com/braz/DublinR-ML-treesandforests/
 
 ## 練習
 
-- 請完成RDataMining-03-Classification
+- 請完成 `08-RDataMining-03-Classification`
+- 給進度超前朋友的小挑戰：[投票記錄資料](https://johnsonhsieh.github.io//DSC2016-R/example/R-Classification-primary.html)
 
 --- .dark .segue
 
@@ -1244,7 +1267,7 @@ kable(df)
 
 ## 練習
 
-- 請完成RDataMining-04-Text-Mining
+- 請完成 `X4-RDataMining-04-Text-Mining`
 
 --- &vcenter .largecontent
 

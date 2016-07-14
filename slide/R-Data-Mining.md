@@ -25,6 +25,22 @@ geometry: margin=0in
 ## About Me 
 <center><img src='assets/img/about_johnson.png' style='max-width: 100%;max-height: 100%'></img></center>
 
+--- .dark .segue
+
+## 開始之前，回顧一下
+
+--- .largecontent
+## 資料科學的 Hello World
+<center><img src='assets/img/ds-hello-world.png' style='max-width: 80%;max-height: 80%'></img></center>
+
+--- .largecontent
+## `Shiny`, R語言的 Dashboard 製作工具
+<center><img src='assets/img/serve.png' style='max-width: 80%;max-height: 80%'></img></center>
+
+
+--- &fullimg bg:url(assets/img/EVA.png)
+<font color="white">客製化的資料科學產品</font>
+
 
 --- .dark .segue
 
@@ -56,12 +72,7 @@ geometry: margin=0in
 <br> (Cross-Industry Standard Process for Data Mining)
 </h3></center>
 
-- 定義商業問題
-- 資料理解
-- 資料預處理
-- 建立模型
-- 評價與解釋
-- 實施
+<img src='assets/img/CRISP-DM.png' style='max-width: 70%;max-height: 70%'></img>
 
 --- .largecontent
 ## 核心概念
@@ -139,9 +150,11 @@ geometry: margin=0in
 
 --- &vcenter .largecontent
 ## 課程聲明
-- <h3>本課程專注在理解資料探勘方法的思路</h3>
-- <h3>不會講述演算法細節</h3>
-- <h3>強調R語言資料探勘的個人實作</h3>
+- <h3 style="line-height:2em">恭喜各位，這是不刪檔封測</h3>
+- <h3 style="line-height:2em">有商業行為、企業內訓的需求請洽[R 語言翻轉教室團隊](mailto:wush978@gmail.com)</h3>
+- <h3 style="line-height:2em">本課程專注在理解資料探勘方法的思路</h3>
+- <h3 style="line-height:2em">強調R語言資料探勘的個人實作</h3>
+- <h3 style="line-height:2em">不會詳述演算法細節</h3>
 
 
 --- .dark .segue
@@ -268,7 +281,7 @@ $$Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}$$
 --- &vcenter .largecontent
 ## 練習
 
-- 請完成`RDataMining-01-Association-Rule`
+- 請完成`06-RDataMining-01-Association-Rule`
 
 --- .dark .segue
 
@@ -341,7 +354,7 @@ $$Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}$$
   - 常見的`相似度`常常介於0與1之間
   - 定義`相異度`： 1 - `相似度`
 - `相似度`/`相異度`可以視為`距離指標`的特例
-  - `距離`沒有值域的限制 $\[0, \infty\)$
+  - `距離`沒有值域的限制 $[0, \infty)$
 
 
 --- .largecontent
@@ -350,6 +363,10 @@ $$Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}$$
 - Simple Matching Coefficient (SMC): $\frac{M_{11} + M_{00}}{M_{01} + M_{10} + M_{11} + M_{00}}$
 - Jaccard Index: $\frac{M_{11}}{M_{01} + M_{10} + M_{11}}$
 - Jaccard 省略了$M_{00}$的訊息，WHY?
+
+--- &fullimg bg:url(assets/img/CKLGs3P.jpg)
+
+<font size="2">http://imgur.com/gallery/CKLGs3P</font>
 
 --- .largecontent
 
@@ -585,6 +602,7 @@ $$
 ## 如何評估 K-Means
 - 如何評估分群結果好壞
 - 如何決定分群數 k
+
 ![plot of chunk withinss](./assets/fig/rdata-mining-withinss-1.png)
 
 --- .largecontent
@@ -599,8 +617,11 @@ $$
 --- .largecontent
 
 ## Gap Statistic for Estimating the Number of Clusters
+
 <center>
 ![plot of chunk gap-cluster](./assets/fig/rdata-mining-gap-cluster-1.png)
+
+<http://www.web.stanford.edu/~hastie/Papers/gap.pdf>
 </center>
 
 
@@ -658,7 +679,8 @@ $$
 
 ## 練習
 
-- 請完成RDataMining-02-Clustering
+- 請完成 `07-RDataMining-02-Clustering`
+- 給進度超前朋友的小挑戰：[台電得標公司資料分析](https://johnsonhsieh.github.io//DSC2016-R/example/R-Clustering-Taipower.html)
 
 --- .dark .segue
 
@@ -759,7 +781,8 @@ https://github.com/braz/DublinR-ML-treesandforests/
 
 ## 練習
 
-- 請完成RDataMining-03-Classification
+- 請完成 `08-RDataMining-03-Classification`
+- 給進度超前朋友的小挑戰：[投票記錄資料](https://johnsonhsieh.github.io//DSC2016-R/example/R-Classification-primary.html)
 
 --- .dark .segue
 
@@ -902,7 +925,7 @@ http://i.imgur.com/2u4GMKb.jpg
 
 ## 練習
 
-- 請完成RDataMining-04-Text-Mining
+- 請完成 `X4-RDataMining-04-Text-Mining`
 
 --- &vcenter .largecontent
 
