@@ -67,22 +67,23 @@ get_lecture_note <- function(course, out_dir = tempdir()) {
     gsub(pattern = "^\\.", replacement = getwd()) %>%
     normalizePath(mustWork = FALSE)
   
-  #rmd_file <- tempfile(fileext = ".Rmd")
+  rmd_file <- tempfile(fileext = ".Rmd")
   write(retval, file = rmd_file)
   #md_file <- tempfile(fileext = ".md")
   #knitr::knit(rmd_file, md_file)
   # browser()
   
-
-
+  
+  
   #   html_file <- tempfile(fileext = ".html")
   #   browser()
   rmarkdown::render(rmd_file, "html_document", html_file)
+  #rmarkdown::render(retval, "html_document", html_file)
   
   invisible(html_file)
-}
+  }
 
 
-get_lecture_note("TM-RStatistics-01-EDA/lesson.yaml", "./note")
-get_lecture_note("TM-RStatistics-02-MonteCarlo/lesson.yaml", "./note")
-get_lecture_note("TM-RStatistics-03-AB-Testing/lesson.yaml", "./note")
+#get_lecture_note("TM-RStatistics-01-EDA/lesson.yaml", "./note")
+#get_lecture_note("TM-RStatistics-02-MonteCarlo/lesson.yaml", "./note")
+#get_lecture_note("TM-RStatistics-03-AB-Testing/lesson.yaml", "./note")
