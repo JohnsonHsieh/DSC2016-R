@@ -144,7 +144,3 @@
   Output: 我們對分群演算法的使用就介紹就到這了。請同學完成以下綜合練習， 結束之後請輸入`submit()`檢查正確性。
   Script: RDataMining-01-HW.R
   AnswerTests: rdatamining_01_test()
-- Class: script
-  Output: 最後，我們提供一個台電決標公告資料分析範例作為本課程的小結。請同學直接執行RDataMining-Taipower.R的範例碼，看完結果後回到 console 輸入`submit()`已完成本次課程。
-  Script: RDataMining-Taipower.R
-  AnswerTests: rdatamining_taipower_test()
