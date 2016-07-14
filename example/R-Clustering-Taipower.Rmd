@@ -1,0 +1,110 @@
+---
+title: "分群範例 - 台電得標公司資料"
+author: "Johnson Hsieh (johnson@dsp.im)"
+date: "2016年7月14日"
+output: html_document
+---
+
+## 準備工作
+
+安裝/載入必要套件
+```{r setup, include=FALSE}
+library(reshape2) 
+library(vegan)
+library(ggplot2)
+library(ggdendro)
+library(dplyr)
+library(knitr)
+opts_chunk$set(comment="", warning=FALSE, message=FALSE)
+```
+
+```{r eval=FALSE}
+# 請先安裝套件
+install.packages("reshape2") # 安裝 `reshape2` 套件
+install.packages("vegan")
+install.packages("ggplot2")
+install.packages("ggdendro")
+
+# 載入套件
+library(reshape2) 
+library(dplyr)
+library(vegan)
+library(ggplot2)
+library(ggdendro)
+```
+
+### 讀取檔案
+103年台電得到發標案最高的前一百間公司決標公告
+```{r readdata}
+Taipower <- read.csv(("https://johnsonhsieh.github.io/DSC2016-R/data/Taipower_top100.csv"), 
+                     fileEncoding = "big5")
+
+str(Taipower) 
+```
+
+
+### 資料整理
+篩選出總決標金額最高的10間公司, 指向 TP10 物件
+```{r ETL}
+# 103年得到台電標案金額最高的10間公司
+top10 <- group_by(Taipower, tenderer_name) %>%
+  summarise(value=sum(as.numeric(total_tender_awarding_value), na.rm = TRUE), 
+            count=n()) %>%
+  arrange(-value) %>% slice(1:10)
+
+setNames(top10, c("企業","總金額","得標數")) # show the output
+
+# 從百大企業篩選出前十大
+TP10 <- filter(Taipower, tenderer_name%in%top10$tenderer_name) 
+
+# 建構這10間公司與標案類別的 incidence matrix
+
+is.present <- function(x){
+  y <- sum(as.numeric(x)>0, na.rm = TRUE)
+  ifelse(y>0, 1, 0)
+}
+
+TP10.inc <- dcast(TP10, tenderer_name ~ attr_of_procurement, 
+                  value.var = "total_tender_awarding_value", 
+                  fun.aggregate = is.present)
+rownames(TP10.inc) <- TP10.inc[,1]
+TP10.inc <- TP10.inc[,-1] # 第一欄結果指向rownames, 並移除第一欄
+```
+
+## 土炮 `hclust` + `plot`
+```{r cluster1, fig.height=8}
+# 用Jaccard dissimilarity 計算距離
+d <- vegdist((TP10.inc), method = "jaccard")
+hc <- hclust(d)
+par(family="STHeiti") # 讓Mac顯示中文的指令，Windows使用者請不要執行本行
+plot(hc)
+plot(hc, hang=-1) #  把樹枝拉平
+
+```
+
+## 好看一點 `ggplot2` + `ggdendro`
+```{r}
+# 一行搞定，但是Mac會無法顯示中文
+ggdendrogram(hc, theme_dendro = FALSE)
+
+# 土炮
+dhc <- as.dendrogram(hc)
+ddata <- dendro_data(dhc, type = "rectangle")
+p <- ggplot(segment(ddata)) + 
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) + 
+  coord_flip() + 
+  scale_y_reverse(expand = c(0., 0.4))  +
+  geom_text(data = ddata$labels, 
+            family = "STHeiti", # Windows的使用者不需要設定黑體字，請移除本行
+            aes(x = x, y = y-0.01, label = label), size = 3, hjust = 0)
+p 
+```
+
+## 出大絕招：`heatmap`
+```{r}
+par(family="STHeiti") # 讓Mac顯示中文的指令，Windows使用者請不要執行本行
+mat <- as.matrix(TP10.inc[,-1])
+heatmap(mat, scale = "none", 
+        distfun=function(x){vegdist(x, method = "jaccard")})
+```
+

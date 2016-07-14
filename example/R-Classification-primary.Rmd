@@ -1,0 +1,62 @@
+---
+title: "決策樹範例 - 投票記錄資料"
+author: "Johnson Hsieh (johnson@dsp.im)"
+date: "2016年7月14日"
+output: html_document
+---
+
+## 準備工作
+
+安裝/載入必要套件
+```{r setup, include=FALSE}
+library(dplyr)
+library(rpart) # Recursive partitioning
+library(rpart.plot) # Fancy tree plot
+library(RColorBrewer) # Nice color palettes
+library(ggdendro)
+library(knitr)
+opts_chunk$set(comment="", warning=FALSE, message=FALSE)
+```
+
+```{r eval=FALSE}
+# 請先安裝套件
+install.packages("rpart") # 安裝 `reshape2` 套件
+install.packages("rpart.plot")
+install.packages("RColorBrewer")
+install.packages("ggdendro")
+
+# 載入套件
+library(rpart) # Recursive partitioning
+library(rpart.plot) # Fancy tree plot
+library(RColorBrewer) # Nice color palettes
+library(ggdendro)
+
+```
+
+### 讀取檔案
+The Obama-Clinton Divide Data
+```{r readdata}
+primary <- read.csv("https://johnsonhsieh.github.io/DSC2016-R/data/primaries.csv")
+str(primary) 
+```
+
+### 資料整理
+```{r}
+primary.sub <- mutate(primary, black06pct=black06/pop06) %>%
+  filter(state_postal!="MI", 
+         state_postal!="FL", 
+         !(state_postal=="WA" & racetype=="Primary")) %>%
+  select(county_name, region, winner,
+         clinton, obama, pct_hs_grad, black06pct)
+
+head(primary.sub)
+```
+
+## 用`rpart`生成決策樹 + `rpart.plot::prp`畫圖
+```{r}
+fit = rpart(winner~region+pct_hs_grad+black06pct,data=primary.sub)
+c1 <- ifelse(fit$frame$yval==1, brewer.pal(9, "Greens")[9], brewer.pal(9, "Blues")[9])
+c2 <- ifelse(fit$frame$yval==1, brewer.pal(9, "Greens")[2], brewer.pal(9, "Blues")[2])
+prp(fit, type=2, extra=1, col=c1, box.col=c2, shadow.col="gray")
+```
+
