@@ -1116,6 +1116,16 @@ https://github.com/braz/DublinR-ML-treesandforests/
 - 給進度超前朋友的小挑戰：[投票記錄資料](https://johnsonhsieh.github.io//DSC2016-R/example/R-Classification-primary.html)
 
 --- .dark .segue
+## 總結
+
+--- &vcenter .largecontent
+## 本課程結束之後，你該知道
+- <h3 style="line-height:2em">DM的核心精神：機率、距離、風險、誤差</h3>
+- <h3 style="line-height:2em">R語言是資料分析師的好幫手</h3>
+- <h3 style="line-height:2em">資料探勘方法不是資料科學的全部</h3>
+- <h3 style="line-height:2em">講師的聯絡方式：johnson@dsp.im</h3>
+
+--- .dark .segue
 
 ## Text Mining
 
