@@ -96,6 +96,7 @@ sys_encode <- c("utf8", "utf8", "big5")[pmatch(sys_name, c("linux", "darwin", "w
 - 資料探勘不只是一種技術或一套軟體
 - 資料探勘不是無所不能，它是`有極限`的
 - 資料探勘是從資料中挖掘有價值的`假設`，沒辦法驗證假設
+- 執行資料探勘者不僅僅是`資料分析師`
 
 --- .largecontent
 ## CRISP-DM
