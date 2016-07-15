@@ -500,8 +500,8 @@
 <li>\(\{\text{milk, bread, butter}\}\)</li>
 <li>\(\{\text{bread}\}\)</li>
 </ul></li>
-<li>\(Conf(\{\text{bread} \Rightarrow \text{milk}\}) = \text{2/2} = 1\) </li>
-<li>\(Conf(\{\text{milk} \Rightarrow \text{bread}\}) = \text{2/3}\)</li>
+<li>\(Conf(\{\text{milk} \Rightarrow \text{bread}\}) = \text{2/2} = 1\) </li>
+<li>\(Conf(\{\text{bread} \Rightarrow \text{milk}\}) = \text{2/3}\)</li>
 </ul>
 
   </article>
@@ -527,7 +527,7 @@
 <li>\(X \Rightarrow Y\), \((Conf, Supp)\)</li>
 <li>\(\{\text{milk} \Rightarrow \text{bread}\} \text{, (2/2, 2/4)}\)</li>
 <li>\(\{\text{beer} \Rightarrow \text{diapers}\} \text{, (1/1, 1/4)}\)</li>
-<li>\(\{\text{milk, bread} \Rightarrow \text{butter}\} \text{, (1/2, 2/4)}\)</li>
+<li>\(\{\text{milk, bread} \Rightarrow \text{butter}\} \text{, (1/2, 1/4)}\)</li>
 </ul></li>
 </ul>
 
@@ -569,7 +569,7 @@
   </hgroup>
   <article data-timings="">
     <ul>
-<li>假設100筆交易紀錄，60筆包含 milk、75筆包含 bread，共有40筆同時包含 milk, bread，可得<code>關聯規則</code>：<br> <center>\(\{\text{milk} \Rightarrow \text{bread}\}\): \((Supp = 40\%, Conf = 67\%)\)<br></center></li>
+<li>假設100筆交易紀錄，60筆包含 milk、75筆包含 bread，共有40筆同時包含 milk, bread，可得<code>關聯規則</code>：<br> <center>\(\{\text{milk} \Rightarrow \text{bread}\}\): \((Supp = 60\%, Conf = 67\%)\)<br></center></li>
 <li>但是上述關聯規則<code>置信度</code> 67% 卻低於bread的<code>支持度</code> 75% ，即 $P(\text{bread | milk}) &lt; P(\text{bread})$，也就是說購買 milk 反而會降低購買 bread 的機會。</li>
 </ul>
 
@@ -586,7 +586,7 @@
 \[Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}\]</li>
 <li><p>也就是$(X, Y)$的相關性指標：\(Lift(X \Rightarrow Y) = \frac{ P(X,Y)}{P(X)P(Y)}\)</p></li>
 <li><p><code>增益值</code>＞1，表示X與Y呈現正相關，規則才具有實用性。</p></li>
-<li><p><code>增益值</code>＝1，表示X與Y呈現正相關，結果與亂數取得方式相似。</p></li>
+<li><p><code>增益值</code>＝1，表示X與Y呈現不相關，結果與亂數取得方式相似。</p></li>
 <li><p><code>增益值</code>＜1，表示X與Y呈現負相關，比亂數取得之結果更差。</p></li>
 </ul>
 

@@ -258,8 +258,8 @@ sys_encode <- c("utf8", "utf8", "big5")[pmatch(sys_name, c("linux", "darwin", "w
     - $\{\text{beer, diapers}\}$
     - $\{\text{milk, bread, butter}\}$
     - $\{\text{bread}\}$
-- $Conf(\{\text{bread} \Rightarrow \text{milk}\}) = \text{2/2} = 1$ 
-- $Conf(\{\text{milk} \Rightarrow \text{bread}\}) = \text{2/3}$
+- $Conf(\{\text{milk} \Rightarrow \text{bread}\}) = \text{2/2} = 1$ 
+- $Conf(\{\text{bread} \Rightarrow \text{milk}\}) = \text{2/3}$
 
 --- .largecontent
 ## 教機器做學習
@@ -272,7 +272,7 @@ sys_encode <- c("utf8", "utf8", "big5")[pmatch(sys_name, c("linux", "darwin", "w
     - $X \Rightarrow Y$, $(Conf, Supp)$
     - $\{\text{milk} \Rightarrow \text{bread}\} \text{, (2/2, 2/4)}$
     - $\{\text{beer} \Rightarrow \text{diapers}\} \text{, (1/1, 1/4)}$
-    - $\{\text{milk, bread} \Rightarrow \text{butter}\} \text{, (1/2, 2/4)}$
+    - $\{\text{milk, bread} \Rightarrow \text{butter}\} \text{, (1/2, 1/4)}$
 
 
 --- .largecontent
@@ -290,7 +290,7 @@ sys_encode <- c("utf8", "utf8", "big5")[pmatch(sys_name, c("linux", "darwin", "w
 
 --- .largecontent
 ## `支持度`和`置信度`的不足
-- 假設100筆交易紀錄，60筆包含 milk、75筆包含 bread，共有40筆同時包含 milk, bread，可得`關聯規則`：<br> <center>$\{\text{milk} \Rightarrow \text{bread}\}$: $(Supp = 40\%, Conf = 67\%)$<br></center>
+- 假設100筆交易紀錄，60筆包含 milk、75筆包含 bread，共有40筆同時包含 milk, bread，可得`關聯規則`：<br> <center>$\{\text{milk} \Rightarrow \text{bread}\}$: $(Supp = 60\%, Conf = 67\%)$<br></center>
 - 但是上述關聯規則`置信度` 67% 卻低於bread的`支持度` 75% ，即 $P(\text{bread | milk}) < P(\text{bread})$，也就是說購買 milk 反而會降低購買 bread 的機會。
 
 --- .largecontent
@@ -300,7 +300,7 @@ $$Lift(X \Rightarrow Y) = \frac{Conf(X \Rightarrow Y)}{Support(Y)}$$
 - 也就是$(X, Y)$的相關性指標：$Lift(X \Rightarrow Y) = \frac{ P(X,Y)}{P(X)P(Y)}$
 
 - `增益值`＞1，表示X與Y呈現正相關，規則才具有實用性。
-- `增益值`＝1，表示X與Y呈現正相關，結果與亂數取得方式相似。
+- `增益值`＝1，表示X與Y呈現不相關，結果與亂數取得方式相似。
 - `增益值`＜1，表示X與Y呈現負相關，比亂數取得之結果更差。
 
 --- .largecontent
